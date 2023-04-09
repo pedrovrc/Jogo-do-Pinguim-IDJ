@@ -18,18 +18,14 @@ using namespace std;
 	#undef INCLUDE_SDL
 #endif // INCLUDE_SDL
 
-#include "State.h"
-
-class Game {
-	static Game* instance;
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-	State* state;
-	Game(string title, int width, int height);
+class State {
+	Sprite bg;
+	Music music;
+	bool quitRequested;
 public:
-	~Game();
-	void Run();
-	SDL_Renderer* GetRenderer();
-	State& GetState();
-	static Game& GetInstance();
+	State();
+	bool QuitRequested();
+	void LoadAssets();
+	void Update(float dt);
+	void Render();
 };
