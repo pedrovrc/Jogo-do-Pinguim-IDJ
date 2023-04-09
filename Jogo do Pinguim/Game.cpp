@@ -1,35 +1,5 @@
 #include "Game.h"
 
-#define INCLUDE_SDL_IMAGE
-#ifdef INCLUDE_SDL_IMAGE
-	#ifdef _WIN32
-		#include <SDL2/SDL_image.h>
-	#elif __APPLE__
-		#include "TargetConditionals.h"
-		#include <SDL2/SDL_image.h>
-	#elif __linux__
-		#include <SDL2/SDL_image.h>
-	#else
-		#error "Unknown compiler"
-	#endif
-	#undef INCLUDE_SDL_IMAGE
-#endif // INCLUDE_SDL_IMAGE
-
-#define INCLUDE_SDL_MIXER
-#ifdef INCLUDE_SDL_MIXER
-	#ifdef _WIN32
-		#include <SDL2/SDL_mixer.h>
-	#elif __APPLE__
-		#include "TargetConditionals.h"
-		#include <SDL2/SDL_mixer.h>
-	#elif __linux__
-		#include <SDL2/SDL_mixer.h>
-	#else
-		#error "Unknown compiler"
-	#endif
-	#undef INCLUDE_SDL_MIXER
-#endif // INCLUDE_SDL_MIXER
-
 Game::Game(string title, int width, int height) {
 	if (instance != nullptr) {
 		cout << "ERRO: Jogo ja esta em execucao" << endl;
@@ -97,14 +67,17 @@ Game::~Game() {
 }
 
 Game& Game::GetInstance() {
-	if (this->instance == nullptr) {
-		this->instance = new Game;
+	if (instance == nullptr) {
+		instance = new Game(
+			"Pedro Victor Rodrigues de Carvalho 170113043",
+			1024, 600
+			);
 	}
 		return *instance;
 }
 
 State& Game::GetState() {
-	return this->state;
+	return *state;
 }
 
 SDL_Renderer* Game::GetRenderer() {
@@ -112,7 +85,7 @@ SDL_Renderer* Game::GetRenderer() {
 }
 
 void Game::Run() {
-	while(this->state->QuitRequested() != true) {
+	while(this->state->QuitRequested() == false) {
 		this->state->Update(0);
 		this->state->Render();
 		SDL_RenderPresent(this->renderer);

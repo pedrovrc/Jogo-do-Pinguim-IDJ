@@ -18,34 +18,29 @@ using namespace std;
 	#undef INCLUDE_SDL
 #endif // INCLUDE_SDL
 
-#define INCLUDE_SDL_IMAGE
-#ifdef INCLUDE_SDL_IMAGE
+#define INCLUDE_SDL_MIXER
+#ifdef INCLUDE_SDL_MIXER
 	#ifdef _WIN32
-		#include <SDL2/SDL_image.h>
+		#include <SDL2/SDL_mixer.h>
 	#elif __APPLE__
 		#include "TargetConditionals.h"
-		#include <SDL2/SDL_image.h>
+		#include <SDL2/SDL_mixer.h>
 	#elif __linux__
-		#include <SDL2/SDL_image.h>
+		#include <SDL2/SDL_mixer.h>
 	#else
 		#error "Unknown compiler"
 	#endif
-	#undef INCLUDE_SDL_IMAGE
-#endif // INCLUDE_SDL_IMAGE
+	#undef INCLUDE_SDL_MIXER
+#endif // INCLUDE_SDL_MIXER
 
-class Sprite {
-	SDL_Texture* texture;
-	int width;
-	int height;
-	SDL_Rect clipRect;
+class Music {
+	Mix_Music* music;
 public:
-	Sprite();
-	Sprite(string file);
-	~Sprite();
-	void Open(string file);
-	void SetClip(int x, int y, int w, int h);
-	void Render(int x, int y);
-	int GetWidth();
-	int GetHeight();
+	Music();
+	Music(string file);
+	~Music();
+	void Play(int times = -1);
+	void Stop(int msToStop = 1500);
+	void Open (string file);
 	bool IsOpen();
 };

@@ -2,7 +2,9 @@
 
 State::State() {
 	this->quitRequested = false;
-	this->bg = new Sprite;
+	this->bg = *new Sprite("img/ocean.jpg");
+	this->music.Open("audio/stageState.ogg");
+	this->music.Play();
 	return;
 }
 
@@ -18,7 +20,7 @@ void State::Update(float dt) {
 }
 
 void State::Render() {
-	// chamar render do fundo (bg)
+	this->bg.Render(0, 0);
 }
 
 bool State::QuitRequested() {

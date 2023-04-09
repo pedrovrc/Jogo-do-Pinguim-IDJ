@@ -1,20 +1,5 @@
 #include "Sprite.h"
 
-#define INCLUDE_SDL_IMAGE
-#ifdef INCLUDE_SDL_IMAGE
-	#ifdef _WIN32
-		#include <SDL2/SDL_image.h>
-	#elif __APPLE__
-		#include "TargetConditionals.h"
-		#include <SDL2/SDL_image.h>
-	#elif __linux__
-		#include <SDL2/SDL_image.h>
-	#else
-		#error "Unknown compiler"
-	#endif
-	#undef INCLUDE_SDL_IMAGE
-#endif // INCLUDE_SDL_IMAGE
-
 Sprite::Sprite() {
 	this->texture = nullptr;
 	this->height = 0;
@@ -29,19 +14,75 @@ Sprite::Sprite(string file) {
 }
 
 Sprite::~Sprite() {
-	if (this->texture != nullptr) {
+	if (this->IsOpen() == false) {
 		SDL_DestroyTexture(this->texture);
 	}
 	return;
 }
 
 void Sprite::Open(string file) {
-	if (this->texture != nullptr) {
+	if (this->IsOpen() == false) {
 		SDL_DestroyTexture(this->texture);
 	}
-	if (IMG_LoadTexture(renderer, file.c_str()) == nullptr) {	// passar renderer da Game
+	Game& game = game.GetInstance();
+	this->texture = IMG_LoadTexture(game.GetRenderer(), file.c_str());
+	if (this->IsOpen() == false) {
 		cout << "Erro ao abrir imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;
+	}
+
+	if (SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height) != 0) {
+		cout << "Erro ao abrir imagem" << endl;
+		cout << SDL_GetError() << endl;
+		return;
+	}
+
+	this->SetClip(0, 0, this->width, this->height);
+	return;
+}
+
+void Sprite::SetClip(int x, int y, int w, int h) {
+	this->clipRect.x = x;
+	this->clipRect.y = y;
+	this->clipRect.w = w;
+	this->clipRect.h = h;
+	return;
+}
+
+void Sprite::Render(int x, int y) {
+	SDL_Rect dstRect;
+	dstRect.x = x;
+	dstRect.y = y;
+	dstRect.w = this->clipRect.w;
+	dstRect.h = this->clipRect.h;
+
+	Game& game = game.GetInstance();
+	if (SDL_RenderCopy(game.GetRenderer(), &this->texture, this->clipRect, dstRect) != 0) {
+		cout << "Erro ao renderizar imagem" << endl;
+		cout << SDL_GetError() << endl;
+		return;
+	}
+}
+
+int Sprite::GetWidth() {
+	if (this->IsOpen() == false) {
+		return -1;
+	}
+	return this->clipRect.w;
+}
+
+int Sprite::GetHeight() {
+	if (this->IsOpen() == false) {
+		return -1;
+	}
+	return this->clipRect.h;
+}
+
+bool Sprite::IsOpen() {
+	if (this->texture == nullptr) {
+		return false;
+	} else {
+		return true;
 	}
 }
