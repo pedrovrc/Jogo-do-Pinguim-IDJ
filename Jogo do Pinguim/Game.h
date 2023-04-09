@@ -1,3 +1,6 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -33,3 +36,4 @@ public:
 	State& GetState();
 	static Game& GetInstance();
 };
+#endif

@@ -1,3 +1,6 @@
+#ifndef STATE_H
+#define STATE_H
+
 #include "Sprite.h"
 #include "Music.h"
 
@@ -12,3 +15,5 @@ public:
 	void Update(float dt);
 	void Render();
 };
+
+#endif

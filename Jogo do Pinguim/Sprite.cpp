@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Game.h"
 
 Sprite::Sprite() {
 	this->texture = nullptr;
@@ -58,7 +59,7 @@ void Sprite::Render(int x, int y) {
 	dstRect.h = this->clipRect.h;
 
 	Game& game = game.GetInstance();
-	if (SDL_RenderCopy(game.GetRenderer(), &this->texture, this->clipRect, dstRect) != 0) {
+	if (SDL_RenderCopy(game.GetRenderer(), this->texture, &this->clipRect, &dstRect) != 0) {
 		cout << "Erro ao renderizar imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;

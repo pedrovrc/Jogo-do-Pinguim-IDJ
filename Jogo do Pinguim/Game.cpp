@@ -1,11 +1,12 @@
 #include "Game.h"
+Game* Game::instance;
 
 Game::Game(string title, int width, int height) {
 	if (instance != nullptr) {
 		cout << "ERRO: Jogo ja esta em execucao" << endl;
 		return;
 	}
-	this->instance = this;
+	instance = this;
 
 	int error = 0;
 	error = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);

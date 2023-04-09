@@ -1,3 +1,6 @@
+#ifndef MUSIC_H
+#define MUSIC_H
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -44,3 +47,5 @@ public:
 	void Open (string file);
 	bool IsOpen();
 };
+
+#endif

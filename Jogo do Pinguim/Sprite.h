@@ -1,3 +1,6 @@
+#ifndef SPRITE_H
+#define SPRITE_H
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -49,3 +52,5 @@ public:
 	int GetHeight();
 	bool IsOpen();
 };
+
+#endif
