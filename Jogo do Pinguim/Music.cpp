@@ -41,7 +41,8 @@ void Music::Stop(int msToStop) {
 }
 
 void Music::Open(string file) {
-	if (Mix_LoadMUS(file.c_str()) == nullptr) {
+	this->music = Mix_LoadMUS(file.c_str());
+	if (this->music == nullptr) {
 		cout << "Erro ao carregar musica" << endl;
 		cout << SDL_GetError() << endl;
 		return;
