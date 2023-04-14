@@ -2,19 +2,16 @@
 
 Music::Music() {
 	this->music = nullptr;
-	return;
 }
 
 Music::Music(string file) {
 	this->music = nullptr;
 	this->Open(file);
-	return;
 }
 
 Music::~Music() {
 	this->Stop();
 	Mix_FreeMusic(this->music);
-	return;
 }
 
 void Music::Play(int times) {
@@ -28,7 +25,6 @@ void Music::Play(int times) {
 		cout << SDL_GetError() << endl;
 		return;
 	}
-	return;
 }
 
 void Music::Stop(int msToStop) {
@@ -37,7 +33,6 @@ void Music::Stop(int msToStop) {
 		cout << SDL_GetError() << endl;
 		return;
 	}
-	return;
 }
 
 void Music::Open(string file) {
@@ -47,7 +42,6 @@ void Music::Open(string file) {
 		cout << SDL_GetError() << endl;
 		return;
 	}
-	return;
 }
 
 bool Music::IsOpen() {

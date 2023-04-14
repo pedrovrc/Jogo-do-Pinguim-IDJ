@@ -5,7 +5,6 @@ State::State() {
 	this->bg = *new Sprite("img/ocean.jpg");
 	this->music.Open("audio/stageState.ogg");
 	this->music.Play();
-	return;
 }
 
 void State::LoadAssets() {
@@ -16,7 +15,6 @@ void State::Update(float dt) {
 	if (SDL_QuitRequested() == true) {
 		this->quitRequested = true;
 	}
-	return;
 }
 
 void State::Render() {

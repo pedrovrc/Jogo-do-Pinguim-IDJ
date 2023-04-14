@@ -5,20 +5,17 @@ Sprite::Sprite() {
 	this->texture = nullptr;
 	this->height = 0;
 	this->width = 0;
-	return;
 }
 
 Sprite::Sprite(string file) {
 	this->texture = nullptr;
 	this->Open(file);
-	return;
 }
 
 Sprite::~Sprite() {
 	if (this->IsOpen() == false) {
 		SDL_DestroyTexture(this->texture);
 	}
-	return;
 }
 
 void Sprite::Open(string file) {
@@ -40,7 +37,6 @@ void Sprite::Open(string file) {
 	}
 
 	this->SetClip(0, 0, this->width, this->height);
-	return;
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
@@ -48,7 +44,6 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	this->clipRect.y = y;
 	this->clipRect.w = w;
 	this->clipRect.h = h;
-	return;
 }
 
 void Sprite::Render(int x, int y) {

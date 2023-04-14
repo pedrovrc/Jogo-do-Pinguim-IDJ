@@ -52,8 +52,6 @@ Game::Game(string title, int width, int height) {
 	}
 
 	this->state = new State;
-
-	return;
 }
 
 Game::~Game() {
@@ -64,7 +62,6 @@ Game::~Game() {
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 
 Game& Game::GetInstance() {
@@ -92,5 +89,4 @@ void Game::Run() {
 		SDL_RenderPresent(this->renderer);
 		SDL_Delay(33);
 	}
-	return;
 }
