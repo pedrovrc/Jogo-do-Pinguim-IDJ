@@ -6,35 +6,8 @@
 using namespace std;
 
 #define INCLUDE_SDL
-
-#ifdef INCLUDE_SDL
-	#ifdef _WIN32
-		#include <SDL2/SDL.h>
-	#elif __APPLE__
-		#include "TargetConditionals.h"
-		#include <SDL2/SDL.h>
-	#elif __linux__
-		#include <SDL2/SDL.h>
-	#else
-		#error "Unknown compiler"
-	#endif
-	#undef INCLUDE_SDL
-#endif // INCLUDE_SDL
-
 #define INCLUDE_SDL_IMAGE
-#ifdef INCLUDE_SDL_IMAGE
-	#ifdef _WIN32
-		#include <SDL2/SDL_image.h>
-	#elif __APPLE__
-		#include "TargetConditionals.h"
-		#include <SDL2/SDL_image.h>
-	#elif __linux__
-		#include <SDL2/SDL_image.h>
-	#else
-		#error "Unknown compiler"
-	#endif
-	#undef INCLUDE_SDL_IMAGE
-#endif // INCLUDE_SDL_IMAGE
+#include "SDL_include.h"
 
 class Sprite {
 	SDL_Texture* texture;
