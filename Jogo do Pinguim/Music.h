@@ -1,8 +1,7 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
 #define INCLUDE_SDL

@@ -2,59 +2,61 @@
 #include "Game.h"
 
 Sprite::Sprite() {
-	this->texture = nullptr;
-	this->height = 0;
-	this->width = 0;
+	texture = nullptr;
+	height = 0;
+	width = 0;
 }
 
 Sprite::Sprite(string file) {
-	this->texture = nullptr;
-	this->Open(file);
+	texture = nullptr;
+	Open(file);
+	associated.box.h = clipRect.h;
+	associated.box.w = clipRect.w;
 }
 
 Sprite::~Sprite() {
-	if (this->IsOpen() == false) {
-		SDL_DestroyTexture(this->texture);
+	if (IsOpen() == false) {
+		SDL_DestroyTexture(texture);
 	}
 }
 
 void Sprite::Open(string file) {
-	if (this->IsOpen() == false) {
-		SDL_DestroyTexture(this->texture);
+	if (IsOpen() == false) {
+		SDL_DestroyTexture(texture);
 	}
 	Game& game = game.GetInstance();
-	this->texture = IMG_LoadTexture(game.GetRenderer(), file.c_str());
-	if (this->IsOpen() == false) {
+	texture = IMG_LoadTexture(game.GetRenderer(), file.c_str());
+	if (IsOpen() == false) {
 		cout << "Erro ao abrir imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;
 	}
 
-	if (SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height) != 0) {
+	if (SDL_QueryTexture(texture, nullptr, nullptr, &width, &height) != 0) {
 		cout << "Erro ao abrir imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;
 	}
 
-	this->SetClip(0, 0, this->width, this->height);
+	SetClip(0, 0, width, height);
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
-	this->clipRect.x = x;
-	this->clipRect.y = y;
-	this->clipRect.w = w;
-	this->clipRect.h = h;
+	clipRect.x = x;
+	clipRect.y = y;
+	clipRect.w = w;
+	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y) {
+void Sprite::Render() {
 	SDL_Rect dstRect;
-	dstRect.x = x;
-	dstRect.y = y;
-	dstRect.w = this->clipRect.w;
-	dstRect.h = this->clipRect.h;
+	dstRect.x = associated.box.x;
+	dstRect.y = associated.box.y;
+	dstRect.w = associated.box.w;
+	dstRect.h = associated.box.h;
 
 	Game& game = game.GetInstance();
-	if (SDL_RenderCopy(game.GetRenderer(), this->texture, &this->clipRect, &dstRect) != 0) {
+	if (SDL_RenderCopy(game.GetRenderer(), texture, &clipRect, &dstRect) != 0) {
 		cout << "Erro ao renderizar imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;
@@ -62,10 +64,10 @@ void Sprite::Render(int x, int y) {
 }
 
 int Sprite::GetWidth() {
-	if (this->IsOpen() == false) {
+	if (IsOpen() == false) {
 		return -1;
 	}
-	return this->clipRect.w;
+	return clipRect.w;
 }
 
 int Sprite::GetHeight() {
@@ -81,4 +83,15 @@ bool Sprite::IsOpen() {
 	} else {
 		return true;
 	}
+}
+
+void Sprite::Update(float dt) {
+
+}
+
+bool Sprite::Is(string type) {
+	if (type == "Sprite") {
+		return true;
+	}
+	return false;
 }

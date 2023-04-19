@@ -1,8 +1,7 @@
 #ifndef RECT_H
 #define RECT_H
 
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
 #include "Vec2.h"

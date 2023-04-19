@@ -1,8 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
 #include "GameObject.h"

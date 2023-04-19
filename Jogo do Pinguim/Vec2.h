@@ -1,8 +1,7 @@
 #ifndef VEC2_H
 #define VEC2_H
 
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
 class Vec2 {
