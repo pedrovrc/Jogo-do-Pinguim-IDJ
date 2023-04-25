@@ -2,6 +2,7 @@
 #define RECT_H
 
 #include <bits/stdc++.h>
+#include <tuple>
 using namespace std;
 
 #include "Vec2.h"

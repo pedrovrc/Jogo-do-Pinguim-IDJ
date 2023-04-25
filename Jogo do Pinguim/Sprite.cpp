@@ -10,8 +10,8 @@ Sprite::Sprite() {
 Sprite::Sprite(string file) {
 	texture = nullptr;
 	Open(file);
-	associated.box.h = clipRect.h;
-	associated.box.w = clipRect.w;
+	associated.box.h = height;
+	associated.box.w = width;
 }
 
 Sprite::~Sprite() {
@@ -67,14 +67,14 @@ int Sprite::GetWidth() {
 	if (IsOpen() == false) {
 		return -1;
 	}
-	return clipRect.w;
+	return width;
 }
 
 int Sprite::GetHeight() {
 	if (this->IsOpen() == false) {
 		return -1;
 	}
-	return this->clipRect.h;
+	return height;
 }
 
 bool Sprite::IsOpen() {
@@ -90,8 +90,6 @@ void Sprite::Update(float dt) {
 }
 
 bool Sprite::Is(string type) {
-	if (type == "Sprite") {
-		return true;
-	}
+	if (type == "Sprite") return true;
 	return false;
 }

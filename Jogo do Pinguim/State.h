@@ -2,16 +2,19 @@
 #define STATE_H
 
 #include "Sprite.h"
+#include "Sound.h"
 #include "Music.h"
 #include "GameObject.h"
 
 class State {
 	Sprite bg;
 	Music music;
+	vector<unique_ptr<GameObject>> objectArray;
+
 	bool quitRequested;
 	void Input();
 	void AddObject(int mouseX, int mouseY);
-	vector<unique_ptr<GameObject>> objectArray;
+	void DeleteObject(GameObject& go);
 public:
 	State();
 	~State();
