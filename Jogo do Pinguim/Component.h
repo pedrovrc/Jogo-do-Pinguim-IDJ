@@ -4,6 +4,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+class GameObject;
+
 #include "GameObject.h"
 
 class Component {

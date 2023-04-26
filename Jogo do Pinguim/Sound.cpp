@@ -1,13 +1,11 @@
 #include "Sound.h"
 
-Sound::Sound(GameObject& associated) {
+Sound::Sound(GameObject& associated) : Component(associated) {
 	chunk = nullptr;
-	this->associated = associated;
 	channel = 0;
 }
 
-Sound::Sound(GameObject& associated, string file) {
-	Sound(associated);
+Sound::Sound(GameObject& associated, string file) : Sound(associated) {
 	Open(file);
 }
 
@@ -17,7 +15,7 @@ Sound::~Sound() {
 	Mix_FreeChunk(chunk);
 }
 
-void Sound::Play(int times = 1) {
+void Sound::Play(int times) {
 	channel = Mix_PlayChannel(-1, chunk, times-1);
 }
 

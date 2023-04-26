@@ -7,14 +7,14 @@
 #include "GameObject.h"
 
 class State {
-	Sprite bg;
 	Music music;
 	vector<unique_ptr<GameObject>> objectArray;
 
 	bool quitRequested;
 	void Input();
-	void AddObject(int mouseX, int mouseY);
-	void DeleteObject(GameObject& go);
+	void AddObject(GameObject* go);
+	void AddObjectClick(int mouseX, int mouseY);
+	void DeleteObject(GameObject* go);
 public:
 	State();
 	~State();

@@ -1,13 +1,13 @@
 #include "Sprite.h"
 #include "Game.h"
 
-Sprite::Sprite() {
+Sprite::Sprite(GameObject& associated) : Component(associated) {
 	texture = nullptr;
 	height = 0;
 	width = 0;
 }
 
-Sprite::Sprite(string file) {
+Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
 	texture = nullptr;
 	Open(file);
 	associated.box.h = height;

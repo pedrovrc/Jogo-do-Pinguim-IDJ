@@ -5,7 +5,14 @@
 State::State() {
 	quitRequested = false;
 
-	bg = *new Sprite("img/ocean.jpg");
+	// Cria GO ambient e atribui ele a Sprite do BG
+	GameObject* ambient = new GameObject;
+	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
+	ambient->AddComponent(bg);
+
+	// adiciona ambient a lista de GOs
+	AddObject(ambient);
+
 	music.Open("audio/stageState.ogg");
 	music.Play();
 }
@@ -26,16 +33,16 @@ void State::Update(float dt) {
 	int i = 0;
 	GameObject* go;
 	while (objectArray.begin() + i != objectArray.end()) {
-		go = objectArray[i];
+		go = (GameObject*)objectArray[i].get();
 		go->Update(dt);
 		i++;
 	}
 
 	i = 0;
 	while (objectArray.begin() + i != objectArray.end()) {
-		go = objectArray[i];
+		go = (GameObject*)objectArray[i].get();
 		if (go->IsDead()) {
-			DeleteObject(*go);
+			DeleteObject(go);
 		}
 		i++;
 	}
@@ -45,7 +52,7 @@ void State::Render() {
 	int i = 0;
 	GameObject* go;
 	while (objectArray.begin() + i != objectArray.end()) {
-		go = objectArray[i];
+		go = (GameObject*)objectArray[i].get();
 		go->Render();
 		i++;
 	}
@@ -55,26 +62,38 @@ bool State::QuitRequested() {
 	return quitRequested;
 }
 
-void State::AddObject(int mouseX, int mouseY) {
-	GameObject newGO;
+void State::AddObjectClick(int mouseX, int mouseY) {
+	GameObject* newGO = new GameObject;
 
 	// mudar para fazer x e y serem o centro do novo sprite
-	newGO.box.x = mouseX;
-	newGO.box.y = mouseY;
+	newGO->box.x = mouseX;
+	newGO->box.y = mouseY;
 
-	Sprite* enemy = new Sprite("img/penguinface.png");
-	newGO.AddComponent(enemy);
+	Sprite* enemy = new Sprite(*newGO, "img/penguinface.png");
+	newGO->AddComponent(enemy);
 
-	Sound* boom = new Sound(newGO, "audio/boom.wav");
-	newGO.AddComponent(*boom);
+	Sound* boom = new Sound(*newGO, "audio/boom.wav");
+	newGO->AddComponent(boom);
 
-	Face* penguinFace = new Face(newGO);
-	newGO.AddComponent(*penguinFace);
+	Face* penguinFace = new Face(*newGO);
+	newGO->AddComponent(penguinFace);
 
+	objectArray.emplace_back(newGO);
 }
 
-void State::DeleteObject(GameObject& go) {
+void State::AddObject(GameObject* go) {
+	objectArray.emplace_back(go);
+}
 
+void State::DeleteObject(GameObject* go) {
+	int size = objectArray.size(), i = 0;
+	while (i < size) {
+		if (go == (GameObject*)objectArray[i].get()) {
+			objectArray.erase(objectArray.begin() + i);
+			return;
+		}
+		i++;
+	}
 }
 
 void State::Input() {
@@ -97,6 +116,7 @@ void State::Input() {
 
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
+				cout << "FOR" << endl;
 				// Obtem o ponteiro e casta pra Face.
 				GameObject* go = (GameObject*) objectArray[i].get();
 				// Nota: Desencapsular o ponteiro é algo que devemos evitar ao máximo.
@@ -105,12 +125,13 @@ void State::Input() {
 				// Esse código, assim como a classe Face, é provisório. Futuramente, para
 				// chamar funções de GameObjects, use objectArray[i]->função() direto.
 
-				Vec2& coordinates = new Vec2(mouseX, mouseY);
+				Vec2 coordinates = *new Vec2((float)mouseX, (float)mouseY);
 				if(go->box.IsInside(coordinates)) {
 					Face* face = (Face*)go->GetComponent( "Face" );
 					if ( nullptr != face ) {
 						// Aplica dano
-						face->Damage(std::rand() % 10 + 10);
+						cout << "DAMAGE" << endl;
+						face->Damage(rand() % 10 + 10);
 						// Sai do loop (só queremos acertar um)
 						break;
 					}
@@ -124,8 +145,8 @@ void State::Input() {
 			}
 			// Se não, crie um objeto
 			else {
-				Vec2 objPos = Vec2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vec2( mouseX, mouseY );
-				AddObject((int)objPos.x, (int)objPos.y);
+				Vec2 objPos = Vec2( 200, 0 ).Rotate( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2((float)mouseX, (float)mouseY );
+				AddObjectClick((int)objPos.x, (int)objPos.y);
 			}
 		}
 	}

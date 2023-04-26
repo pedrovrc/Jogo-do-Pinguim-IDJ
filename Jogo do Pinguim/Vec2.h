@@ -17,8 +17,8 @@ public:
 	float GetDistance(Vec2 point);
 	Vec2& Rotate(float angle);
 
-	Vec2& operator+(Vec2& b);
-	Vec2& operator-(Vec2& b);
+	Vec2& operator+(Vec2 b);
+	Vec2& operator-(Vec2 b);
 	Vec2& operator*(float scalar);
 	Vec2& operator/(float scalar);
 

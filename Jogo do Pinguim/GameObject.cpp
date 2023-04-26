@@ -15,7 +15,7 @@ void GameObject::Update(float dt) {
 	int i = 0;
 	Component* cpt;
 	while (components.begin() + i != components.end()) {
-		cpt = components[i];
+		cpt = (Component*) components[i].get();
 		cpt->Update(dt);
 		i++;
 	}
@@ -25,7 +25,7 @@ void GameObject::Render() {
 	int i = 0;
 	Component* cpt;
 	while (components.begin() + i != components.end()) {
-		cpt = components[i];
+		cpt = (Component*) components[i].get();
 		cpt->Render();
 		i++;
 	}
@@ -46,7 +46,7 @@ void GameObject::AddComponent(Component* cpt) {
 void GameObject::RemoveComponent(Component* cpt) {
 	int size = components.size(), i = 0;
 	while (i < size) {
-		if (cpt == components[i]) {
+		if (cpt == (Component*) components[i].get()) {
 			components.erase(components.begin() + i);
 			return;
 		}
@@ -55,10 +55,10 @@ void GameObject::RemoveComponent(Component* cpt) {
 }
 
 Component* GameObject::GetComponent(string type) {
-	int size = components.size(), i =0;
+	int size = components.size(), i = 0;
 	Component* cpt;
 	while (i < size) {
-		cpt = components[components.begin() + i];
+		cpt = (Component*) components[i].get();
 		if (cpt->Is(type)) {
 			return cpt;
 		}

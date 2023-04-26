@@ -17,8 +17,8 @@ class Sprite : public Component{
 	int height;
 	SDL_Rect clipRect;
 public:
-	Sprite();
-	Sprite(string file) : Component(associated) {}
+	Sprite(GameObject& associated);
+	Sprite(GameObject& associated, string file);
 	~Sprite();
 	void Open(string file);
 	void SetClip(int x, int y, int w, int h);

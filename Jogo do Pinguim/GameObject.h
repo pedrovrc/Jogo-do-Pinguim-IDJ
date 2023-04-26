@@ -4,11 +4,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+class Component;
+
 #include "Rect.h"
 #include "Component.h"
 
 class GameObject {
-	vector<Component*> components{};
+	vector<unique_ptr<Component>> components{};
 	bool isDead;
 public:
 	GameObject();
