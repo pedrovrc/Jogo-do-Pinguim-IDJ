@@ -30,19 +30,20 @@ void State::LoadAssets() {
 
 void State::Update(float dt) {
 	Input();
-	int i = 0;
+	int size = objectArray.size(), i = 0;
 	GameObject* go;
-	while (objectArray.begin() + i != objectArray.end()) {
+	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		go->Update(dt);
 		i++;
 	}
 
 	i = 0;
-	while (objectArray.begin() + i != objectArray.end()) {
+	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		if (go->IsDead()) {
 			DeleteObject(go);
+			size--;
 		}
 		i++;
 	}
@@ -116,7 +117,6 @@ void State::Input() {
 
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
-				cout << "FOR" << endl;
 				// Obtem o ponteiro e casta pra Face.
 				GameObject* go = (GameObject*) objectArray[i].get();
 				// Nota: Desencapsular o ponteiro é algo que devemos evitar ao máximo.
@@ -126,12 +126,18 @@ void State::Input() {
 				// chamar funções de GameObjects, use objectArray[i]->função() direto.
 
 				Vec2 coordinates = *new Vec2((float)mouseX, (float)mouseY);
+
 				if(go->box.IsInside(coordinates)) {
+
 					Face* face = (Face*)go->GetComponent( "Face" );
+
 					if ( nullptr != face ) {
 						// Aplica dano
-						cout << "DAMAGE" << endl;
 						face->Damage(rand() % 10 + 10);
+						if (face->GetHP() <= 0) {
+							go->RemoveComponent((Sprite*)go->GetComponent("Sprite"));
+						}
+
 						// Sai do loop (só queremos acertar um)
 						break;
 					}

@@ -24,6 +24,7 @@ public:
 	void Update(float dt);
 	void Render();
 	bool Is(string type);
+	int GetChannel();
 };
 
 #endif

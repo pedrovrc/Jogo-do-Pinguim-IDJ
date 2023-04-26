@@ -37,27 +37,27 @@ Game::Game(string title, int width, int height) {
 		return;
 	}
 
-	this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
-	if (this->window == nullptr) {
+	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+	if (window == nullptr) {
 		cout << "Erro na inicializacao da janela (SDL_CreateWindow)" << endl;
 		cout << SDL_GetError() << endl;
 		return;
 	}
 
-	this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
-	if (this->renderer == nullptr) {
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if (renderer == nullptr) {
 		cout << "Erro na inicializacao do renderizador (SDL_CreateRenderer)" << endl;
 		cout << SDL_GetError() << endl;
 		return;
 	}
 
-	this->state = new State;
+	state = new State;
 }
 
 Game::~Game() {
-	free(this->state);
-	SDL_DestroyRenderer(this->renderer);
-	SDL_DestroyWindow(this->window);
+	free(state);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
 	Mix_CloseAudio();
 	Mix_Quit();
 	IMG_Quit();
@@ -79,14 +79,14 @@ State& Game::GetState() {
 }
 
 SDL_Renderer* Game::GetRenderer() {
-	return this->renderer;
+	return renderer;
 }
 
 void Game::Run() {
-	while(this->state->QuitRequested() == false) {
-		this->state->Update(0);
-		this->state->Render();
-		SDL_RenderPresent(this->renderer);
+	while(state->QuitRequested() == false) {
+		state->Update(0);
+		state->Render();
+		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
 	}
 }

@@ -49,3 +49,7 @@ bool Sound::Is(string type) {
 	if (type == "Sound") return true;
 	return false;
 }
+
+int Sound::GetChannel() {
+	return channel;
+}

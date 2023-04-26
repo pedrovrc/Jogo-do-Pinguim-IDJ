@@ -62,6 +62,7 @@ Component* GameObject::GetComponent(string type) {
 		if (cpt->Is(type)) {
 			return cpt;
 		}
+		i++;
 	}
 	return nullptr;
 }
