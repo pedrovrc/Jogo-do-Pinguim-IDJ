@@ -49,11 +49,15 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 void Sprite::Render() {
+	Render(associated.box.x, associated.box.y, associated.box.w, associated.box.h);
+}
+
+void Sprite::Render(float x, float y, float w, float h) {
 	SDL_Rect dstRect;
-	dstRect.x = associated.box.x;
-	dstRect.y = associated.box.y;
-	dstRect.w = associated.box.w;
-	dstRect.h = associated.box.h;
+	dstRect.x = x;
+	dstRect.y = y;
+	dstRect.w = w;
+	dstRect.h = h;
 
 	Game& game = game.GetInstance();
 	if (SDL_RenderCopy(game.GetRenderer(), texture, &clipRect, &dstRect) != 0) {
@@ -62,6 +66,7 @@ void Sprite::Render() {
 		return;
 	}
 }
+
 
 int Sprite::GetWidth() {
 	if (IsOpen() == false) {
