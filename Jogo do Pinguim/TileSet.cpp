@@ -4,12 +4,17 @@ TileSet::TileSet(int tileWidth, int tileHeight, string file) {
 	this->tileWidth = tileWidth;
 	this->tileHeight = tileHeight;
 	tileSet.Open(file);
-	rows = tileSet.GetHeight();
-	columns = tileSet.GetWidth();
+	if (tileSet.IsOpen()) {
+		rows = (tileSet.GetHeight()/tileHeight);
+		columns = (tileSet.GetWidth()/tileWidth);
+	} else {
+		cout << "Erro ao carregar TileSet" << endl;
+		SDL_GetError();
+	}
 }
 
 void TileSet::RenderTile(unsigned index, float x, float y) {
-	if (0 <= index && index <= (rows * columns)-1) {
+	if (index >= 0 && index < (rows * columns)) {
 		tileSet.SetClip(x, y, tileWidth, tileHeight);
 		tileSet.Render(x, y, tileWidth, tileHeight);
 	}
