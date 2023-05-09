@@ -1,6 +1,7 @@
 #include "State.h"
 #include "Face.h"
 #include "Vec2.h"
+#include "TileMap.h"
 
 State::State() {
 	quitRequested = false;
@@ -15,6 +16,16 @@ State::State() {
 
 	music.Open("audio/stageState.ogg");
 	music.Play();
+
+	// criação do mapa
+	GameObject* tileMap = new GameObject;
+	TileSet* tileSet = new Tileset(64, 64, "img/tileset.png");
+	Component* map = new TileMap(*tileMap, "map/tileMap.txt", tileSet);
+	tileMap->box.x = 0;
+	tileMap->box.y = 0;
+
+	// adiciona GO do mapa na lista de GOs
+	AddObject(tileMap);
 }
 
 State::~State() {

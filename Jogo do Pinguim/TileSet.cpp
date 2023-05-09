@@ -1,6 +1,7 @@
 #include "TileSet.h"
 
-TileSet::TileSet(int tileWidth, int tileHeight, string file) {
+TileSet::TileSet(int tileWidth, int tileHeight, string file){
+	tileSet.Sprite(associated);
 	this->tileWidth = tileWidth;
 	this->tileHeight = tileHeight;
 	tileSet.Open(file);

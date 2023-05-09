@@ -1,5 +1,5 @@
-#ifndef SOUND_H
-#define SOUND_H
+#ifndef TILESET_H
+#define TILESET_H
 
 #include <bits/stdc++.h>
 using namespace std;

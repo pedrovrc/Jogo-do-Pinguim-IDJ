@@ -1,5 +1,5 @@
-#ifndef SOUND_H
-#define SOUND_H
+#ifndef TILEMAP_H
+#define TILEMAP_H
 
 #include <bits/stdc++.h>
 using namespace std;
