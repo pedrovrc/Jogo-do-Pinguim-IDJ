@@ -2,6 +2,7 @@
 #include "Face.h"
 #include "Vec2.h"
 #include "TileMap.h"
+#include "TileSet.h"
 
 State::State() {
 	quitRequested = false;
@@ -17,15 +18,18 @@ State::State() {
 	music.Open("audio/stageState.ogg");
 	music.Play();
 
+	cout << "Criação do mapa" << endl;
 	// criação do mapa
-	GameObject* tileMap = new GameObject;
-	TileSet* tileSet = new Tileset(64, 64, "img/tileset.png");
-	Component* map = new TileMap(*tileMap, "map/tileMap.txt", tileSet);
-	tileMap->box.x = 0;
-	tileMap->box.y = 0;
+	GameObject& tileMapGO = *new GameObject;
+	TileSet* tileSet = new TileSet(64, 64, "img/tileset.png", tileMapGO);
+	TileMap* map = new TileMap(tileMapGO, "map/tileMap.txt", tileSet);
+	tileMapGO.AddComponent(map);
+	tileMapGO.box.x = 0;
+	tileMapGO.box.y = 0;
 
 	// adiciona GO do mapa na lista de GOs
-	AddObject(tileMap);
+	AddObject(&tileMapGO);
+	cout << "Terminou criação do mapa" << endl;
 }
 
 State::~State() {
@@ -64,7 +68,8 @@ void State::Render() {
 	int i = 0;
 	GameObject* go;
 	while (objectArray.begin() + i != objectArray.end()) {
-		go = (GameObject*)objectArray[i].get();
+		cout << "State Render" << i << endl;
+ 		go = (GameObject*)objectArray[i].get();
 		go->Render();
 		i++;
 	}

@@ -23,6 +23,8 @@ public:
 	int GetWidth();
 	int GetHeight();
 	int GetDepth();
+	void Update(float dt);
+	bool Is(string type);
 };
 
 #endif
