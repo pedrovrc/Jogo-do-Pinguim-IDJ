@@ -1,13 +1,15 @@
 #include "TileMap.h"
 
+#define TILESET_FILE "img/tileset.png"
+
 TileMap::TileMap(GameObject& associated, string file, TileSet* tileSet) : Component(associated) {
 	Load(file);
-	this->tileSet = new TileSet(64, 64, file, associated);
+	this->tileSet = new TileSet(64, 64, TILESET_FILE, associated);
 }
 
 void TileMap::Load(string file) {
 	ifstream map;
-	map.open("map/tileMap.txt");
+	map.open(file);
 
 	string line, buffer;
 	int i = 0, j = 0;
@@ -15,7 +17,7 @@ void TileMap::Load(string file) {
 	// processa primeira linha
 	// parametros gerais do mapa
 	getline(map, line);
-	for (i = 0; i < line.length(); i++) {
+	for (i = 0; i < int(line.length()); i++) {
 		if (line[i] == ',') continue;
 
 		buffer += line[i];
@@ -23,20 +25,17 @@ void TileMap::Load(string file) {
 		if (line[i+1] == ',') {
 			if (j == 0) {
 				mapWidth = stoi(buffer);
-				cout << "mapWidth = " << stoi(buffer) << endl;
 			} else if (j == 1) {
 				mapHeight = stoi(buffer);
-				cout << "mapHeight = " << stoi(buffer) << endl;
 			} else if (j == 2) {
 				mapDepth = stoi(buffer);
-				cout << "mapDepth = " << stoi(buffer) << endl;
 			}
 			j++;
 			buffer.clear();
 		}
 	}
-	bool flagDebug = false;
 
+	cout << "leitura das camadas" << endl;
 	// processa mapas
 	// para cada camada existente
 	for (int k = 0; k < mapDepth; k++) {
@@ -50,14 +49,8 @@ void TileMap::Load(string file) {
 			// obtem linha
 			getline(map, line);
 
-			flagDebug = true;
 			// obtem caracteres numericos e salva-os no vetor tileMatrix subtraido de 1
-			for (i = 0; i < line.length(); i++) {
-
-				if (flagDebug) {
-					cout << "[i, j, k] = " << i << j << k << endl;
-					flagDebug = false;
-				}
+			for (i = 0; i < int(line.length()); i++) {
 
 				if (line[i] == ',') continue;
 
@@ -66,13 +59,19 @@ void TileMap::Load(string file) {
 
 				// se esse for o ultimo numero em sequencia, salva no tileMatrix subtraido de 1
 				if (line[i+1] == ',') {
+					cout << stoi(buffer) - 1 << " ";;
 					tileMatrix.push_back(stoi(buffer) - 1);
 					buffer.clear();
 				}
 			}
 		}
 	}
-	cout << "Terminou de ler mapa" << endl;
+
+	cout << endl << "Vector tileMatrix:" << endl;
+	for (int i = 0; i < int(tileMatrix.size()); i++) {
+		cout << tileMatrix[i] << " ";
+	}
+	cout << endl;
 }
 
 void TileMap::SetTileSet(TileSet* tileSet) {
@@ -92,22 +91,22 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	float x = 0, y = 0;
 	int widthOffset = tileSet->GetTileWidth();
 	int heightOffset = tileSet->GetTileHeight();
-	for (int i = 0; i < mapWidth; i++) {
-		for (int j = 0; i < mapHeight; i++) {
-			for (int k = 0; i < mapDepth; i++) {
-				index = At(i, j, k);
-				x =	i * widthOffset;
-				y = j * heightOffset;
-				tileSet->RenderTile(index, x + cameraX, y + cameraY);
-			}
+
+	for (int j = 0; j < mapHeight; j++) {
+		for (int i = 0; i < mapWidth; i++) {
+			index = At(i, j, layer);
+			cout << index << " ";
+			x =	i * widthOffset;
+			y = j * heightOffset;
+			tileSet->RenderTile(index, x + cameraX, y + cameraY);
 		}
 	}
+	cout << endl;
 }
 
 void TileMap::Render() {
 	for (int i = 0; i < mapDepth; i++) {
 		RenderLayer(i, 0, 0);
-		cout << "RenderLayer" << i << endl;
 	}
 }
 

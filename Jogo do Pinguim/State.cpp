@@ -18,7 +18,6 @@ State::State() {
 	music.Open("audio/stageState.ogg");
 	music.Play();
 
-	cout << "Criação do mapa" << endl;
 	// criação do mapa
 	GameObject& tileMapGO = *new GameObject;
 	TileSet* tileSet = new TileSet(64, 64, "img/tileset.png", tileMapGO);
@@ -29,7 +28,6 @@ State::State() {
 
 	// adiciona GO do mapa na lista de GOs
 	AddObject(&tileMapGO);
-	cout << "Terminou criação do mapa" << endl;
 }
 
 State::~State() {
@@ -68,7 +66,6 @@ void State::Render() {
 	int i = 0;
 	GameObject* go;
 	while (objectArray.begin() + i != objectArray.end()) {
-		cout << "State Render" << i << endl;
  		go = (GameObject*)objectArray[i].get();
 		go->Render();
 		i++;

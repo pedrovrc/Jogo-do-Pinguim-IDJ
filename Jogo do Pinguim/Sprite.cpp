@@ -21,19 +21,19 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Open(string file) {
-	if (IsOpen() == false) {
+	if (IsOpen() == true) {
 		SDL_DestroyTexture(texture);
 	}
 	Game& game = game.GetInstance();
 	texture = IMG_LoadTexture(game.GetRenderer(), file.c_str());
 	if (IsOpen() == false) {
-		cout << "Erro ao abrir imagem" << endl;
+		cout << "Erro 1 ao abrir imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;
 	}
 
 	if (SDL_QueryTexture(texture, nullptr, nullptr, &width, &height) != 0) {
-		cout << "Erro ao abrir imagem" << endl;
+		cout << "Erro 2 ao abrir imagem 2" << endl;
 		cout << SDL_GetError() << endl;
 		return;
 	}
