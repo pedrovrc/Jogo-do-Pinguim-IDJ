@@ -35,7 +35,6 @@ void TileMap::Load(string file) {
 		}
 	}
 
-	cout << "leitura das camadas" << endl;
 	// processa mapas
 	// para cada camada existente
 	for (int k = 0; k < mapDepth; k++) {
@@ -59,19 +58,12 @@ void TileMap::Load(string file) {
 
 				// se esse for o ultimo numero em sequencia, salva no tileMatrix subtraido de 1
 				if (line[i+1] == ',') {
-					cout << stoi(buffer) - 1 << " ";;
 					tileMatrix.push_back(stoi(buffer) - 1);
 					buffer.clear();
 				}
 			}
 		}
 	}
-
-	cout << endl << "Vector tileMatrix:" << endl;
-	for (int i = 0; i < int(tileMatrix.size()); i++) {
-		cout << tileMatrix[i] << " ";
-	}
-	cout << endl;
 }
 
 void TileMap::SetTileSet(TileSet* tileSet) {
@@ -81,7 +73,7 @@ void TileMap::SetTileSet(TileSet* tileSet) {
 int& TileMap::At(int x, int y, int z) {
 	int xAcesso = x;
 	int yAcesso = y * mapWidth;
-	int zAcesso = z * mapWidth * mapHeight;
+	int zAcesso = (z - 1) * mapWidth * mapHeight;
 	int& access = tileMatrix[xAcesso + yAcesso + zAcesso];
 	return access;
 }
@@ -95,13 +87,13 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	for (int j = 0; j < mapHeight; j++) {
 		for (int i = 0; i < mapWidth; i++) {
 			index = At(i, j, layer);
-			cout << index << " ";
+			if (index < 0) continue;
+
 			x =	i * widthOffset;
 			y = j * heightOffset;
 			tileSet->RenderTile(index, x + cameraX, y + cameraY);
 		}
 	}
-	cout << endl;
 }
 
 void TileMap::Render() {

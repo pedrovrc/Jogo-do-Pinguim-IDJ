@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Resources.h"
 Game* Game::instance;
 
 Game::Game(string title, int width, int height) {
@@ -89,4 +90,7 @@ void Game::Run() {
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
 	}
+	Resources::ClearImages();
+	Resources::ClearMusics();
+	Resources::ClearSounds();
 }
