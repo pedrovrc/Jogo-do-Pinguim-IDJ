@@ -14,8 +14,7 @@ void TileMap::Load(string file) {
 	string line, buffer;
 	int i = 0, j = 0;
 
-	// processa primeira linha
-	// parametros gerais do mapa
+	// obtem parametros gerais do mapa
 	getline(map, line);
 	for (i = 0; i < int(line.length()); i++) {
 		if (line[i] == ',') continue;
@@ -35,28 +34,19 @@ void TileMap::Load(string file) {
 		}
 	}
 
-	// processa mapas
-	// para cada camada existente
+	// obtem valores do mapa
 	for (int k = 0; k < mapDepth; k++) {
-
-		// pula proxima linha (quebra de linha)
 		getline(map, line);
 
-		// para cada linha do mapa
 		for (j = 0; j < mapHeight; j++) {
 
-			// obtem linha
 			getline(map, line);
 
-			// obtem caracteres numericos e salva-os no vetor tileMatrix subtraido de 1
 			for (i = 0; i < int(line.length()); i++) {
-
 				if (line[i] == ',') continue;
 
-				// salva caracter numerico em buffer
 				buffer += line[i];
 
-				// se esse for o ultimo numero em sequencia, salva no tileMatrix subtraido de 1
 				if (line[i+1] == ',') {
 					tileMatrix.push_back(stoi(buffer) - 1);
 					buffer.clear();

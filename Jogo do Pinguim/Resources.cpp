@@ -6,19 +6,12 @@ unordered_map<string, Mix_Music*> Resources::musicTable;
 unordered_map<string, Mix_Chunk*> Resources::soundTable;
 
 SDL_Texture* Resources::GetImage(string file) {
-	cout << "Resources::GetImage() start" << endl;
 	auto it = imageTable.find(file);
-	cout << "Resources::GetImage() after find" << endl;
 
-
-
-	cout << "Resources::GetImage() after table search" << endl;
 	// se encontrar imagem na tabela
 	if (it != imageTable.end()) {
-		cout << "Resources::GetImage() encontrou" << endl;
 		return it->second;
 	} else {
-		cout << "Resources::GetImage() nao encontrou" << endl;
 		Game& game = game.GetInstance();
 		SDL_Texture* reference = IMG_LoadTexture(game.GetRenderer(), file.c_str());
 		if (reference == nullptr) {
@@ -28,10 +21,8 @@ SDL_Texture* Resources::GetImage(string file) {
 		}
 
 		imageTable.emplace(file, reference);
-		cout << "Resources::GetImage() adicionou novo a tabela" << endl;
 		return reference;
 	}
-	cout << "Resources::GetImage() end" << endl;
 }
 
 Mix_Music* Resources::GetMusic(string file) {
