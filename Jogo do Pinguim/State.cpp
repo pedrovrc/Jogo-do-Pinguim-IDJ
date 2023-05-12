@@ -5,29 +5,37 @@
 #include "TileSet.h"
 
 State::State() {
+	cout << "State::State() start" << endl;
 	quitRequested = false;
+
+	cout << "State::State() startGO" << endl;
 
 	// Cria GO ambient e atribui ele a Sprite do BG
 	GameObject* ambient = new GameObject;
 	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
 	ambient->AddComponent(bg);
 
+	cout << "State::State() addObject1" << endl;
 	// adiciona ambient a lista de GOs
 	AddObject(ambient);
 
+	cout << "State::State() playMusic" << endl;
 	music.Open("audio/stageState.ogg");
 	music.Play();
 
+	cout << "State::State() mapa" << endl;
+
 	// criação do mapa
-	GameObject& tileMapGO = *new GameObject;
-	TileSet* tileSet = new TileSet(64, 64, "img/tileset.png", tileMapGO);
-	TileMap* map = new TileMap(tileMapGO, "map/tileMap.txt", tileSet);
-	tileMapGO.AddComponent(map);
-	tileMapGO.box.x = 0;
-	tileMapGO.box.y = 0;
+	GameObject* tileMapGO = new GameObject;
+	TileSet* tileSet = new TileSet(64, 64, "img/tileset.png", *tileMapGO);
+	Component* map = new TileMap(*tileMapGO, "map/tileMap.txt", tileSet);
+	tileMapGO->AddComponent(map);
+	tileMapGO->box.x = 0;
+	tileMapGO->box.y = 0;
 
 	// adiciona GO do mapa na lista de GOs
-	AddObject(&tileMapGO);
+	AddObject(tileMapGO);
+	cout << "State::State() end" << endl;
 }
 
 State::~State() {

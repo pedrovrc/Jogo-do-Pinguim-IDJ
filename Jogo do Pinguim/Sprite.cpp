@@ -9,10 +9,13 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
 }
 
 Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
+	cout << "Sprite::Sprite() start" << endl;
 	texture = nullptr;
+	cout << "Sprite::Sprite() open" << endl;
 	Open(file);
 	associated.box.h = height;
 	associated.box.w = width;
+	cout << "Sprite::Sprite() end" << endl;
 }
 
 Sprite::~Sprite() {
@@ -20,7 +23,10 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Open(string file) {
+	cout << "Sprite::Open() start" << endl;
 	texture = Resources::GetImage(file);
+
+	cout << "Sprite::Open() after GetImage()" << endl;
 
 	if (SDL_QueryTexture(texture, nullptr, nullptr, &width, &height) != 0) {
 		cout << "Erro 2 ao abrir imagem" << endl;

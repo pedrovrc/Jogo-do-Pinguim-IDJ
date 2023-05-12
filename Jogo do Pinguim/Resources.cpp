@@ -6,14 +6,21 @@ unordered_map<string, Mix_Music*> Resources::musicTable;
 unordered_map<string, Mix_Chunk*> Resources::soundTable;
 
 SDL_Texture* Resources::GetImage(string file) {
+	cout << "Resources::GetImage() start" << endl;
 	auto it = imageTable.find(file);
-	SDL_Texture* reference = it->second;
+	cout << "Resources::GetImage() after find" << endl;
+
+
+
+	cout << "Resources::GetImage() after table search" << endl;
 	// se encontrar imagem na tabela
 	if (it != imageTable.end()) {
-		return reference;
+		cout << "Resources::GetImage() encontrou" << endl;
+		return it->second;
 	} else {
+		cout << "Resources::GetImage() nao encontrou" << endl;
 		Game& game = game.GetInstance();
-		reference = IMG_LoadTexture(game.GetRenderer(), file.c_str());
+		SDL_Texture* reference = IMG_LoadTexture(game.GetRenderer(), file.c_str());
 		if (reference == nullptr) {
 			cout << "Erro 1 ao abrir imagem" << endl;
 			cout << SDL_GetError() << endl;
@@ -21,17 +28,18 @@ SDL_Texture* Resources::GetImage(string file) {
 		}
 
 		imageTable.emplace(file, reference);
+		cout << "Resources::GetImage() adicionou novo a tabela" << endl;
 		return reference;
 	}
+	cout << "Resources::GetImage() end" << endl;
 }
 
 Mix_Music* Resources::GetMusic(string file) {
 	auto it = musicTable.find(file);
-	Mix_Music* reference = it->second;
 	if (it != musicTable.end()) {
-		return reference;
+		return it->second;
 	} else {
-		reference = Mix_LoadMUS(file.c_str());
+		Mix_Music* reference = Mix_LoadMUS(file.c_str());
 		if (reference == nullptr) {
 			cout << "Erro ao carregar musica" << endl;
 			cout << SDL_GetError() << endl;
@@ -44,11 +52,10 @@ Mix_Music* Resources::GetMusic(string file) {
 
 Mix_Chunk* Resources::GetSound(string file) {
 	auto it = soundTable.find(file);
-	Mix_Chunk* reference = it->second;
 	if (it != soundTable.end()) {
-		return reference;
+		return it->second;
 	} else {
-		reference = Mix_LoadWAV(file.c_str());
+		Mix_Chunk* reference = Mix_LoadWAV(file.c_str());
 		if (reference == nullptr) {
 			cout << "Erro ao carregar musica" << endl;
 			cout << SDL_GetError() << endl;

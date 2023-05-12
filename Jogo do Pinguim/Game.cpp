@@ -3,6 +3,8 @@
 Game* Game::instance;
 
 Game::Game(string title, int width, int height) {
+	cout << "Game::Game() start" << endl;
+
 	if (instance != nullptr) {
 		cout << "ERRO: Jogo ja esta em execucao" << endl;
 		return;
@@ -52,7 +54,10 @@ Game::Game(string title, int width, int height) {
 		return;
 	}
 
+	cout << "Game::Game() new State" << endl;
 	state = new State;
+
+	cout << "Game::Game() end" << endl;
 }
 
 Game::~Game() {
@@ -66,12 +71,14 @@ Game::~Game() {
 }
 
 Game& Game::GetInstance() {
+	cout << "Game.GetInstance() start" << endl;
 	if (instance == nullptr) {
 		instance = new Game(
 			"Pedro Victor Rodrigues de Carvalho 170113043",
 			1024, 600
 			);
 	}
+	cout << "Game.GetInstance() end" << endl;
 		return *instance;
 }
 
