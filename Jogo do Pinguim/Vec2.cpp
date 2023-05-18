@@ -39,6 +39,13 @@ float Vec2::GetDistance(Vec2 point) {
 	return point.GetMagnitude();
 }
 
+Vec2& Vec2::Rotate(float angle) {
+	Vec2& rotated = *new Vec2;
+	rotated.x = (x * cos(angle)) - (y * sin(angle));
+	rotated.y = (y * cos(angle)) + (x * sin(angle));
+	return rotated;
+}
+
 Vec2& Vec2::operator+(Vec2 b) {
 	return Vec2Add(b);
 }
@@ -59,9 +66,29 @@ Vec2& Vec2::operator/(float scalar) {
 	return Vec2MultiplyScalar(scalar);
 }
 
-Vec2& Vec2::Rotate(float angle) {
-	Vec2& rotated = *new Vec2;
-	rotated.x = (x * cos(angle)) - (y * sin(angle));
-	rotated.y = (y * cos(angle)) + (x * sin(angle));
-	return rotated;
+Vec2& Vec2::operator+=(Vec2 b) {
+	this->x += b.x;
+	this->y += b.y;
+	return *this;
+}
+
+Vec2& Vec2::operator-=(Vec2 b) {
+	this->x -= b.x;
+	this->y -= b.y;
+	return *this;
+}
+
+Vec2& Vec2::operator*=(float scalar) {
+	this->x *= scalar;
+	this->y *= scalar;
+	return *this;
+}
+
+Vec2& Vec2::operator/=(float scalar) {
+	if (scalar != 0) {
+		this->x /= scalar;
+		this->y /= scalar;
+		return *this;
+	}
+	return *new Vec2(0,0);
 }

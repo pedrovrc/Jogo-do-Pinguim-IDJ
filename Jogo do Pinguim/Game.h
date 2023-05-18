@@ -10,16 +10,20 @@ using namespace std;
 #include "InputManager.h"
 
 class Game {
+	int frameStart;
+	float dt;
 	static Game* instance;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	State* state;
 	Game(string title, int width, int height);
+	void CalculateDeltaTime();
 public:
 	~Game();
 	void Run();
 	SDL_Renderer* GetRenderer();
 	State& GetState();
 	static Game& GetInstance();
+	float GetDeltaTime();
 };
 #endif

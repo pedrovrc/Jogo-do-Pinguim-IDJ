@@ -1,4 +1,5 @@
 #include "TileMap.h"
+#include "Camera.h"
 
 #define TILESET_FILE "img/tileset.png"
 
@@ -81,14 +82,14 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 
 			x =	i * widthOffset;
 			y = j * heightOffset;
-			tileSet->RenderTile(index, x + cameraX, y + cameraY);
+			tileSet->RenderTile(index, x - cameraX, y - cameraY);
 		}
 	}
 }
 
 void TileMap::Render() {
 	for (int i = 0; i < mapDepth; i++) {
-		RenderLayer(i, 0, 0);
+		RenderLayer(i, Camera::pos.x, Camera::pos.y);
 	}
 }
 

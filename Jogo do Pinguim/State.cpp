@@ -3,6 +3,7 @@
 #include "Vec2.h"
 #include "TileMap.h"
 #include "TileSet.h"
+#include "Camera.h"
 
 State::State() {
 	quitRequested = false;
@@ -42,13 +43,20 @@ void State::LoadAssets() {
 }
 
 void State::Update(float dt) {
+	// update input/quit
 	InputManager* input = &(InputManager::GetInstance());
 	quitRequested = input->QuitRequested();
+
+	// update camera
+	Camera::Update(dt);
+
+	// add face
 	if(input->KeyPress(SPACE_KEY)) {
 		Vec2 objPos = Vec2( 200, 0 ).Rotate( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2(float(input->GetMouseX()), float(input->GetMouseY()));
 		AddObjectClick((int)objPos.x, (int)objPos.y);
 	}
 
+	// update game objects
 	int size = objectArray.size(), i = 0;
 	GameObject* go;
 	while (i < size) {

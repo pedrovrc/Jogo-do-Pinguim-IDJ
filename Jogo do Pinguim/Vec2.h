@@ -21,6 +21,10 @@ public:
 	Vec2& operator-(Vec2 b);
 	Vec2& operator*(float scalar);
 	Vec2& operator/(float scalar);
+	Vec2& operator+=(Vec2 b);
+	Vec2& operator-=(Vec2 b);
+	Vec2& operator*=(float scalar);
+	Vec2& operator/=(float scalar);
 
 	// implementar:
 	// - inclinacao de um vetor
