@@ -17,6 +17,16 @@ void Face::Damage(int damage) {
 }
 
 void Face::Update(float dt) {
+	InputManager* input = &(InputManager::GetInstance());
+	if (input->MousePress(LEFT_MOUSE_BUTTON)) {
+		Vec2 mouse;
+		mouse.x = input->GetMouseX();
+		mouse.y = input->GetMouseY();
+		if (associated.box.IsInside(mouse)) {
+			Damage(rand() % 10 + 10);
+		}
+	}
+
 	if (hitpoints <= 0) {
 		Sound* cpt = (Sound*)associated.GetComponent("Sound");
 		if (Mix_Playing(cpt->GetChannel()) == false) {

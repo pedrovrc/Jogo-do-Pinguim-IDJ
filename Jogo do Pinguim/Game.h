@@ -7,6 +7,7 @@ using namespace std;
 #define INCLUDE_SDL
 #include "SDL_include.h"
 #include "State.h"
+#include "InputManager.h"
 
 class Game {
 	static Game* instance;

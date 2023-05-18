@@ -5,13 +5,13 @@
 #include "Sound.h"
 #include "Music.h"
 #include "GameObject.h"
+#include "InputManager.h"
 
 class State {
 	Music music;
 	vector<unique_ptr<GameObject>> objectArray;
 
 	bool quitRequested;
-	void Input();
 	void AddObject(GameObject* go);
 	void AddObjectClick(int mouseX, int mouseY);
 	void DeleteObject(GameObject* go);

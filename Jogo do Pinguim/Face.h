@@ -5,6 +5,7 @@
 using namespace std;
 
 #include "Component.h"
+#include "InputManager.h"
 
 /*
  * Face é um "inimigo" com uma determinada quantidade de HP.
