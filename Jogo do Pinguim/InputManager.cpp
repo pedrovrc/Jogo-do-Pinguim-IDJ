@@ -32,35 +32,42 @@ void InputManager::Update() {
 
 	while (SDL_PollEvent(&event)) {
 		// saida
-		if (event.type == SDL_QUIT) quitRequested = true;
+		if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+			quitRequested = true;
+		}
 
 		// clique
 		if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP) {
 			mouseButton = event.button.button;
-			mouseUpdate[mouseButton] = updateCounter;
-
-			if (event.type == SDL_MOUSEBUTTONDOWN) {
-				mouseState[mouseButton] = true;
-			}
-
-			if (event.type == SDL_MOUSEBUTTONUP) {
-				mouseState[mouseButton] = false;
-			}
+			UpdateKeyOrButtonMaps(mouseButton, event, "mouse");
 		}
 
 		// tecla
-		if ((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat != 1) {
+		if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
 			key = event.key.keysym.sym;
-			keyUpdate[key] = updateCounter;
-
-			if (event.type == SDL_KEYDOWN) {
-				keyState[key] = true;
-			}
-
-			if (event.type == SDL_KEYUP) {
-				keyState[key] = false;
-			}
+			if (IsDirectional(key)) UpdateKeyOrButtonMaps(key, event, "keyboard");
+			else if (event.key.repeat != 1) UpdateKeyOrButtonMaps(key, event, "keyboard");
 		}
+	}
+}
+
+bool InputManager::IsDirectional(int key) {
+	if (key == LEFT_ARROW_KEY || key == RIGHT_ARROW_KEY
+	   || key == UP_ARROW_KEY || key == DOWN_ARROW_KEY) return true;
+	return false;
+}
+
+void InputManager::UpdateKeyOrButtonMaps(int index, SDL_Event event, string type) {
+	if (type == "mouse") {
+		mouseUpdate[index] = updateCounter;
+		if (event.type == SDL_MOUSEBUTTONDOWN) mouseState[index] = true;
+		if (event.type == SDL_MOUSEBUTTONUP) mouseState[index] = false;
+	} else if (type == "keyboard") {
+		keyUpdate[index] = updateCounter;
+		if (event.type == SDL_KEYDOWN) keyState[index] = true;
+		if (event.type == SDL_KEYUP) keyState[index] = false;
+	} else {
+		cout << "Invalid type selected. Use 'mouse' or 'keyboard' only." << endl;
 	}
 }
 

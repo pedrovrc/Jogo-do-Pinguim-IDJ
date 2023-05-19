@@ -26,6 +26,8 @@ class InputManager {
 	int mouseY;
 	InputManager();
 	~InputManager();
+	void UpdateKeyOrButtonMaps(int index, SDL_Event event, string type);
+	bool IsDirectional(int key);
 public:
 	void Update();
 	bool KeyPress(int key);

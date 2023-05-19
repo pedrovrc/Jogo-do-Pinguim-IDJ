@@ -3,6 +3,8 @@ GameObject* Camera::focus;
 Vec2 Camera::speed;
 Vec2 Camera::pos;
 
+#define CAMERA_SPEED 10
+
 void Camera::Follow(GameObject* newFocus) {
 	focus = newFocus;
 }
@@ -24,16 +26,16 @@ void Camera::Update(float dt) {
 	speed.x = 0;
 	speed.y = 0;
 	if (input->KeyPress(LEFT_ARROW_KEY)) {
-		speed.x -= dt;
+		speed.x -= CAMERA_SPEED;
 	}
 	if (input->KeyPress(RIGHT_ARROW_KEY)) {
-		speed.x += dt;
+		speed.x += CAMERA_SPEED;
 	}
 	if (input->KeyPress(UP_ARROW_KEY)) {
-		speed.y -= dt;
+		speed.y -= CAMERA_SPEED;
 	}
 	if (input->KeyPress(DOWN_ARROW_KEY)) {
-		speed.y += dt;
+		speed.y += CAMERA_SPEED;
 	}
 	pos += speed;
 }
