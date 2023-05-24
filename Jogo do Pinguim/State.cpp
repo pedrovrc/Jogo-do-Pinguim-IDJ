@@ -123,3 +123,7 @@ void State::DeleteObject(GameObject* go) {
 		i++;
 	}
 }
+
+void State::RenderMap() {
+
+}

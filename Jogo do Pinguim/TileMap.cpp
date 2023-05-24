@@ -64,7 +64,7 @@ void TileMap::SetTileSet(TileSet* tileSet) {
 int& TileMap::At(int x, int y, int z) {
 	int xAcesso = x;
 	int yAcesso = y * mapWidth;
-	int zAcesso = (z - 1) * mapWidth * mapHeight;
+	int zAcesso = z * mapWidth * mapHeight;
 	int& access = tileMatrix[xAcesso + yAcesso + zAcesso];
 	return access;
 }

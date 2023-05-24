@@ -22,6 +22,7 @@ public:
 	void LoadAssets();
 	void Update(float dt);
 	void Render();
+	void RenderMap();
 };
 
 #endif
