@@ -4,6 +4,7 @@
 #include "TileMap.h"
 #include "TileSet.h"
 #include "Camera.h"
+#include "CameraFollower.h"
 
 State::State() {
 	quitRequested = false;
@@ -12,6 +13,8 @@ State::State() {
 	GameObject* ambient = new GameObject;
 	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
 	ambient->AddComponent(bg);
+	Component* follower = new CameraFollower(*ambient);
+	ambient->AddComponent(follower);
 
 	// adiciona ambient a lista de GOs
 	AddObject(ambient);
@@ -21,7 +24,7 @@ State::State() {
 
 	// criação do mapa
 	GameObject* tileMapGO = new GameObject;
-	TileSet* tileSet = new TileSet(64, 64, "img/tileset.png", *tileMapGO);
+	TileSet* tileSet = new TileSet(TILE_WIDTH, TILE_HEIGHT, "img/tileset.png", *tileMapGO);
 	Component* map = new TileMap(*tileMapGO, "map/tileMap.txt", tileSet);
 	tileMapGO->AddComponent(map);
 	tileMapGO->box.x = 0;
@@ -52,7 +55,7 @@ void State::Update(float dt) {
 
 	// add face
 	if(input->KeyPress(SPACE_KEY)) {
-		Vec2 objPos = Vec2( 200, 0 ).Rotate( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2(float(input->GetMouseX()), float(input->GetMouseY()));
+		Vec2 objPos = Vec2( 200, 0 ).Rotate( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2(float(input->GetMouseX() + Camera::pos.x), float(input->GetMouseY() + Camera::pos.y));
 		AddObjectClick((int)objPos.x, (int)objPos.y);
 	}
 
@@ -106,7 +109,7 @@ void State::AddObjectClick(int mouseX, int mouseY) {
 	Face* penguinFace = new Face(*newGO);
 	newGO->AddComponent(penguinFace);
 
-	objectArray.emplace_back(newGO);
+	AddObject(newGO);
 }
 
 void State::AddObject(GameObject* go) {
@@ -122,8 +125,4 @@ void State::DeleteObject(GameObject* go) {
 		}
 		i++;
 	}
-}
-
-void State::RenderMap() {
-
 }

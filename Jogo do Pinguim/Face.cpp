@@ -1,5 +1,6 @@
 #include "Face.h"
 #include "Sound.h"
+#include "Camera.h"
 
 Face::Face(GameObject& associated) : Component(associated) {
 	hitpoints = 30;
@@ -20,8 +21,8 @@ void Face::Update(float dt) {
 	InputManager* input = &(InputManager::GetInstance());
 	if (input->MousePress(LEFT_MOUSE_BUTTON)) {
 		Vec2 mouse;
-		mouse.x = input->GetMouseX();
-		mouse.y = input->GetMouseY();
+		mouse.x = input->GetMouseX() + Camera::pos.x;
+		mouse.y = input->GetMouseY() + Camera::pos.y;
 		if (associated.box.IsInside(mouse)) {
 			Damage(rand() % 10 + 10);
 		}

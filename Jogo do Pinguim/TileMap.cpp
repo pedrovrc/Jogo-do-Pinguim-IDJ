@@ -89,7 +89,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 
 void TileMap::Render() {
 	for (int i = 0; i < mapDepth; i++) {
-		RenderLayer(i, Camera::pos.x, Camera::pos.y);
+		RenderLayer(i, Camera::pos.x * (i+1), Camera::pos.y * (i+1));
 	}
 }
 

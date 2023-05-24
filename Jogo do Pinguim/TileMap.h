@@ -4,6 +4,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define TILE_WIDTH 64
+#define TILE_HEIGHT 64
+
 #include "Component.h"
 #include "TileSet.h"
 

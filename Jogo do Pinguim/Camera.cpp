@@ -22,19 +22,19 @@ void Camera::Update(float dt) {
 	// se nao tiver foco, responder a input
 	// setar velocidade com base em dt e teclas pressionadas
 	// soma-se a posicao
-	InputManager* input = &(InputManager::GetInstance());
+	InputManager& input = InputManager::GetInstance();
 	speed.x = 0;
 	speed.y = 0;
-	if (input->KeyPress(LEFT_ARROW_KEY)) {
+	if (input.KeyPress(LEFT_ARROW_KEY)) {
 		speed.x -= CAMERA_SPEED;
 	}
-	if (input->KeyPress(RIGHT_ARROW_KEY)) {
+	if (input.KeyPress(RIGHT_ARROW_KEY)) {
 		speed.x += CAMERA_SPEED;
 	}
-	if (input->KeyPress(UP_ARROW_KEY)) {
+	if (input.KeyPress(UP_ARROW_KEY)) {
 		speed.y -= CAMERA_SPEED;
 	}
-	if (input->KeyPress(DOWN_ARROW_KEY)) {
+	if (input.KeyPress(DOWN_ARROW_KEY)) {
 		speed.y += CAMERA_SPEED;
 	}
 	pos += speed;

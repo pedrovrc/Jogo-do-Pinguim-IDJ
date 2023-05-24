@@ -14,7 +14,7 @@ TileSet::TileSet(int tileWidth, int tileHeight, string file, GameObject& associa
 
 void TileSet::RenderTile(unsigned index, float x, float y) {
 	if (index < unsigned(rows * columns)) {
-		tileSet.SetClip((index%columns) * tileWidth, (index/columns) * tileHeight, tileWidth, tileHeight);
+		tileSet.SetClip((index % columns) * tileWidth, (index / columns) * tileHeight, tileWidth, tileHeight);
 		tileSet.Render(x, y, tileWidth, tileHeight);
 	}
 }
