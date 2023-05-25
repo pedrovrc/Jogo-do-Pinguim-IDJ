@@ -9,6 +9,11 @@ class Component;
 #include "Rect.h"
 #include "Component.h"
 
+/*
+ * Clase GameObject
+ *
+ * Responsável por conter um ou mais objetos derivados da classe Component.
+ */
 class GameObject {
 	vector<unique_ptr<Component>> components{};
 	bool isDead;

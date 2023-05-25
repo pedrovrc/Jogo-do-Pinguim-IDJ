@@ -4,12 +4,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*
+ * Classe Vec2
+ *
+ * Implementa um ponto em R2 ou um vetor no mesmo espaço.
+ */
 class Vec2 {
 	Vec2& Vec2Add(Vec2 vector);
 	Vec2& Vec2MultiplyScalar(float scalar);
 public:
 	float x;
 	float y;
+
 	Vec2();
 	Vec2(float x, float y);
 	float GetMagnitude();
@@ -27,10 +33,8 @@ public:
 	Vec2& operator/=(float scalar);
 
 	// implementar:
-	// - inclinacao de um vetor
-	// - inclinacao da reta dada por dois pontos
-	// - rotacao em um determinado angulo
-
+	// - obter inclinacao de um vetor
+	// - obter inclinacao da reta dada por dois pontos
 };
 
 #endif

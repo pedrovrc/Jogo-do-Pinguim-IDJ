@@ -1,5 +1,10 @@
 #include "InputManager.h"
 
+/*
+ * InputManager& InputManager::GetInstance()
+ *
+ * Método que implementa o padrão "Meyer's Singleton".
+ */
 InputManager& InputManager::GetInstance() {
 	static InputManager manager;
 	return manager;
@@ -22,6 +27,11 @@ InputManager::~InputManager() {
 
 }
 
+/*
+ * void InputManager::Update()
+ *
+ * Atualiza os dados contidos na classe com base nos eventos ocorridos desde o último frame.
+ */
 void InputManager::Update() {
 	SDL_Event event;
 	int mouseButton, key;
@@ -51,12 +61,22 @@ void InputManager::Update() {
 	}
 }
 
+/*
+ * bool InputManager::IsDirectional(int key)
+ *
+ * Retorna se tecla fornecida é uma tecla direcional.
+ */
 bool InputManager::IsDirectional(int key) {
 	if (key == LEFT_ARROW_KEY || key == RIGHT_ARROW_KEY
 	   || key == UP_ARROW_KEY || key == DOWN_ARROW_KEY) return true;
 	return false;
 }
 
+/*
+ * void InputManager::UpdateKeyOrButtonMaps(int index, SDL_Event event, string type)
+ *
+ * Atualiza mapas de teclas ou de botões do mouse.
+ */
 void InputManager::UpdateKeyOrButtonMaps(int index, SDL_Event event, string type) {
 	if (type == "mouse") {
 		mouseUpdate[index] = updateCounter;
@@ -71,32 +91,62 @@ void InputManager::UpdateKeyOrButtonMaps(int index, SDL_Event event, string type
 	}
 }
 
-bool InputManager::KeyPress (int key) {
+/*
+ * bool InputManager::KeyPress (int key)
+ *
+ * Retorna se tecla foi pressionada no último frame.
+ */
+bool InputManager::KeyPress(int key) {
 	if (keyState[key] == true && keyUpdate[key] == updateCounter) return true;
 	else return false;
 }
 
-bool InputManager::KeyRelease (int key) {
+/*
+ * bool InputManager::KeyRelease(int key)
+ *
+ * Retorna se tecla foi solta no último frame.
+ */
+bool InputManager::KeyRelease(int key) {
 	if (keyState[key] == false && keyUpdate[key] == updateCounter) return true;
 	else return false;
 }
 
-bool InputManager::IsKeyDown (int key) {
+/*
+ * bool InputManager::IsKeyDown(int key)
+ *
+ * Retorna se tecla está pressionada atualmente.
+ */
+bool InputManager::IsKeyDown(int key) {
 	if (keyState[key] == true) return true;
 	else return false;
 }
 
-bool InputManager::MousePress (int button) {
+/*
+ * bool InputManager::MousePress(int button)
+ *
+ * Retorna se botão do mouse foi pressionado no último frame.
+ */
+bool InputManager::MousePress(int button) {
 	if (mouseState[button] == true && mouseUpdate[button] == updateCounter) return true;
 	else return false;
 }
 
-bool InputManager::MouseRelease (int button) {
+/*
+ * bool InputManager::MouseRelease(int button)
+ *
+ * Retorna se botão do mouse foi solto no último frame.
+ */
+bool InputManager::MouseRelease(int button) {
 	if (mouseState[button] == false && mouseUpdate[button] == updateCounter) return true;
 	else return false;
 }
 
-bool InputManager::IsMouseDown (int button) {
+/*
+ * bool InputManager::IsMouseDown(int button)
+ *
+ * Retorna se botão do mouse está pressionado atualmente.
+ */
+bool InputManager::IsMouseDown(int button) {
 	if (mouseState[button] == true) return true;
 	else return false;
 }

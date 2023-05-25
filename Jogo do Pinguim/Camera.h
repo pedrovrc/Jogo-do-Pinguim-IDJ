@@ -7,10 +7,15 @@ using namespace std;
 #include "GameObject.h"
 #include "InputManager.h"
 
+/*
+ * Classe Camera
+ *
+ * Implementa uma câmera pela qual o jogo será visto.
+ */
 class Camera {
 	static GameObject* focus;
 public:
-	static Vec2 speed;
+	static Vec2 velocity;
 	static Vec2 pos;
 	static void Follow(GameObject* newFocus);
 	static void Unfollow();

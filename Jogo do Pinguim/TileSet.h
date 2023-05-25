@@ -6,6 +6,11 @@ using namespace std;
 
 #include "Sprite.h"
 
+/*
+ * Classe TileSet
+ *
+ * Contém um sprite com a imagem dos tiles a serem usados na construção do mapa.
+ */
 class TileSet {
 	Sprite tileSet;
 	int rows;

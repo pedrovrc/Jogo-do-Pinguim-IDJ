@@ -10,6 +10,11 @@ using namespace std;
 
 #include "Component.h"
 
+/*
+ * Classe Sound
+ *
+ * Responsável por conter um Mix_Chunk para tocar sons no jogo.
+ */
 class Sound : public Component{
 	Mix_Chunk* chunk;
 	int channel;

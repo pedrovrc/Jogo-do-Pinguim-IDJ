@@ -8,6 +8,11 @@ using namespace std;
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
 
+/*
+ * Classe Music
+ *
+ * Responsável por conter um Mix_Music para tocar músicas no jogo.
+ */
 class Music {
 	Mix_Music* music;
 public:

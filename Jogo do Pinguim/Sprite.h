@@ -11,6 +11,11 @@ using namespace std;
 #include "Rect.h"
 #include "Component.h"
 
+/*
+ * Classe Sprite
+ *
+ * Responsável por conter uma SDL_Texture e permitir renderização de imagens.
+ */
 class Sprite : public Component{
 	SDL_Texture* texture;
 	int width;

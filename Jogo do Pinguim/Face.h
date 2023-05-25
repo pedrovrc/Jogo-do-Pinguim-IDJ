@@ -8,9 +8,10 @@ using namespace std;
 #include "InputManager.h"
 
 /*
- * Face é um "inimigo" com uma determinada quantidade de HP.
+ * Classe Face
+ *
+ * Representa um "inimigo" com uma determinada quantidade de HP.
  */
-
 class Face : public Component{
 	int hitpoints;
 public:

@@ -6,6 +6,11 @@ using namespace std;
 
 #include "Component.h"
 
+/*
+ * Classe CameraFollower
+ *
+ * Responsável por seguir a câmera e ajudar no foco de objetos em cena.
+ */
 class CameraFollower : public Component {
 public:
 	CameraFollower(GameObject& go);

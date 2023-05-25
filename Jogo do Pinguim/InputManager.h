@@ -15,6 +15,11 @@ using namespace std;
 #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 #define SPACE_KEY SDLK_SPACE
 
+/*
+ * Classe InputManager
+ *
+ * Responsável por encapsular todas as operações de aquisição de input.
+ */
 class InputManager {
 	bool mouseState[6];
 	int mouseUpdate[6];

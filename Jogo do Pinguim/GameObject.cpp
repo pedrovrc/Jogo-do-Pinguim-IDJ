@@ -11,6 +11,11 @@ GameObject::~GameObject() {
 	components.clear();
 }
 
+/*
+ * void GameObject::Update(float dt)
+ *
+ * Responsável por atualizar todos os componentes contidos neste objeto.
+ */
 void GameObject::Update(float dt) {
 	int i = 0;
 	Component* cpt;
@@ -21,6 +26,11 @@ void GameObject::Update(float dt) {
 	}
 }
 
+/*
+ * void GameObject::Render()
+ *
+ * Responsável por renderizar todos os componentes contidos neste objeto.
+ */
 void GameObject::Render() {
 	int i = 0;
 	Component* cpt;
@@ -31,18 +41,20 @@ void GameObject::Render() {
 	}
 }
 
-bool GameObject::IsDead() {
-	return isDead;
-}
-
-void GameObject::RequestDelete() {
-	isDead = true;
-}
-
+/*
+ * void GameObject::AddComponent(Component* cpt)
+ *
+ * Adiciona objeto Component na lista de componentes.
+ */
 void GameObject::AddComponent(Component* cpt) {
 	components.emplace_back(cpt);
 }
 
+/*
+ * void GameObject::RemoveComponent(Component* cpt)
+ *
+ * Remove objeto Component na lista de componentes.
+ */
 void GameObject::RemoveComponent(Component* cpt) {
 	int size = components.size(), i = 0;
 	while (i < size) {
@@ -54,6 +66,11 @@ void GameObject::RemoveComponent(Component* cpt) {
 	}
 }
 
+/*
+ * Component* GameObject::GetComponent(string type)
+ *
+ * Retorna referência para componente contido neste objeto. Caso não encontre, retorna nullptr.
+ */
 Component* GameObject::GetComponent(string type) {
 	int size = components.size(), i = 0;
 	Component* cpt;
@@ -65,4 +82,12 @@ Component* GameObject::GetComponent(string type) {
 		i++;
 	}
 	return nullptr;
+}
+
+bool GameObject::IsDead() {
+	return isDead;
+}
+
+void GameObject::RequestDelete() {
+	isDead = true;
 }

@@ -2,6 +2,11 @@
 #include "Resources.h"
 Game* Game::instance;
 
+/*
+ * Game::Game(string title, int width, int height)
+ *
+ * Responsável por iniciar a classe e as diversas partes necessárias da biblioteca SDL.
+ */
 Game::Game(string title, int width, int height) {
 	if (instance != nullptr) {
 		cout << "ERRO: Jogo ja esta em execucao" << endl;
@@ -67,6 +72,11 @@ Game::~Game() {
 	SDL_Quit();
 }
 
+/*
+ * Game& Game::GetInstance()
+ *
+ * Garante o padrão singleton nessa classe.
+ */
 Game& Game::GetInstance() {
 	if (instance == nullptr) {
 		instance = new Game(
@@ -77,14 +87,11 @@ Game& Game::GetInstance() {
 		return *instance;
 }
 
-State& Game::GetState() {
-	return *state;
-}
-
-SDL_Renderer* Game::GetRenderer() {
-	return renderer;
-}
-
+/*
+ * Game::CalculateDeltaTime()
+ *
+ * Responsável por consultar a biblioteca SDL e calcular o tempo entre frames.
+ */
 void Game::CalculateDeltaTime() {
 	int oldFrame = frameStart;
 	frameStart = SDL_GetTicks();
@@ -92,10 +99,11 @@ void Game::CalculateDeltaTime() {
 	dt = 0.001*(frameStart - oldFrame);
 }
 
-float Game::GetDeltaTime() {
-	return dt;
-}
-
+/*
+ * Game::Run()
+ *
+ * Responsável por executar o main game loop.
+ */
 void Game::Run() {
 	while(state->QuitRequested() == false) {
 		CalculateDeltaTime();
@@ -109,4 +117,16 @@ void Game::Run() {
 	Resources::ClearImages();
 	Resources::ClearMusics();
 	Resources::ClearSounds();
+}
+
+State& Game::GetState() {
+	return *state;
+}
+
+SDL_Renderer* Game::GetRenderer() {
+	return renderer;
+}
+
+float Game::GetDeltaTime() {
+	return dt;
 }

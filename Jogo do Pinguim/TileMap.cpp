@@ -3,11 +3,21 @@
 
 #define TILESET_FILE "img/tileset.png"
 
+/*
+ * TileMap::TileMap(GameObject& associated, string file, TileSet* tileSet)
+ *
+ * Inicializa o objeto com a leitura do mapa e abre a imagem do tileset.
+ */
 TileMap::TileMap(GameObject& associated, string file, TileSet* tileSet) : Component(associated) {
 	Load(file);
 	this->tileSet = new TileSet(64, 64, TILESET_FILE, associated);
 }
 
+/*
+ * void TileMap::Load(string file)
+ *
+ * Responsável por ler o arquivo texto do tile map e armazenar as informações em tileMatrix.
+ */
 void TileMap::Load(string file) {
 	ifstream map;
 	map.open(file);
@@ -57,10 +67,11 @@ void TileMap::Load(string file) {
 	}
 }
 
-void TileMap::SetTileSet(TileSet* tileSet) {
-	this->tileSet = tileSet;
-}
-
+/*
+ * int& TileMap::At(int x, int y, int z)
+ *
+ * Retorna o índice correspondente às coordenadas fornecidas do tile map.
+ */
 int& TileMap::At(int x, int y, int z) {
 	int xAcesso = x;
 	int yAcesso = y * mapWidth;
@@ -69,6 +80,11 @@ int& TileMap::At(int x, int y, int z) {
 	return access;
 }
 
+/*
+ * void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
+ *
+ * Renderiza todos os tiles de uma única camada do tile map.
+ */
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	int index = 0;
 	float x = 0, y = 0;
@@ -87,10 +103,19 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	}
 }
 
+/*
+ * void TileMap::Render()
+ *
+ * Renderiza todas as camadas do tile map, uma por vez.
+ */
 void TileMap::Render() {
 	for (int i = 0; i < mapDepth; i++) {
 		RenderLayer(i, Camera::pos.x * (i+1), Camera::pos.y * (i+1));
 	}
+}
+
+void TileMap::SetTileSet(TileSet* tileSet) {
+	this->tileSet = tileSet;
 }
 
 int TileMap::GetWidth() {

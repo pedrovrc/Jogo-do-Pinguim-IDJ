@@ -1,5 +1,10 @@
 #include "TileSet.h"
 
+/*
+ * TileSet::TileSet(int tileWidth, int tileHeight, string file, GameObject& associated)
+ *
+ * Inicializa objeto abrindo arquivo de imagem fonte e obtendo valores dos parâmetros fornecidos.
+ */
 TileSet::TileSet(int tileWidth, int tileHeight, string file, GameObject& associated) : tileSet(associated, file){
 	this->tileWidth = tileWidth;
 	this->tileHeight = tileHeight;
@@ -12,6 +17,11 @@ TileSet::TileSet(int tileWidth, int tileHeight, string file, GameObject& associa
 	}
 }
 
+/*
+ * void TileSet::RenderTile(unsigned index, float x, float y)
+ *
+ * Renderiza o objeto Sprite do Tile especificado, no local especificado.
+ */
 void TileSet::RenderTile(unsigned index, float x, float y) {
 	if (index < unsigned(rows * columns)) {
 		tileSet.SetClip((index % columns) * tileWidth, (index / columns) * tileHeight, tileWidth, tileHeight);

@@ -8,6 +8,11 @@ class GameObject;
 
 #include "GameObject.h"
 
+/*
+ * Classe Component
+ *
+ * Classe abstrata que serve de molde para classes de assets.
+ */
 class Component {
 protected:
 	GameObject& associated;

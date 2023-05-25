@@ -6,10 +6,15 @@
 #include "Camera.h"
 #include "CameraFollower.h"
 
+/*
+ * State::State()
+ *
+ * Construtor que instancia assets da tela inicial e lista de GameObjects.
+ */
 State::State() {
 	quitRequested = false;
 
-	// Cria GO ambient e atribui ele a Sprite do BG
+	// Cria GO ambient, atribui ele a Sprite do BG e ao CameraFollower
 	GameObject* ambient = new GameObject;
 	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
 	ambient->AddComponent(bg);
@@ -41,25 +46,40 @@ State::~State() {
 	objectArray.clear();
 }
 
+/*
+ * State::LoadAssets()
+ *
+ * Responsável por carregar os assets.
+ */
 void State::LoadAssets() {
 	// carregar imagens e musicas aqui quando possivel
 }
 
+/*
+ * void State::Update(float dt)
+ *
+ * Chamado em todo frame, é responsável por atualizar todos os GameObjects gerenciados ou excluir objetos mortos.
+ * Também é responsável por incluir face (inimigo) ao pressionar espaço.
+ * Também cuida de atualizar o Input e a Câmera.
+ */
 void State::Update(float dt) {
-	// update input/quit
+	// atualiza input/quit
 	InputManager* input = &(InputManager::GetInstance());
 	quitRequested = input->QuitRequested();
 
-	// update camera
+	// atualiza camera
 	Camera::Update(dt);
 
 	// add face
 	if(input->KeyPress(SPACE_KEY)) {
-		Vec2 objPos = Vec2( 200, 0 ).Rotate( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2(float(input->GetMouseX() + Camera::pos.x), float(input->GetMouseY() + Camera::pos.y));
-		AddObjectClick((int)objPos.x, (int)objPos.y);
+		float angle = -M_PI + M_PI*(rand() % 1001)/500.0;	// angulo de rotacao randomizado
+		float objX = input->GetMouseX() + Camera::pos.x;
+		float objY = input->GetMouseY() + Camera::pos.y;
+		Vec2 objPos = Vec2(200, 0).Rotate(angle) + Vec2(objX, objY);
+		AddObjectKeyPress((int)objPos.x, (int)objPos.y);
 	}
 
-	// update game objects
+	// update GameObjects
 	int size = objectArray.size(), i = 0;
 	GameObject* go;
 	while (i < size) {
@@ -68,6 +88,7 @@ void State::Update(float dt) {
 		i++;
 	}
 
+	// deleta GameObjects mortos
 	i = 0;
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
@@ -79,6 +100,11 @@ void State::Update(float dt) {
 	}
 }
 
+/*
+ * void State::Render()
+ *
+ * Responsável por renderizar todos os GameObjects gerenciados.
+ */
 void State::Render() {
 	int i = 0;
 	GameObject* go;
@@ -89,14 +115,13 @@ void State::Render() {
 	}
 }
 
-bool State::QuitRequested() {
-	return quitRequested;
-}
-
-void State::AddObjectClick(int mouseX, int mouseY) {
+/*
+ * void State::AddObjectKeyPress(int mouseX, int mouseY)
+ *
+ * Responsável por criar novo GameObject contendo a face (inimigo) nas coordenadas fornecidas.
+ */
+void State::AddObjectKeyPress(int mouseX, int mouseY) {
 	GameObject* newGO = new GameObject;
-
-	// mudar para fazer x e y serem o centro do novo sprite
 	newGO->box.x = mouseX;
 	newGO->box.y = mouseY;
 
@@ -112,10 +137,20 @@ void State::AddObjectClick(int mouseX, int mouseY) {
 	AddObject(newGO);
 }
 
+/*
+ * void State::AddObject(GameObject* go)
+ *
+ * Adiciona novo GameObject à lista de GameObjects.
+ */
 void State::AddObject(GameObject* go) {
 	objectArray.emplace_back(go);
 }
 
+/*
+ * void State::DeleteObject(GameObject* go)
+ *
+ * Deleta um GameObject da lista.
+ */
 void State::DeleteObject(GameObject* go) {
 	int size = objectArray.size(), i = 0;
 	while (i < size) {
@@ -125,4 +160,8 @@ void State::DeleteObject(GameObject* go) {
 		}
 		i++;
 	}
+}
+
+bool State::QuitRequested() {
+	return quitRequested;
 }

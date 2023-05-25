@@ -1,12 +1,22 @@
 #include "Rect.h"
 
+/*
+ * Rect::Rect()
+ *
+ * Inicializa objeto com dimensões zero e posição (0,0)
+ */
 Rect::Rect() {
-	this->x = 0;
-	this->y = 0;
-	this->w = 0;
-	this->h = 0;
+	x = 0;
+	y = 0;
+	w = 0;
+	h = 0;
 }
 
+/*
+ * Rect::Rect(float x, float y, float w, float h)
+ *
+ * Inicializa objeto com os parâmetros fornecidos.
+ */
 Rect::Rect(float x, float y, float w, float h) {
 	this->x = x;
 	this->y = y;
@@ -14,32 +24,55 @@ Rect::Rect(float x, float y, float w, float h) {
 	this->h = h;
 }
 
-	// Retorna objeto Vec2 com coordenadas de centro
+/*
+ * Vec2& Rect::GetCenter()
+ *
+ * Retorna objeto Vec2 com coordenadas de centro do retângulo.
+ */
 Vec2& Rect::GetCenter() {
-	return *new Vec2(this->x + (this->w)/2, this->y + (this->y)/2);
+	return *new Vec2(x + (w/2), y + (y/2));
 }
 
+/*
+ * float Rect::GetCenterDist(Rect box)
+ *
+ * Retorna a distância entre o centro deste objeto Rect e outro fornecido.
+ */
 float Rect::GetCenterDist(Rect box) {
 	Vec2 center1 = this->GetCenter();
 	Vec2 center2 = box.GetCenter();
 	return center1.GetDistance(center2);
 }
 
+/*
+ * void Rect::MoveThis(Vec2 vector)
+ *
+ * Modifica os valores x e y para transladar o retângulo de acordo com o vetor fornecido.
+ */
 void Rect::MoveThis(Vec2 vector) {
-	this->x += vector.x;
-	this->y += vector.y;
+	x += vector.x;
+	y += vector.y;
 }
 
-Rect& Rect::GetTranslatedRect(Vec2 vector) {
-	return *new Rect(vector.x, vector.y, this->w, this->h);
+/*
+ * Rect& Rect::GetTranslatedRect(Vec2 vector)
+ *
+ * Retorna novo objeto Rect de mesmas dimensões mas transladado por vetor fornecido.
+ */
+Rect& Rect::GetTranslatedCopy(Vec2 vector) {
+	return *new Rect(x + vector.x, y + vector.y, this->w, this->h);
 }
 
-	// nao considera rotacao
+/*
+ * bool Rect::IsInside(Vec2 point)
+ *
+ * Checa se ponto fornecido está dentro do objeto Rect. Não considera rotações.
+ */
 bool Rect::IsInside(Vec2 point) {
-	float limit_lo_x = this->x;
-	float limit_hi_x = this->x + this->w;
-	float limit_lo_y = this->y;
-	float limit_hi_y = this->y + this->h;
+	float limit_lo_x = x;
+	float limit_hi_x = x + w;
+	float limit_lo_y = y;
+	float limit_hi_y = y + h;
 	if (point.x < limit_hi_x && point.x > limit_lo_x
 		&& point.y < limit_hi_y && point.y > limit_lo_y) {
 		return true;

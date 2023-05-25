@@ -5,6 +5,11 @@ unordered_map<string, SDL_Texture*> Resources::imageTable;
 unordered_map<string, Mix_Music*> Resources::musicTable;
 unordered_map<string, Mix_Chunk*> Resources::soundTable;
 
+/*
+ * SDL_Texture* Resources::GetImage(string file)
+ *
+ * Retorna uma referência para a SDL_Texture com a imagem requisitada.
+ */
 SDL_Texture* Resources::GetImage(string file) {
 	auto it = imageTable.find(file);
 
@@ -25,6 +30,11 @@ SDL_Texture* Resources::GetImage(string file) {
 	}
 }
 
+/*
+ * Mix_Music* Resources::GetMusic(string file)
+ *
+ * Retorna uma referência para a Mix_Music com o áudio requisitado.
+ */
 Mix_Music* Resources::GetMusic(string file) {
 	auto it = musicTable.find(file);
 	if (it != musicTable.end()) {
@@ -41,6 +51,11 @@ Mix_Music* Resources::GetMusic(string file) {
 	}
 }
 
+/*
+ * Mix_Chunk* Resources::GetSound(string file)
+ *
+ * Retorna uma referência para o Mix_Chunk com o áudio requisitado.
+ */
 Mix_Chunk* Resources::GetSound(string file) {
 	auto it = soundTable.find(file);
 	if (it != soundTable.end()) {
@@ -57,6 +72,11 @@ Mix_Chunk* Resources::GetSound(string file) {
 	}
 }
 
+/*
+ * void Resources::ClearImages()
+ *
+ * Libera tabela de imagens.
+ */
 void Resources::ClearImages() {
 	SDL_Texture* pointer;
 	for (auto& it : imageTable) {
@@ -66,6 +86,11 @@ void Resources::ClearImages() {
 	imageTable.clear();
 }
 
+/*
+ * void Resources::ClearMusics()
+ *
+ * Libera tabela de músicas.
+ */
 void Resources::ClearMusics() {
 	Mix_Music* pointer;
 	for (auto& it : musicTable) {
@@ -75,6 +100,11 @@ void Resources::ClearMusics() {
 	musicTable.clear();
 }
 
+/*
+ * void Resources::ClearSounds()
+ *
+ * Libera tabela de sons.
+ */
 void Resources::ClearSounds() {
 	Mix_Chunk* pointer;
 	for (auto& it : soundTable) {

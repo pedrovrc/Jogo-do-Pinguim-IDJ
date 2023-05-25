@@ -9,6 +9,11 @@ using namespace std;
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
 
+/*
+ * Classe Resources
+ *
+ * Responsável por gerenciar os assets do jogo.
+ */
 class Resources {
 	static unordered_map<string, SDL_Texture*> imageTable;
 	static unordered_map<string, Mix_Music*> musicTable;

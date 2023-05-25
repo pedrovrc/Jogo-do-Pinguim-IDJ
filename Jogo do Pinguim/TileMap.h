@@ -10,6 +10,11 @@ using namespace std;
 #include "Component.h"
 #include "TileSet.h"
 
+/*
+ * Classe TileMap
+ *
+ * Responsável por conter as informações e assets do mapa de tiles do jogo.
+ */
 class TileMap : public Component {
 	vector<int> tileMatrix;
 	TileSet* tileSet;

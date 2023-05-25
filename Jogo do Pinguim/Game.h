@@ -9,6 +9,11 @@ using namespace std;
 #include "State.h"
 #include "InputManager.h"
 
+/*
+ * Classe Game
+ *
+ * Segue o padrão singleton, instanciada na função main e responsável por executar o jogo.
+ */
 class Game {
 	int frameStart;
 	float dt;
