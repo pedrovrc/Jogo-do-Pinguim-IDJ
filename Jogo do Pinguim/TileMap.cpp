@@ -114,6 +114,10 @@ void TileMap::Render() {
 	}
 }
 
+void TileMap::Start() {
+
+}
+
 void TileMap::SetTileSet(TileSet* tileSet) {
 	this->tileSet = tileSet;
 }

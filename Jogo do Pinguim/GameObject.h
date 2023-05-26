@@ -16,18 +16,22 @@ class Component;
  */
 class GameObject {
 	vector<unique_ptr<Component>> components{};
+
 	bool isDead;
 public:
+	Rect box;
+	bool started;
+
 	GameObject();
 	~GameObject();
 	void Update(float dt);
 	void Render();
-	bool IsDead();
-	void RequestDelete();
+	void Start();
 	void AddComponent(Component* cpt);
 	void RemoveComponent(Component* cpt);
 	Component* GetComponent(string type);
-	Rect box;
+	bool IsDead();
+	void RequestDelete();
 };
 
 #endif

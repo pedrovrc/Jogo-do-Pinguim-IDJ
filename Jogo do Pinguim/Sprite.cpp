@@ -88,6 +88,10 @@ void Sprite::Render(float x, float y, float w, float h) {
 	}
 }
 
+void Sprite::Start() {
+
+}
+
 void Sprite::Update(float dt) {
 
 }

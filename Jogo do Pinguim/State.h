@@ -14,19 +14,21 @@
  */
 class State {
 	Music music;
-	vector<unique_ptr<GameObject>> objectArray;
-
+	vector<shared_ptr<GameObject>> objectArray;
+	bool started;
 	bool quitRequested;
-	void AddObject(GameObject* go);
-	void AddObjectKeyPress(int mouseX, int mouseY);
+
 	void DeleteObject(GameObject* go);
 public:
 	State();
 	~State();
-	bool QuitRequested();
 	void LoadAssets();
 	void Update(float dt);
 	void Render();
+	weak_ptr<GameObject> AddObject(GameObject* go);
+	weak_ptr<GameObject> GetObjectPtr(GameObject* go);
+	void Start();
+	bool QuitRequested();
 };
 
 #endif

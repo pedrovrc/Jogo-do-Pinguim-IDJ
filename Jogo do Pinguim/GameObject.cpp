@@ -2,6 +2,7 @@
 
 GameObject::GameObject() {
 	isDead = false;
+	started = false;
 }
 
 GameObject::~GameObject() {
@@ -47,6 +48,7 @@ void GameObject::Render() {
  * Adiciona objeto Component na lista de componentes.
  */
 void GameObject::AddComponent(Component* cpt) {
+	if (started) cpt->Start();
 	components.emplace_back(cpt);
 }
 
@@ -82,6 +84,17 @@ Component* GameObject::GetComponent(string type) {
 		i++;
 	}
 	return nullptr;
+}
+
+void GameObject::Start() {
+	int i = 0;
+	Component* cpt;
+	while (components.begin() + i != components.end()) {
+		cpt = (Component*) components[i].get();
+		cpt->Start();
+		i++;
+	}
+	started = true;
 }
 
 bool GameObject::IsDead() {

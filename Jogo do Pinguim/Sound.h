@@ -28,6 +28,7 @@ public:
 	bool IsOpen();
 	void Update(float dt);
 	void Render();
+	void Start();
 	bool Is(string type);
 	int GetChannel();
 };

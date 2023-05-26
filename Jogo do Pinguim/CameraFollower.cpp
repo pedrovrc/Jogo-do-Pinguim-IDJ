@@ -14,6 +14,10 @@ void CameraFollower::Update(float dt) {
 	associated.box.MoveThis(*new Vec2(Camera::velocity.x, Camera::velocity.y));
 }
 
+void CameraFollower::Start() {
+
+}
+
 void CameraFollower::Render() {
 
 }

@@ -58,6 +58,10 @@ bool Sound::IsOpen() {
 	return true;
 }
 
+void Sound::Start() {
+	Play();
+}
+
 void Sound::Update(float dt) {
 
 }

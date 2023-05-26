@@ -105,6 +105,7 @@ void Game::CalculateDeltaTime() {
  * Responsável por executar o main game loop.
  */
 void Game::Run() {
+	state->Start();
 	while(state->QuitRequested() == false) {
 		CalculateDeltaTime();
 		InputManager* input = &(InputManager::GetInstance());

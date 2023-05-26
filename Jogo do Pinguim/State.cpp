@@ -1,10 +1,10 @@
 #include "State.h"
-#include "Face.h"
 #include "Vec2.h"
 #include "TileMap.h"
 #include "TileSet.h"
 #include "Camera.h"
 #include "CameraFollower.h"
+#include "Alien.h"
 
 /*
  * State::State()
@@ -13,30 +13,7 @@
  */
 State::State() {
 	quitRequested = false;
-
-	// Cria GO ambient, atribui ele a Sprite do BG e ao CameraFollower
-	GameObject* ambient = new GameObject;
-	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
-	ambient->AddComponent(bg);
-	Component* follower = new CameraFollower(*ambient);
-	ambient->AddComponent(follower);
-
-	// adiciona ambient a lista de GOs
-	AddObject(ambient);
-
-	music.Open("audio/stageState.ogg");
-	music.Play();
-
-	// criação do mapa
-	GameObject* tileMapGO = new GameObject;
-	TileSet* tileSet = new TileSet(TILE_WIDTH, TILE_HEIGHT, "img/tileset.png", *tileMapGO);
-	Component* map = new TileMap(*tileMapGO, "map/tileMap.txt", tileSet);
-	tileMapGO->AddComponent(map);
-	tileMapGO->box.x = 0;
-	tileMapGO->box.y = 0;
-
-	// adiciona GO do mapa na lista de GOs
-	AddObject(tileMapGO);
+	started = false;
 }
 
 State::~State() {
@@ -49,10 +26,50 @@ State::~State() {
 /*
  * State::LoadAssets()
  *
- * Responsável por carregar os assets.
+ * Responsável por carregar os assets iniciais de State.
  */
 void State::LoadAssets() {
 	// carregar imagens e musicas aqui quando possivel
+
+	// cria GO ambient, atribui ele a Sprite do BG e ao CameraFollower
+	GameObject* ambient = new GameObject;
+	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
+	ambient->AddComponent(bg);
+	Component* follower = new CameraFollower(*ambient);
+	ambient->AddComponent(follower);
+	AddObject(ambient);
+
+	// abre musica
+	music.Open("audio/stageState.ogg");
+
+	// criação do mapa
+	GameObject* tileMapGO = new GameObject;
+	TileSet* tileSet = new TileSet(TILE_WIDTH, TILE_HEIGHT, "img/tileset.png", *tileMapGO);
+	Component* map = new TileMap(*tileMapGO, "map/tileMap.txt", tileSet);
+	tileMapGO->AddComponent(map);
+	tileMapGO->box.x = 0;
+	tileMapGO->box.y = 0;
+	AddObject(tileMapGO);
+
+	// Adiciona Alien (teste para trabalho 5)
+	GameObject* AlienGO = new GameObject;
+	AlienGO->box.MoveThis(*new Vec2(512,300));
+	Component* AlienCpt = new Alien(*AlienGO, 0);
+	AlienGO->AddComponent(AlienCpt);
+	AddObject(AlienGO);
+}
+
+void State::Start() {
+	LoadAssets();
+	int i = 0;
+	GameObject* go;
+	while (objectArray.begin() + i != objectArray.end()) {
+		go = (GameObject*)objectArray[i].get();
+		go->Start();
+		i++;
+	}
+	music.Play();
+	started = true;
 }
 
 /*
@@ -69,15 +86,6 @@ void State::Update(float dt) {
 
 	// atualiza camera
 	Camera::Update(dt);
-
-	// add face
-	if(input->KeyPress(SPACE_KEY)) {
-		float angle = -M_PI + M_PI*(rand() % 1001)/500.0;	// angulo de rotacao randomizado
-		float objX = input->GetMouseX() + Camera::pos.x;
-		float objY = input->GetMouseY() + Camera::pos.y;
-		Vec2 objPos = Vec2(200, 0).Rotate(angle) + Vec2(objX, objY);
-		AddObjectKeyPress((int)objPos.x, (int)objPos.y);
-	}
 
 	// update GameObjects
 	int size = objectArray.size(), i = 0;
@@ -116,34 +124,15 @@ void State::Render() {
 }
 
 /*
- * void State::AddObjectKeyPress(int mouseX, int mouseY)
- *
- * Responsável por criar novo GameObject contendo a face (inimigo) nas coordenadas fornecidas.
- */
-void State::AddObjectKeyPress(int mouseX, int mouseY) {
-	GameObject* newGO = new GameObject;
-	newGO->box.x = mouseX;
-	newGO->box.y = mouseY;
-
-	Sprite* enemy = new Sprite(*newGO, "img/penguinface.png");
-	newGO->AddComponent(enemy);
-
-	Sound* boom = new Sound(*newGO, "audio/boom.wav");
-	newGO->AddComponent(boom);
-
-	Face* penguinFace = new Face(*newGO);
-	newGO->AddComponent(penguinFace);
-
-	AddObject(newGO);
-}
-
-/*
- * void State::AddObject(GameObject* go)
+ * weak_ptr<GameObject> State::AddObject(GameObject* go)
  *
  * Adiciona novo GameObject à lista de GameObjects.
  */
-void State::AddObject(GameObject* go) {
-	objectArray.emplace_back(go);
+weak_ptr<GameObject> State::AddObject(GameObject* go) {
+	shared_ptr<GameObject> pointer(go);
+	objectArray.push_back(pointer);
+	if(started) pointer->Start();
+	return weak_ptr<GameObject>(pointer);
 }
 
 /*
@@ -160,6 +149,19 @@ void State::DeleteObject(GameObject* go) {
 		}
 		i++;
 	}
+}
+
+/*
+ * weak_ptr<GameObject> State::GetObjectPtr(GameObject* go)
+ *
+ * Retorna um weak_ptr referenciando o go requisitado.
+ */
+weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
+	int i = 0;
+	while (objectArray.begin() + i != objectArray.end()) {
+		if (objectArray[i] == shared_ptr<GameObject>(go)) return weak_ptr<GameObject>(objectArray[i]);
+	}
+	return weak_ptr<GameObject>();
 }
 
 bool State::QuitRequested() {

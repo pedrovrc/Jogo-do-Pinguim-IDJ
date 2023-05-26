@@ -16,6 +16,7 @@ public:
 	CameraFollower(GameObject& go);
 	void Update(float dt);
 	void Render();
+	void Start();
 	bool Is(string type);
 };
 
