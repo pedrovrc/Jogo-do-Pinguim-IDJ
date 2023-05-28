@@ -50,8 +50,28 @@ float Rect::GetCenterDist(Rect box) {
  * Modifica os valores x e y para transladar o retângulo de acordo com o vetor fornecido.
  */
 void Rect::MoveThis(Vec2 vector) {
-	x += vector.x - w/2;
-	y += vector.y - h/2;
+	x += vector.x;
+	y += vector.y;
+}
+
+/*
+ * void Rect::SetPosition(Vec2 vector)
+ *
+ * Modifica os valores x e y para colocar o retângulo no ponto fornecido.
+ */
+void Rect::SetPosition(Vec2 vector) {
+	x = vector.x;
+	y = vector.y;
+}
+
+/*
+ * void Rect::SetDimensions(float w, float h)
+ *
+ * Modifica os valores w e h para os fornecidos.
+ */
+void Rect::SetDimensions(float w, float h) {
+	this->w = w;
+	this->h = h;
 }
 
 /*

@@ -34,9 +34,10 @@ void State::LoadAssets() {
 	// cria GO ambient, atribui ele a Sprite do BG e ao CameraFollower
 	GameObject* ambient = new GameObject;
 	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
-	ambient->AddComponent(bg);
 	Component* follower = new CameraFollower(*ambient);
+	ambient->AddComponent(bg);
 	ambient->AddComponent(follower);
+	ambient->box.MoveThis(*new Vec2(0,0));
 	AddObject(ambient);
 
 	// abre musica
@@ -47,15 +48,14 @@ void State::LoadAssets() {
 	TileSet* tileSet = new TileSet(TILE_WIDTH, TILE_HEIGHT, "img/tileset.png", *tileMapGO);
 	Component* map = new TileMap(*tileMapGO, "map/tileMap.txt", tileSet);
 	tileMapGO->AddComponent(map);
-	tileMapGO->box.x = 0;
-	tileMapGO->box.y = 0;
+	tileMapGO->box.MoveThis(*new Vec2(0,0));
 	AddObject(tileMapGO);
 
 	// Adiciona Alien (teste para trabalho 5)
 	GameObject* AlienGO = new GameObject;
-	AlienGO->box.MoveThis(*new Vec2(512,300));
 	Component* AlienCpt = new Alien(*AlienGO, 0);
 	AlienGO->AddComponent(AlienCpt);
+	AlienGO->box.MoveThis(*new Vec2(512,300));
 	AddObject(AlienGO);
 }
 
@@ -68,7 +68,7 @@ void State::Start() {
 		go->Start();
 		i++;
 	}
-	music.Play();
+	//music.Play();
 	started = true;
 }
 

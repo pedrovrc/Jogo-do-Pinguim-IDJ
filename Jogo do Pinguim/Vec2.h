@@ -18,6 +18,7 @@ public:
 
 	Vec2();
 	Vec2(float x, float y);
+	void Set(float x, float y);
 	float GetMagnitude();
 	Vec2& GetNormalizedVector();
 	float GetDistance(Vec2 point);

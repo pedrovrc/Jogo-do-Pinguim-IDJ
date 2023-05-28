@@ -27,6 +27,10 @@ public:
 	Alien(GameObject& associated, int nMinions);
 	~Alien();
 
+	// teste, remover depois
+	Vec2 a, b;
+	bool flag;
+
 	void Start();
 	void Update(float dt);
 	void Render();
