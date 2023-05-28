@@ -74,7 +74,7 @@ void Alien::Update(float dt) {
 		act = &taskQueue.front();
 		if (act->type == Action::ActionType::MOVE) {
 			cout << "act->pos = (" << act->pos.x << "," << act->pos.y << ")" << endl;
-			cout << "box = (" << associated.box.x << "," << associated.box.y << ")" << endl;
+			cout << "box = (" << associated.box.GetCenter().x << "," << associated.box.GetCenter().y << ")" << endl;
 			cout << "Distance = " << act->pos.GetDistance(associated.box.GetCenter()) << endl;
 			cout << "-------------------------" << endl;
 			if (act->pos.GetDistance(associated.box.GetCenter()) >= MAX_SPEED) {
@@ -84,11 +84,11 @@ void Alien::Update(float dt) {
 			} else {
 				cout << "DONE! ------------------------" << endl;
 				cout << "act->pos: ("<< act->pos.x << "," << act->pos.y << ")" << endl;
-				cout << "box before: ("<< associated.box.x << "," << associated.box.y << ")" << endl;
+				cout << "box before: ("<< associated.box.GetCenter().x << "," << associated.box.GetCenter().y << ")" << endl;
 				Vec2 offset;
 				offset.Set(associated.box.w/2, associated.box.h/2);
 				associated.box.SetPosition(act->pos - offset);
-				cout << "box after: ("<< associated.box.x << "," << associated.box.y << ")" << endl;
+				cout << "box after: ("<< associated.box.GetCenter().x << "," << associated.box.GetCenter().y << ")" << endl;
 				taskQueue.pop();
 				speed.Set(0,0);
 			}

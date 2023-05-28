@@ -30,7 +30,7 @@ Rect::Rect(float x, float y, float w, float h) {
  * Retorna objeto Vec2 com coordenadas de centro do retângulo.
  */
 Vec2& Rect::GetCenter() {
-	return *new Vec2(x + (w/2), y + (y/2));
+	return *new Vec2(x + (w/2), y + (h/2));
 }
 
 /*
