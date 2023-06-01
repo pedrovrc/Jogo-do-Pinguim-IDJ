@@ -51,12 +51,14 @@ void State::LoadAssets() {
 	tileMapGO->box.MoveThis(*new Vec2(0,0));
 	AddObject(tileMapGO);
 
-	// Adiciona Alien (teste para trabalho 5)
+	// Adiciona Alien
+	cout << "adiciona alien" << endl;
 	GameObject* AlienGO = new GameObject;
 	Component* AlienCpt = new Alien(*AlienGO, 0);
 	AlienGO->AddComponent(AlienCpt);
 	AlienGO->box.MoveThis(*new Vec2(512,300));
 	AddObject(AlienGO);
+	cout << "adicionou" << endl;
 }
 
 void State::Start() {

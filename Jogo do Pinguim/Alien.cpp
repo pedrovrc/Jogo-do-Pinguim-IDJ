@@ -2,6 +2,8 @@
 #include "Sprite.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "Game.h"
+#include "Minion.h"
 
 #define MAX_HP 30
 #define MAX_SPEED 30
@@ -28,7 +30,23 @@ Alien::~Alien() {
 }
 
 void Alien::Start() {
+	State& state = Game::GetInstance().GetState();
 
+	cout << "Cria minion" << endl;
+
+	// cria minions
+
+	weak_ptr<GameObject> associatedGO(make_shared<GameObject>(&associated));
+	cout << "1" << endl;
+	GameObject& minionGO = *new GameObject;
+	cout << "2" << endl;
+	Component* minion1 = new Minion(minionGO, associatedGO, 0);
+	cout << "3" << endl;
+	minionGO.AddComponent(minion1);
+	cout << "4" << endl;
+	minionArray.emplace_back(state.AddObject(&minionGO));
+
+	cout << "Criou" << endl;
 }
 
 void Alien::Update(float dt) {
@@ -36,7 +54,7 @@ void Alien::Update(float dt) {
 
 	// coloca acoes na fila
 	if(input->MousePress(LEFT_MOUSE_BUTTON) || input->MousePress(RIGHT_MOUSE_BUTTON)) {
-		int mouseX = input->GetMouseX() - Camera::pos.x;
+		int mouseX = input->GetMouseX() + Camera::pos.x;
 		int mouseY = input->GetMouseY() + Camera::pos.y;
 		if (input->MousePress(LEFT_MOUSE_BUTTON)) {
 			Action::ActionType type = Action::ActionType::SHOOT;
