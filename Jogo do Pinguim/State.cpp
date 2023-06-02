@@ -52,13 +52,11 @@ void State::LoadAssets() {
 	AddObject(tileMapGO);
 
 	// Adiciona Alien
-	cout << "adiciona alien" << endl;
 	GameObject* AlienGO = new GameObject;
 	Component* AlienCpt = new Alien(*AlienGO, 0);
 	AlienGO->AddComponent(AlienCpt);
 	AlienGO->box.MoveThis(*new Vec2(512,300));
 	AddObject(AlienGO);
-	cout << "adicionou" << endl;
 }
 
 void State::Start() {
@@ -171,7 +169,8 @@ void State::DeleteObject(GameObject* go) {
 weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
 	int i = 0;
 	while (objectArray.begin() + i != objectArray.end()) {
-		if (objectArray[i] == shared_ptr<GameObject>(go)) return weak_ptr<GameObject>(objectArray[i]);
+		if (objectArray[i].get() == go) return weak_ptr<GameObject>(objectArray[i]);
+		i++;
 	}
 	return weak_ptr<GameObject>();
 }

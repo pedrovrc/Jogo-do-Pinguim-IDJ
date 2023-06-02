@@ -32,21 +32,13 @@ Alien::~Alien() {
 void Alien::Start() {
 	State& state = Game::GetInstance().GetState();
 
-	cout << "Cria minion" << endl;
-
 	// cria minions
-
-	weak_ptr<GameObject> associatedGO(make_shared<GameObject>(&associated));
-	cout << "1" << endl;
-	GameObject& minionGO = *new GameObject;
-	cout << "2" << endl;
-	Component* minion1 = new Minion(minionGO, associatedGO, 0);
-	cout << "3" << endl;
-	minionGO.AddComponent(minion1);
-	cout << "4" << endl;
-	minionArray.emplace_back(state.AddObject(&minionGO));
-
-	cout << "Criou" << endl;
+	for(int i = 0; i < 3; i++) {
+		GameObject* minionGO = new GameObject;
+		Component* minion = new Minion(*minionGO, state.GetObjectPtr(&associated), (i*120.0f));
+		minionGO->AddComponent(minion);
+		minionArray.emplace_back(state.AddObject(minionGO));
+	}
 }
 
 void Alien::Update(float dt) {

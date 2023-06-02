@@ -112,7 +112,6 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
  * Na segunda vez, renderiza camadas acima dos GameObjects.
  */
 void TileMap::Render() {
-	cout << "TileMap::Render" << endl;
 	if (renderFlag == false) {
 		for (int i = 0; i < mapDepth - 1; i++) {
 			RenderLayer(i, Camera::pos.x * (i+1), Camera::pos.y * (i+1));
@@ -123,7 +122,6 @@ void TileMap::Render() {
 		}
 	}
 	renderFlag = !renderFlag;
-	cout << "TileMap::Render end" << endl;
 }
 
 void TileMap::Start() {
