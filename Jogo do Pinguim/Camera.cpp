@@ -22,6 +22,7 @@ void Camera::Update(float dt) {
 	// se camera tiver foco, centralize-o na tela
 	if (focus != nullptr) {
 		// centralizar
+		return;
 	}
 
 	// se nao tiver foco, responde a input
@@ -30,16 +31,16 @@ void Camera::Update(float dt) {
 	InputManager& input = InputManager::GetInstance();
 	velocity.x = 0;
 	velocity.y = 0;
-	if (input.KeyPress(LEFT_ARROW_KEY)) {
+	if (input.KeyPress(LEFT_ARROW_KEY) || input.IsKeyDown(LEFT_ARROW_KEY)) {
 		velocity.x -= CAMERA_SPEED;
 	}
-	if (input.KeyPress(RIGHT_ARROW_KEY)) {
+	if (input.KeyPress(RIGHT_ARROW_KEY) || input.IsKeyDown(RIGHT_ARROW_KEY)) {
 		velocity.x += CAMERA_SPEED;
 	}
-	if (input.KeyPress(UP_ARROW_KEY)) {
+	if (input.KeyPress(UP_ARROW_KEY) || input.IsKeyDown(UP_ARROW_KEY)) {
 		velocity.y -= CAMERA_SPEED;
 	}
-	if (input.KeyPress(DOWN_ARROW_KEY)) {
+	if (input.KeyPress(DOWN_ARROW_KEY) || input.IsKeyDown(DOWN_ARROW_KEY)) {
 		velocity.y += CAMERA_SPEED;
 	}
 	pos += velocity;

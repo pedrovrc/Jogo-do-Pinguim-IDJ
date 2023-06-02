@@ -21,6 +21,7 @@ class TileMap : public Component {
 	int mapWidth;
 	int mapHeight;
 	int mapDepth;
+	bool renderFlag;
 public:
 	TileMap(GameObject& associated, string file, TileSet* tileSet);
 	void Load(string file);

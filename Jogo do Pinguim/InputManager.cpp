@@ -54,6 +54,7 @@ void InputManager::Update() {
 
 		// tecla
 		if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+			if (event.key.repeat) continue;	// nao registra eventos repetidos
 			key = event.key.keysym.sym;
 			if (IsDirectional(key)) UpdateKeyOrButtonMaps(key, event, "keyboard");
 			else if (event.key.repeat != 1) UpdateKeyOrButtonMaps(key, event, "keyboard");

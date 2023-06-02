@@ -123,6 +123,16 @@ void State::Render() {
 		go->Render();
 		i++;
 	}
+
+	// chamada extra de TileMap->Render para renderizar camadas acima
+	i = 0;
+	while (objectArray.begin() + i != objectArray.end()) {
+		go = (GameObject*)objectArray[i].get();
+		if (go->GetComponent("TileMap") != nullptr) {
+			go->Render();
+		}
+		i++;
+	}
 }
 
 /*

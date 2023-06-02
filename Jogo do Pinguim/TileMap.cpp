@@ -11,6 +11,7 @@
 TileMap::TileMap(GameObject& associated, string file, TileSet* tileSet) : Component(associated) {
 	Load(file);
 	this->tileSet = new TileSet(64, 64, TILESET_FILE, associated);
+	renderFlag = false;
 }
 
 /*
@@ -106,12 +107,23 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 /*
  * void TileMap::Render()
  *
- * Renderiza todas as camadas do tile map, uma por vez.
+ * Renderiza todas as camadas do tile map, sendo chamado duas vezes por frame.
+ * Na primeira vez que é chamado, renderiza camadas abaixo dos GameObjects.
+ * Na segunda vez, renderiza camadas acima dos GameObjects.
  */
 void TileMap::Render() {
-	for (int i = 0; i < mapDepth; i++) {
-		RenderLayer(i, Camera::pos.x * (i+1), Camera::pos.y * (i+1));
+	cout << "TileMap::Render" << endl;
+	if (renderFlag == false) {
+		for (int i = 0; i < mapDepth - 1; i++) {
+			RenderLayer(i, Camera::pos.x * (i+1), Camera::pos.y * (i+1));
+		}
+	} else {
+		for (int i = mapDepth - 1; i < mapDepth; i++) {
+			RenderLayer(i, Camera::pos.x * (i+1), Camera::pos.y * (i+1));
+		}
 	}
+	renderFlag = !renderFlag;
+	cout << "TileMap::Render end" << endl;
 }
 
 void TileMap::Start() {
