@@ -1,7 +1,11 @@
 #include "Minion.h"
 #include "Sprite.h"
+#include "Bullet.h"
+#include "Game.h"
 
-#define ANG_VELOC M_PI/60;
+#define ANG_VELOC M_PI/60
+#define BULLET_DMG 10
+#define BULLET_MAX_DISTANCE 1000
 
 Minion::Minion(GameObject& associated,
 		weak_ptr<GameObject> alienCenterArg,
@@ -9,12 +13,16 @@ Minion::Minion(GameObject& associated,
 	Component* img = new Sprite(associated, "img/minion.png");
 	associated.AddComponent(img);
 	alienCenter = alienCenterArg.lock().get();
+
+	// tratamento de entrada
+	if (arcOffsetDeg < 0) arcOffsetDeg = -arcOffsetDeg;
+	if (arcOffsetDeg > 360) arcOffsetDeg = (int)arcOffsetDeg % 360;
 	arc = arcOffsetDeg * M_PI/180;
 
 	//calcular primeiro valor da box
 	Vec2 offset;
 	offset.Set(200,0);
-	offset = offset.Rotate(arc);
+	offset.RotateThis(arc);
 	offset += alienCenter->box.GetCenter();
 	offset -= *new Vec2(associated.box.w/2, associated.box.h/2);
 
@@ -33,7 +41,7 @@ void Minion::Update(float dt) {
 	}
 	Vec2 offset;
 	offset.Set(200,0);
-	offset = offset.Rotate(arc);
+	offset.RotateThis(arc);
 	offset += alienCenter->box.GetCenter();
 	offset -= *new Vec2(associated.box.w/2, associated.box.h/2);
 
@@ -54,5 +62,12 @@ bool Minion::Is(string type) {
 }
 
 void Minion::Shoot(Vec2 target) {
-
+	GameObject* bulletGO = new GameObject();
+	bulletGO->box.MoveThis(associated.box.GetCenter());
+	Vec2& unitX = *new Vec2("unitX");
+	//Vec2& direction = target - associated.box.GetCenter();
+	float angle = (target - associated.box.GetCenter()).GetAngle(unitX);
+	Component* bullet = new Bullet(*bulletGO, angle, BULLET_DMG, BULLET_MAX_DISTANCE, "img/minionbullet1.png");
+	bulletGO->AddComponent(bullet);
+	Game::GetInstance().GetState().AddObject(bulletGO);
 }

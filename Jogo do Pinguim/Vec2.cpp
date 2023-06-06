@@ -1,8 +1,5 @@
 #include "Vec2.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 #define THRESHOLD 0.01
 
 /*
@@ -25,6 +22,30 @@ Vec2::Vec2(float x, float y) {
 	this->y = y;
 }
 
+/*
+ *	Vec2::Vec2(string unit)
+ *
+ *	Inicializa vetor unitário X ou Y se a string fornecida for "unitX" ou "unitY".
+ *	Inicializa vetor (0,0) caso contrário.
+ */
+Vec2::Vec2(string unit) {
+	if (unit == "unitX") {
+		x = 1;
+		y = 0;
+	} else if (unit == "unitY") {
+		x = 0;
+		y = 1;
+	} else {
+		x = 0;
+		y = 0;
+	}
+}
+
+/*
+ *	void Vec2::Set(float x, float y)
+ *
+ *	Muda valores atuais das coordenadas do objeto.
+ */
 void Vec2::Set(float x, float y) {
 	this->x = x;
 	this->y = y;
@@ -125,6 +146,15 @@ Vec2& Vec2::GetNormalizedVector() {
 }
 
 /*
+ * float Vec2::DotProduct(Vec2 vecB)
+ *
+ * Retorna o produto interno entre este vetor e vecB.
+ */
+float Vec2::DotProduct(Vec2 vecB) {
+	return ((x * vecB.x) + (y * vecB.y));
+}
+
+/*
  * float Vec2::GetDistance(Vec2 point)
  *
  * Retorna distância entre o ponto representado por este objeto e outro ponto fornecido.
@@ -136,12 +166,44 @@ float Vec2::GetDistance(Vec2 point) {
 }
 
 /*
- * Vec2& Vec2::Rotate(float angle)
+ * Vec2& Vec2::GetRotated(float angle)
  *
- * Retorna novo objeto Vec2 igual a este rotacionado em um ângulo fornecido.
+ * Retorna novo objeto Vec2 igual a este rotacionado em um ângulo fornecido (radianos).
  */
-Vec2& Vec2::Rotate(float angle) {
+Vec2& Vec2::GetRotated(float angle) {
 	float x = (this->x * cos(angle)) - (this->y * sin(angle));
 	float y = (this->y * cos(angle)) + (this->x * sin(angle));
 	return *new Vec2(x, y);
 }
+
+/*
+ * void Vec2::RotateThis(float angle)
+ *
+ * Rotaciona esta instância em um ângulo fornecido (radianos).
+ */
+void Vec2::RotateThis(float angle) {
+	float x = (this->x * cos(angle)) - (this->y * sin(angle));
+	float y = (this->y * cos(angle)) + (this->x * sin(angle));
+	this->Set(x,y);
+	return;
+}
+
+/*
+ * float Vec2::GetAngle(Vec2 vector)
+ *
+ * Retorna o ângulo que o vetor faz com outro vetor (radianos).
+ */
+float Vec2::GetAngle(Vec2 vector) {
+	return atan2((this->y - vector.y), (this->x - vector.x));;
+}
+
+/*
+ * float Vec2::GetAngle()
+ *
+ * Retorna o ângulo que o vetor faz com o eixo horizontal (radianos).
+ */
+float Vec2::GetAngle() {
+	Vec2& unitX = *new Vec2("unitX");
+	return this->GetAngle(unitX);
+}
+

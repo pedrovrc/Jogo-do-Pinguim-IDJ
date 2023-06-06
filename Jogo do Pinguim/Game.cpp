@@ -92,7 +92,7 @@ Game& Game::GetInstance() {
 /*
  * Game::CalculateDeltaTime()
  *
- * Responsável por consultar a biblioteca SDL e calcular o tempo entre frames.
+ * Responsável por consultar a biblioteca SDL e calcular o tempo entre frames (ms).
  */
 void Game::CalculateDeltaTime() {
 	int oldFrame = frameStart;

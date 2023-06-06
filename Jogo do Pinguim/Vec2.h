@@ -1,6 +1,7 @@
 #ifndef VEC2_H
 #define VEC2_H
 
+#define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -18,11 +19,16 @@ public:
 
 	Vec2();
 	Vec2(float x, float y);
+	Vec2(string unit);
 	void Set(float x, float y);
 	float GetMagnitude();
 	Vec2& GetNormalizedVector();
+	float DotProduct(Vec2 vecB);
 	float GetDistance(Vec2 point);
-	Vec2& Rotate(float angle);
+	Vec2& GetRotated(float angle);
+	void RotateThis(float angle);
+	float GetAngle(Vec2 vector);
+	float GetAngle();
 
 	Vec2& operator+(Vec2 b);
 	Vec2& operator-(Vec2 b);

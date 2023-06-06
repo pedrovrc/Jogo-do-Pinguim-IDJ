@@ -11,15 +11,16 @@ class Bullet : public Component {
 	float distanceLeft;
 	int damage;
 public:
-	Bullet(GameObject& associated,
+	Bullet( GameObject& associated,
 			float angle,
 			int damage,
 			float maxDistance,
-			string sprite);
+			string sprite );
 	void Update(float dt);
 	void Render();
 	bool Is(string type);
 	int GetDamage();
-}
+	void Start();
+};
 
 #endif

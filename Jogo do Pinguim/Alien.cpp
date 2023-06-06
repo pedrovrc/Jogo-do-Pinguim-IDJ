@@ -75,6 +75,9 @@ void Alien::Update(float dt) {
 				speed.Set(0,0);
 			}
 		} else if (act->type == Action::ActionType::SHOOT) {
+			GameObject* minionGO = minionArray[1].lock().get();
+			Minion* minion = (Minion*)minionGO->GetComponent("Minion");
+			minion->Shoot(act->pos);
 			taskQueue.pop();
 		}
 	}
