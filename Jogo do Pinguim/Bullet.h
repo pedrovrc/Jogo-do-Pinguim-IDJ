@@ -6,6 +6,11 @@ using namespace std;
 
 #include "Component.h"
 
+/*
+ * Class Bullet
+ *
+ * Classe que representa o projétil atirado pelo alien.
+ */
 class Bullet : public Component {
 	Vec2 speed;
 	float distanceLeft;

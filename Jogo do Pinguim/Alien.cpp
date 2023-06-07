@@ -9,6 +9,8 @@
 #define MAX_SPEED 30
 #define MINION_COUNT 3
 #define ROTATION_SPEED 0.5
+#define MIN_SIZE 1
+#define MAX_SIZE 1.5
 
 Alien::Action::Action(ActionType type, float x, float y) {
 	pos.x = x;
@@ -28,6 +30,11 @@ Alien::~Alien() {
 
 }
 
+/*
+ * void Alien::Start()
+ *
+ * Popula o vetor de minions.
+ */
 void Alien::Start() {
 	State& state = Game::GetInstance().GetState();
 
@@ -37,12 +44,22 @@ void Alien::Start() {
 		Component* minion = new Minion( *minionGO,
 										state.GetObjectPtr(&associated),
 										(i*(360/MINION_COUNT)),
-										RandomFloat(1, 1.5) );
+										RandomFloat(MIN_SIZE, MAX_SIZE) );
 		minionGO->AddComponent(minion);
 		minionArray.emplace_back(state.AddObject(minionGO));
 	}
 }
 
+/*
+ * void Alien::Update(float dt)
+ *
+ * - Enfileira ações novas na taskQueue;
+ * - Executa ações enfileiradas:
+ * 	   - Uma ação executada por frame;
+ * 	   - Prioriza ações de movimento;
+ * - Rotaciona sprite do alien.
+ * - Checa se alien ainda está vivo;
+ */
 void Alien::Update(float dt) {
 	InputManager* input = &InputManager::GetInstance();
 
@@ -83,12 +100,12 @@ void Alien::Update(float dt) {
 		}
 	}
 
-	// checar se esta vivo
-	if (hp <= 0) associated.RequestDelete();
-
-	// rotacionar
+	// rotacionar sprite
 	associated.angleDeg -= ROTATION_SPEED;
 	if (associated.angleDeg < 0) associated.angleDeg -= 360;
+
+	// checar se esta vivo
+	if (hp <= 0) associated.RequestDelete();
 }
 
 void Alien::Render() {
@@ -100,17 +117,18 @@ bool Alien::Is(string type) {
 	return false;
 }
 
+/*
+ *	Minion* Alien::GetClosestMinion(Vec2 target)
+ *
+ *	Retorna ponteiro para o minion mais próximo ao ponto fornecido.
+ */
 Minion* Alien::GetClosestMinion(Vec2 target) {
 	float smallest_dist;
 	int closest;
 	GameObject* minionGO;
 	for (int i = 0; i < MINION_COUNT; i++) {
 		minionGO = minionArray[i].lock().get();
-		if (i == 0) {
-			closest = 0;
-			smallest_dist = minionGO->box.GetCenter().GetDistance(target);
-			continue;
-		} else if (minionGO->box.GetCenter().GetDistance(target) < smallest_dist) {
+		if (i == 0 || minionGO->box.GetCenter().GetDistance(target) < smallest_dist) {
 			closest = i;
 			smallest_dist = minionGO->box.GetCenter().GetDistance(target);
 		}

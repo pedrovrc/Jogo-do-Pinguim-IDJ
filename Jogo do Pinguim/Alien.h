@@ -8,7 +8,17 @@ using namespace std;
 #include "GameObject.h"
 #include "Minion.h"
 
+/*
+ * Class Alien
+ *
+ * Classe que representa a entidade central do oponente.
+ */
 class Alien : public Component {
+	/*
+	 * Class Action
+	 *
+	 * Classe interna de Alien que ordena os tipos de ação que ele pode executar.
+	 */
 	class Action {
 	public:
 		enum ActionType {MOVE, SHOOT};
@@ -27,9 +37,6 @@ class Alien : public Component {
 public:
 	Alien(GameObject& associated, int nMinions);
 	~Alien();
-
-	// teste, remover depois
-	Vec2 a, b;
 
 	void Start();
 	void Update(float dt);

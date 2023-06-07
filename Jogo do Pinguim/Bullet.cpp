@@ -21,6 +21,12 @@ Bullet::Bullet( GameObject& associated,
 	associated.angleDeg = Rad2Deg(angle);
 }
 
+/*
+ * 	void Bullet::Update(float dt)
+ *
+ * 	Move o projétil na direção setada com a velocidade setada.
+ * 	Requisita deleção caso distância máxima percorrida seja alcançada.
+ */
 void Bullet::Update(float dt) {
 	Vec2 velocity = speed * (dt * 10);
 	associated.box.MoveThis(velocity);

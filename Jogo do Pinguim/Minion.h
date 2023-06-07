@@ -6,6 +6,11 @@ using namespace std;
 
 #include "Component.h"
 
+/*
+ * Class Minion
+ *
+ * Classe que representa as entidades menores do oponente.
+ */
 class Minion : public Component {
 	GameObject* alienCenter;
 	float arc;

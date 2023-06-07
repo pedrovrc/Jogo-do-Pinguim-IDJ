@@ -38,14 +38,21 @@ void Minion::Start() {
 
 }
 
+/*
+ * 	void Minion::Update(float dt)
+ *
+ *	- Checa por existência do alien para requisitar deleção;
+ *	- Orbita em volta de alien;
+ *	- Rotaciona o sprite para ficar alinhado com alien.
+ */
 void Minion::Update(float dt) {
 	if (alienCenter == nullptr) {
 		associated.RequestDelete();
 		return;
 	}
 	// orbitar em volta de alien
-	Vec2 offset;
 	Vec2 center = alienCenter->box.GetCenter();
+	Vec2 offset;
 	offset.Set(200,0);
 	offset.RotateThis(arc);
 	offset += center;
@@ -68,11 +75,15 @@ bool Minion::Is(string type) {
 	return false;
 }
 
+/*
+ *	void Minion::Shoot(Vec2 target)
+ *
+ *	Cria instância de Bullet e adiciona à lista de objetos de State.
+ */
 void Minion::Shoot(Vec2 target) {
 	GameObject* bulletGO = new GameObject();
 	bulletGO->box.MoveThis(associated.box.GetCenter());
 	Vec2& unitX = *new Vec2("unitX");
-	//Vec2& direction = target - associated.box.GetCenter();
 	float angle = (target - associated.box.GetCenter()).GetAngle(unitX);
 	Component* bullet = new Bullet(*bulletGO, angle, BULLET_DMG, BULLET_MAX_DISTANCE, "img/minionbullet1.png");
 	bulletGO->AddComponent(bullet);
