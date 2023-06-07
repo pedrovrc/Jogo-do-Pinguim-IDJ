@@ -54,6 +54,11 @@ void Rect::MoveThis(Vec2 vector) {
 	y += vector.y;
 }
 
+/*
+ * void Rect::SetCenterPosition(Vec2 vector)
+ *
+ * Seta posição do retângulo para que centor esteja no ponto fornecido.
+ */
 void Rect::SetCenterPosition(Vec2 vector) {
 	vector = vector - *new Vec2(w/2, h/2);
 	MoveThis(vector);
