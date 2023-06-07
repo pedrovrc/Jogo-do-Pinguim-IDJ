@@ -21,17 +21,20 @@ class Sprite : public Component{
 	int width;
 	int height;
 	SDL_Rect clipRect;
+	Vec2 scale;
 public:
 	Sprite(GameObject& associated);
 	Sprite(GameObject& associated, string file);
 	~Sprite();
 	void Open(string file);
 	void SetClip(int x, int y, int w, int h);
+	void SetScale(float scaleX, float scaleY);
 	void Render();
 	void Render(float x, float y, float w, float h);
 	void Start();
 	int GetWidth();
 	int GetHeight();
+	Vec2 GetScale();
 	bool IsOpen();
 	void Update(float dt);
 	bool Is(string type);

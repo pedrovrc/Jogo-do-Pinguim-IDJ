@@ -12,6 +12,7 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
 	texture = nullptr;
 	height = 0;
 	width = 0;
+	scale.Set(1,1);
 }
 
 /*
@@ -24,6 +25,7 @@ Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
 	Open(file);
 	associated.box.h = height;
 	associated.box.w = width;
+	scale.Set(1,1);
 }
 
 Sprite::~Sprite() {
@@ -60,12 +62,29 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 /*
+ * void Sprite::SetScale(float scaleX, float scaleY)
+ *
+ * Seta a escala do sprite. Se qualquer dos parâmetros fornecidos for zero, não muda o atual.
+ */
+void Sprite::SetScale(float scaleX, float scaleY) {
+	if (scaleX == 0) scaleX = scale.x;
+	if (scaleY == 0) scaleY = scale.y;
+	scale.Set(scaleX, scaleY);
+	Vec2 center = associated.box.GetCenter();
+	associated.box.SetDimensions(width * scaleX, height * scaleY);
+	associated.box.SetCenterPosition(center);
+}
+
+/*
  * void Sprite::Render()
  *
  * Chama o método de renderização com os parâmetros padrão de posição e tamanho (leva posição da câmera em consideração).
  */
 void Sprite::Render() {
-	Render(associated.box.x - Camera::pos.x, associated.box.y - Camera::pos.y, associated.box.w, associated.box.h);
+	Render( associated.box.x - Camera::pos.x,
+			associated.box.y - Camera::pos.y,
+			associated.box.w,
+			associated.box.h );
 }
 
 /*
@@ -81,7 +100,13 @@ void Sprite::Render(float x, float y, float w, float h) {
 	dstRect.h = h;
 
 	Game& game = game.GetInstance();
-	if (SDL_RenderCopy(game.GetRenderer(), texture, &clipRect, &dstRect) != 0) {
+	if (SDL_RenderCopyEx( game.GetRenderer(),
+			 	 	 	  texture,
+						  &clipRect,
+						  &dstRect,
+						  associated.angleDeg,
+						  nullptr,
+						  SDL_FLIP_NONE ) != 0 ) {
 		cout << "Erro ao renderizar imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;
@@ -100,14 +125,18 @@ int Sprite::GetWidth() {
 	if (IsOpen() == false) {
 		return -1;
 	}
-	return width;
+	return width * scale.x;
 }
 
 int Sprite::GetHeight() {
 	if (this->IsOpen() == false) {
 		return -1;
 	}
-	return height;
+	return height * scale.y;
+}
+
+Vec2 Sprite::GetScale() {
+	return scale;
 }
 
 bool Sprite::IsOpen() {

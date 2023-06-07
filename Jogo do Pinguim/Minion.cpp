@@ -2,14 +2,16 @@
 #include "Sprite.h"
 #include "Bullet.h"
 #include "Game.h"
+#include "GeneralFunctions.h"
 
 #define ANG_VELOC M_PI/60
 #define BULLET_DMG 10
 #define BULLET_MAX_DISTANCE 1000
 
-Minion::Minion(GameObject& associated,
-		weak_ptr<GameObject> alienCenterArg,
-		float arcOffsetDeg) : Component(associated) {
+Minion::Minion( GameObject& associated,
+				weak_ptr<GameObject> alienCenterArg,
+				float arcOffsetDeg,
+				float size ) : Component(associated) {
 	Component* img = new Sprite(associated, "img/minion.png");
 	associated.AddComponent(img);
 	alienCenter = alienCenterArg.lock().get();
@@ -25,9 +27,11 @@ Minion::Minion(GameObject& associated,
 	offset.RotateThis(arc);
 	offset += alienCenter->box.GetCenter();
 	offset -= *new Vec2(associated.box.w/2, associated.box.h/2);
-
-	// potencial problema
 	associated.box.SetPosition(offset);
+
+	// aplicar tamanho
+	Sprite* spriteimg = (Sprite*)img;
+	spriteimg->SetScale(size, size);
 }
 
 void Minion::Start() {
@@ -39,17 +43,20 @@ void Minion::Update(float dt) {
 		associated.RequestDelete();
 		return;
 	}
+	// orbitar em volta de alien
 	Vec2 offset;
+	Vec2 center = alienCenter->box.GetCenter();
 	offset.Set(200,0);
 	offset.RotateThis(arc);
-	offset += alienCenter->box.GetCenter();
+	offset += center;
 	offset -= *new Vec2(associated.box.w/2, associated.box.h/2);
-
-	// potencial problema
 	associated.box.SetPosition(offset);
-
 	arc += ANG_VELOC;
 	if (arc >= 2.0f * M_PI) arc = 0;
+
+	// rotacionar
+	Vec2 direction = center - associated.box.GetCenter();
+	associated.angleDeg = Rad2Deg(direction.GetAngle());
 }
 
 void Minion::Render() {

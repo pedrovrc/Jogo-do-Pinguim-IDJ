@@ -54,6 +54,11 @@ void Rect::MoveThis(Vec2 vector) {
 	y += vector.y;
 }
 
+void Rect::SetCenterPosition(Vec2 vector) {
+	vector = vector - *new Vec2(w/2, h/2);
+	MoveThis(vector);
+}
+
 /*
  * void Rect::SetPosition(Vec2 vector)
  *

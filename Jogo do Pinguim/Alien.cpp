@@ -4,9 +4,12 @@
 #include "Camera.h"
 #include "Game.h"
 #include "Minion.h"
+#include "GeneralFunctions.h"
 
 #define MAX_HP 30
 #define MAX_SPEED 30
+#define MINION_COUNT 3
+#define ROTATION_SPEED 0.5
 
 Alien::Action::Action(ActionType type, float x, float y) {
 	pos.x = x;
@@ -17,9 +20,6 @@ Alien::Action::Action(ActionType type, float x, float y) {
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 	speed = *new Vec2(0,0);
 	hp = MAX_HP;
-
-	// teste, remover depois
-	flag = true;
 
 	Component* img = new Sprite(associated, "img/alien.png");
 	associated.AddComponent(img);
@@ -33,9 +33,12 @@ void Alien::Start() {
 	State& state = Game::GetInstance().GetState();
 
 	// cria minions
-	for(int i = 0; i < 3; i++) {
+	for(int i = 0; i < MINION_COUNT; i++) {
 		GameObject* minionGO = new GameObject;
-		Component* minion = new Minion(*minionGO, state.GetObjectPtr(&associated), (i*120.0f));
+		Component* minion = new Minion( *minionGO,
+										state.GetObjectPtr(&associated),
+										(i*(360/MINION_COUNT)),
+										RandomFloat(1, 1.5) );
 		minionGO->AddComponent(minion);
 		minionArray.emplace_back(state.AddObject(minionGO));
 	}
@@ -58,7 +61,7 @@ void Alien::Update(float dt) {
 	}
 
 	// executar acoes pendentes
-	// uma acao por frame
+	// uma acao por frame, prioridade por acoes de movimento
 	Action* act;
 	if (taskQueue.empty() == false) {
 		act = &taskQueue.front();
@@ -84,6 +87,10 @@ void Alien::Update(float dt) {
 
 	// checar se esta vivo
 	if (hp <= 0) associated.RequestDelete();
+
+	// rotacionar
+	associated.angleDeg -= ROTATION_SPEED;
+	if (associated.angleDeg < 0) associated.angleDeg -= 360;
 }
 
 void Alien::Render() {

@@ -29,7 +29,6 @@ public:
 
 	// teste, remover depois
 	Vec2 a, b;
-	bool flag;
 
 	void Start();
 	void Update(float dt);

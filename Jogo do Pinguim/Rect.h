@@ -24,6 +24,7 @@ public:
 	Vec2& GetCenter();
 	float GetCenterDist(Rect box);
 	void MoveThis(Vec2 vector);
+	void SetCenterPosition(Vec2 vector);
 	void SetPosition(Vec2 point);
 	void SetDimensions(float w, float h);
 	Rect& GetTranslatedCopy(Vec2 vector);

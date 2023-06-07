@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "Sprite.h"
+#include "GeneralFunctions.h"
 
 #define BULLET_SPEED 50
 
@@ -17,6 +18,7 @@ Bullet::Bullet( GameObject& associated,
 	distanceLeft = maxDistance;
 	speed.Set(BULLET_SPEED, 0);
 	speed.RotateThis(angle);
+	associated.angleDeg = Rad2Deg(angle);
 }
 
 void Bullet::Update(float dt) {

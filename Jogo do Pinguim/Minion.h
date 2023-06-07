@@ -10,9 +10,10 @@ class Minion : public Component {
 	GameObject* alienCenter;
 	float arc;
 public:
-	Minion(GameObject& associated,
+	Minion( GameObject& associated,
 			weak_ptr<GameObject> alienCenter,
-			float arcOffsetDeg = 0);
+			float arcOffsetDeg = 0,
+			float size = 1 );
 	void Update(float dt);
 	void Render();
 	void Start();
