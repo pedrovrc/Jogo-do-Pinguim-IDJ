@@ -6,6 +6,7 @@ using namespace std;
 
 #include "Vec2.h"
 #include "GameObject.h"
+#include "Minion.h"
 
 class Alien : public Component {
 	class Action {
@@ -34,6 +35,7 @@ public:
 	void Update(float dt);
 	void Render();
 	bool Is(string type);
+	Minion* GetClosestMinion(Vec2 target);
 };
 
 #endif

@@ -3,7 +3,6 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Game.h"
-#include "Minion.h"
 #include "GeneralFunctions.h"
 
 #define MAX_HP 30
@@ -78,8 +77,7 @@ void Alien::Update(float dt) {
 				speed.Set(0,0);
 			}
 		} else if (act->type == Action::ActionType::SHOOT) {
-			GameObject* minionGO = minionArray[1].lock().get();
-			Minion* minion = (Minion*)minionGO->GetComponent("Minion");
+			Minion* minion = GetClosestMinion(act->pos);
 			minion->Shoot(act->pos);
 			taskQueue.pop();
 		}
@@ -100,4 +98,23 @@ void Alien::Render() {
 bool Alien::Is(string type) {
 	if (type == "Alien") return true;
 	return false;
+}
+
+Minion* Alien::GetClosestMinion(Vec2 target) {
+	float smallest_dist;
+	int closest;
+	GameObject* minionGO;
+	for (int i = 0; i < MINION_COUNT; i++) {
+		minionGO = minionArray[i].lock().get();
+		if (i == 0) {
+			closest = 0;
+			smallest_dist = minionGO->box.GetCenter().GetDistance(target);
+			continue;
+		} else if (minionGO->box.GetCenter().GetDistance(target) < smallest_dist) {
+			closest = i;
+			smallest_dist = minionGO->box.GetCenter().GetDistance(target);
+		}
+	}
+	minionGO = minionArray[closest].lock().get();
+	return (Minion*)minionGO->GetComponent("Minion");
 }
