@@ -12,7 +12,13 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
 	texture = nullptr;
 	height = 0;
 	width = 0;
+	frameWidth = 0;
+	SetFrameCount(1);
+	SetFrame(0);
+	timeElapsed = 0;
+	SetFrameTime(0);
 	scale.Set(1,1);
+	SetClip(0,0,0,0);
 }
 
 /*
@@ -20,12 +26,18 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
  *
  * Responsável por iniciar o objeto já com a abertura de um arquivo de imagem.
  */
-Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
+Sprite::Sprite( GameObject& associated,
+				string file,
+				int frameCount,
+				int frameTime ) : Component(associated) {
 	texture = nullptr;
 	Open(file);
-	associated.box.h = height;
-	associated.box.w = width;
 	scale.Set(1,1);
+	SetFrameCount(frameCount);
+	frameWidth = width/frameCount;
+	SetFrameTime(frameTime);
+	SetFrame(0);
+	associated.box.SetDimensions(frameWidth, height);
 }
 
 Sprite::~Sprite() {
@@ -71,7 +83,7 @@ void Sprite::SetScale(float scaleX, float scaleY) {
 	if (scaleY == 0) scaleY = scale.y;
 	scale.Set(scaleX, scaleY);
 	Vec2 center = associated.box.GetCenter();
-	associated.box.SetDimensions(width * scaleX, height * scaleY);
+	associated.box.SetDimensions(frameWidth * scaleX, height * scaleY);
 	associated.box.SetCenterPosition(center);
 }
 
@@ -117,15 +129,46 @@ void Sprite::Start() {
 
 }
 
+/*
+ * void Sprite::Update(float dt)
+ *
+ * Checa se o tempo passado ultrapassa o tempo por frame de animação.
+ * Se tiver passado, reseta o contador e passa para o próximo frame.
+ * Se frameTime for zero ou frameCount for 1, não faz nada.
+ */
 void Sprite::Update(float dt) {
+	if (frameCount == 1) return;
 
+	timeElapsed += Game::GetInstance().GetDeltaTime();
+	if (timeElapsed >= frameTime) {
+		timeElapsed = 0;
+		if (currentFrame + 1 == frameCount) {
+			SetFrame(0);
+		} else {
+			SetFrame(currentFrame + 1);
+		}
+	}
 }
+
+void Sprite::SetFrame(int frame) {
+	currentFrame = frame;
+	SetClip(currentFrame * width, 0, frameWidth, height);
+}
+
+void Sprite::SetFrameCount(int frameCount) {
+	this->frameCount = frameCount;
+}
+
+void Sprite::SetFrameTime(float frameTime) {
+	this->frameTime = frameTime;
+}
+
 
 int Sprite::GetWidth() {
 	if (IsOpen() == false) {
 		return -1;
 	}
-	return width * scale.x;
+	return frameWidth * scale.x;
 }
 
 int Sprite::GetHeight() {

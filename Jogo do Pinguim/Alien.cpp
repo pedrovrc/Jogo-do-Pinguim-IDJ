@@ -7,7 +7,7 @@
 
 #define MAX_HP 30
 #define MAX_SPEED 30
-#define MINION_COUNT 3
+#define MINION_COUNT 6
 #define ROTATION_SPEED 0.5
 #define MIN_SIZE 1
 #define MAX_SIZE 1.5
@@ -22,7 +22,7 @@ Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 	speed = *new Vec2(0,0);
 	hp = MAX_HP;
 
-	Component* img = new Sprite(associated, "img/alien.png");
+	Component* img = new Sprite(associated, "img/alien.png", 1, 0);
 	associated.AddComponent(img);
 }
 

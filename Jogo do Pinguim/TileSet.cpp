@@ -5,7 +5,7 @@
  *
  * Inicializa objeto abrindo arquivo de imagem fonte e obtendo valores dos parâmetros fornecidos.
  */
-TileSet::TileSet(int tileWidth, int tileHeight, string file, GameObject& associated) : tileSet(associated, file){
+TileSet::TileSet(int tileWidth, int tileHeight, string file, GameObject& associated) : tileSet(associated, file, 1, 0){
 	this->tileWidth = tileWidth;
 	this->tileHeight = tileHeight;
 	if (tileSet.IsOpen()) {

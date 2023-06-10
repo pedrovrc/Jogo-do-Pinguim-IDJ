@@ -12,7 +12,7 @@ Minion::Minion( GameObject& associated,
 				weak_ptr<GameObject> alienCenterArg,
 				float arcOffsetDeg,
 				float size ) : Component(associated) {
-	Component* img = new Sprite(associated, "img/minion.png");
+	Component* img = new Sprite(associated, "img/minion.png", 1, 0);
 	associated.AddComponent(img);
 	alienCenter = alienCenterArg.lock().get();
 
@@ -85,7 +85,13 @@ void Minion::Shoot(Vec2 target) {
 	bulletGO->box.MoveThis(associated.box.GetCenter());
 	Vec2& unitX = *new Vec2("unitX");
 	float angle = (target - associated.box.GetCenter()).GetAngle(unitX);
-	Component* bullet = new Bullet(*bulletGO, angle, BULLET_DMG, BULLET_MAX_DISTANCE, "img/minionbullet1.png");
+	Component* bullet = new Bullet( *bulletGO,
+									angle,
+									BULLET_DMG,
+									BULLET_MAX_DISTANCE,
+									"img/minionbullet2.png",
+									3,
+									10000 );
 	bulletGO->AddComponent(bullet);
 	Game::GetInstance().GetState().AddObject(bulletGO);
 }

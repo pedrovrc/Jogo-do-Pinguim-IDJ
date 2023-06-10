@@ -20,11 +20,19 @@ class Sprite : public Component{
 	SDL_Texture* texture;
 	int width;
 	int height;
+	int frameWidth;
+	int frameCount;
+	int currentFrame;
+	float timeElapsed;
+	float frameTime;
 	SDL_Rect clipRect;
 	Vec2 scale;
 public:
-	Sprite(GameObject& associated);
-	Sprite(GameObject& associated, string file);
+	Sprite( GameObject& associated );
+	Sprite(	GameObject& associated,
+			string file,
+			int frameCount = 1,
+			int frameTime = 0 );
 	~Sprite();
 	void Open(string file);
 	void SetClip(int x, int y, int w, int h);
@@ -32,6 +40,9 @@ public:
 	void Render();
 	void Render(float x, float y, float w, float h);
 	void Start();
+	void SetFrame(int frame);
+	void SetFrameCount(int frameCount);
+	void SetFrameTime(float frameTime);
 	int GetWidth();
 	int GetHeight();
 	Vec2 GetScale();

@@ -20,7 +20,9 @@ public:
 			float angle,
 			int damage,
 			float maxDistance,
-			string sprite );
+			string sprite,
+			int frameCount,
+			int frameTime );
 	void Update(float dt);
 	void Render();
 	bool Is(string type);

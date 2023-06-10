@@ -8,8 +8,10 @@ Bullet::Bullet( GameObject& associated,
 				float angle,
 				int damage,
 				float maxDistance,
-				string sprite ) : Component(associated) {
-	Component* img = new Sprite(associated, sprite);
+				string sprite,
+				int frameCount,
+				int frameTime ) : Component(associated) {
+	Component* img = new Sprite(associated, sprite, frameCount, frameTime);
 	associated.AddComponent(img);
 	Sprite* spritecpt = (Sprite*)img;
 	associated.box.MoveThis(*new Vec2(-spritecpt->GetWidth()/2, -spritecpt->GetHeight()/2));
@@ -29,7 +31,7 @@ Bullet::Bullet( GameObject& associated,
  */
 void Bullet::Update(float dt) {
 	Vec2 velocity = speed * (dt * 10);
-	associated.box.MoveThis(velocity);
+	//associated.box.MoveThis(velocity);
 	distanceLeft -= velocity.GetMagnitude();
 	if (distanceLeft <= 0) {
 		associated.RequestDelete();

@@ -33,7 +33,7 @@ void State::LoadAssets() {
 
 	// cria GO ambient, atribui ele a Sprite do BG e ao CameraFollower
 	GameObject* ambient = new GameObject;
-	Component* bg = new Sprite(*ambient, "img/ocean.jpg");
+	Component* bg = new Sprite(*ambient, "img/ocean.jpg", 1, 0);
 	Component* follower = new CameraFollower(*ambient);
 	ambient->AddComponent(bg);
 	ambient->AddComponent(follower);
