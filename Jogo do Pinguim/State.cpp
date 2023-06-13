@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "CameraFollower.h"
 #include "Alien.h"
+#include "PenguinBody.h"
 
 /*
  * State::State()
@@ -57,6 +58,13 @@ void State::LoadAssets() {
 	AlienGO->AddComponent(AlienCpt);
 	AlienGO->box.MoveThis(*new Vec2(512,300));
 	AddObject(AlienGO);
+
+	// Adiciona Pinguim
+	GameObject* penguinGO = new GameObject;
+	AddObject(penguinGO);
+	PenguinBody* penguin = new PenguinBody(*penguinGO);
+	penguinGO->AddComponent((Component*)penguin);
+	penguinGO->box.MoveThis(*new Vec2(704,640));
 }
 
 void State::Start() {

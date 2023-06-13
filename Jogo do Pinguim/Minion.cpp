@@ -4,10 +4,6 @@
 #include "Game.h"
 #include "GeneralFunctions.h"
 
-#define ANG_VELOC M_PI/60
-#define BULLET_DMG 10
-#define BULLET_MAX_DISTANCE 1000
-
 Minion::Minion( GameObject& associated,
 				weak_ptr<GameObject> alienCenterArg,
 				float arcOffsetDeg,
@@ -83,8 +79,7 @@ bool Minion::Is(string type) {
 void Minion::Shoot(Vec2 target) {
 	GameObject* bulletGO = new GameObject();
 	bulletGO->box.MoveThis(associated.box.GetCenter());
-	Vec2& unitX = *new Vec2("unitX");
-	float angle = (target - associated.box.GetCenter()).GetAngle(unitX);
+	float angle = (target - associated.box.GetCenter()).GetAngle();
 	Component* bullet = new Bullet( *bulletGO,
 									angle,
 									BULLET_DMG,

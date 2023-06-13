@@ -6,6 +6,10 @@ using namespace std;
 
 #include "Component.h"
 
+#define ANG_VELOC M_PI/60
+#define BULLET_DMG 10
+#define BULLET_MAX_DISTANCE 1000
+
 /*
  * Class Minion
  *

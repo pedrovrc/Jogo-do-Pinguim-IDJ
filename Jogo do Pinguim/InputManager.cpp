@@ -160,6 +160,10 @@ int InputManager::GetMouseY() {
 	return mouseY;
 }
 
+Vec2& InputManager::GetMousePoint() {
+	return *new Vec2(mouseX, mouseY);
+}
+
 bool InputManager::QuitRequested() {
 	return quitRequested;
 }

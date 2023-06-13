@@ -21,7 +21,7 @@ void Camera::Unfollow() {
 void Camera::Update(float dt) {
 	// se camera tiver foco, centralize-o na tela
 	if (focus != nullptr) {
-		// centralizar
+		pos.Set(focus->box.x, focus->box.y);
 		return;
 	}
 

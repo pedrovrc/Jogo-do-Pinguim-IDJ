@@ -7,6 +7,8 @@ using namespace std;
 #define INCLUDE_SDL
 #include "SDL_include.h"
 
+#include "Vec2.h"
+
 #define LEFT_ARROW_KEY SDLK_LEFT
 #define RIGHT_ARROW_KEY SDLK_RIGHT
 #define UP_ARROW_KEY SDLK_UP
@@ -15,6 +17,10 @@ using namespace std;
 #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 #define RIGHT_MOUSE_BUTTON SDL_BUTTON_RIGHT
 #define SPACE_KEY SDLK_SPACE
+#define A_KEY SDLK_a
+#define D_KEY SDLK_d
+#define S_KEY SDLK_s
+#define W_KEY SDLK_w
 
 /*
  * Classe InputManager
@@ -44,6 +50,7 @@ public:
 	bool IsMouseDown(int button);
 	int GetMouseX();
 	int GetMouseY();
+	Vec2& GetMousePoint();
 	bool QuitRequested();
 	static InputManager& GetInstance();
 };
