@@ -91,7 +91,7 @@ void Minion::Shoot(Vec2 target) {
 									BULLET_MAX_DISTANCE,
 									"img/minionbullet2.png",
 									3,
-									10000 );
+									100 );
 	bulletGO->AddComponent(bullet);
 	Game::GetInstance().GetState().AddObject(bulletGO);
 }

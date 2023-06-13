@@ -37,6 +37,7 @@ Sprite::Sprite( GameObject& associated,
 	frameWidth = width/frameCount;
 	SetFrameTime(frameTime);
 	SetFrame(0);
+	timeElapsed = 0;
 	associated.box.SetDimensions(frameWidth, height);
 }
 
@@ -139,20 +140,27 @@ void Sprite::Start() {
 void Sprite::Update(float dt) {
 	if (frameCount == 1) return;
 
-	timeElapsed += Game::GetInstance().GetDeltaTime();
+	timeElapsed += Game::GetInstance().GetDeltaTime() * 1000;
 	if (timeElapsed >= frameTime) {
 		timeElapsed = 0;
-		if (currentFrame + 1 == frameCount) {
-			SetFrame(0);
-		} else {
-			SetFrame(currentFrame + 1);
-		}
+		SetFrame(currentFrame + 1);
 	}
 }
 
+/*
+ * void Sprite::SetFrame(int frame)
+ *
+ * Checa se o frame requisitado está dentro da quantidade de frames existente.
+ * Se não estiver, retorna para o frame inicial da animação.
+ * Seta o retângulo de Clip para o frame escolhido.
+ */
 void Sprite::SetFrame(int frame) {
-	currentFrame = frame;
-	SetClip(currentFrame * width, 0, frameWidth, height);
+	if (frame == frameCount) {
+		currentFrame = 0;
+	} else {
+		currentFrame = frame;
+	}
+	SetClip(currentFrame * frameWidth, 0, frameWidth, height);
 }
 
 void Sprite::SetFrameCount(int frameCount) {

@@ -31,7 +31,7 @@ Bullet::Bullet( GameObject& associated,
  */
 void Bullet::Update(float dt) {
 	Vec2 velocity = speed * (dt * 10);
-	//associated.box.MoveThis(velocity);
+	associated.box.MoveThis(velocity);
 	distanceLeft -= velocity.GetMagnitude();
 	if (distanceLeft <= 0) {
 		associated.RequestDelete();
