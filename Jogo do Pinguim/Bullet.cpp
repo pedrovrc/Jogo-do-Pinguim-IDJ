@@ -53,5 +53,4 @@ int Bullet::GetDamage() {
 }
 
 void Bullet::Start() {
-
 }

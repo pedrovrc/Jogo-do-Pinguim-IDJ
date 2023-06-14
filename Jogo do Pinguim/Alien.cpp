@@ -5,13 +5,6 @@
 #include "Game.h"
 #include "GeneralFunctions.h"
 
-#define MAX_HP 30
-#define MAX_SPEED 30
-#define MINION_COUNT 6
-#define ROTATION_SPEED 0.5
-#define MIN_SIZE 1
-#define MAX_SIZE 1.5
-
 Alien::Action::Action(ActionType type, float x, float y) {
 	pos.x = x;
 	pos.y = y;

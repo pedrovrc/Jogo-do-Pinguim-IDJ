@@ -15,7 +15,6 @@ void CameraFollower::Update(float dt) {
 }
 
 void CameraFollower::Start() {
-
 }
 
 void CameraFollower::Render() {

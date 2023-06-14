@@ -12,8 +12,8 @@ PenguinBody::PenguinBody (GameObject& associated) : Component(associated) {
 	linearSpeed = 0;
 	angle = 0;
 	hp = HP_MAX;
-	Sprite* spr = new Sprite(associated, "img/penguin.png");
-	associated.AddComponent((Component*)spr);
+	Sprite* sprbody = new Sprite(associated, "img/penguin.png");
+	associated.AddComponent((Component*)sprbody);
 }
 
 PenguinBody::~PenguinBody () {
@@ -21,11 +21,11 @@ PenguinBody::~PenguinBody () {
 }
 
 void PenguinBody::Start() {
-	State state = Game::GetInstance().GetState();
+	State* state = &Game::GetInstance().GetState();
 	GameObject* cannonGO = new GameObject();
-	PenguinCannon* cannon = new PenguinCannon(*cannonGO, state.GetObjectPtr(&associated));
+	PenguinCannon* cannon = new PenguinCannon(*cannonGO, state->GetObjectPtr(&associated));
 	cannonGO->AddComponent((Component*)cannon);
-	pcannon = state.AddObject(cannonGO);
+	pcannon = state->AddObject(cannonGO);
 }
 
 void PenguinBody::Update(float dt) {

@@ -25,6 +25,15 @@ Rect::Rect(float x, float y, float w, float h) {
 }
 
 /*
+ * Vec2& Rect::GetPos()
+ *
+ * Retorna objeto Vec2 com coordenadas do retângulo.
+ */
+Vec2& Rect::GetPos() {
+	return *new Vec2(x, y);
+}
+
+/*
  * Vec2& Rect::GetCenter()
  *
  * Retorna objeto Vec2 com coordenadas de centro do retângulo.
@@ -45,6 +54,15 @@ float Rect::GetCenterDist(Rect box) {
 }
 
 /*
+ * Vec2& Rect::GetDimensions()
+ *
+ * Retorna objeto Vec2 com as dimensões do retângulo (w, h).
+ */
+Vec2& Rect::GetDimensions() {
+	return *new Vec2(w, h);
+}
+
+/*
  * void Rect::MoveThis(Vec2 vector)
  *
  * Modifica os valores x e y para transladar o retângulo de acordo com o vetor fornecido.
@@ -57,11 +75,10 @@ void Rect::MoveThis(Vec2 vector) {
 /*
  * void Rect::SetCenterPosition(Vec2 vector)
  *
- * Seta posição do retângulo para que centor esteja no ponto fornecido.
+ * Seta posição do retângulo para que centro esteja no ponto fornecido.
  */
 void Rect::SetCenterPosition(Vec2 vector) {
-	vector = vector - *new Vec2(w/2, h/2);
-	MoveThis(vector);
+	SetPosition(vector - *new Vec2(w/2, h/2));
 }
 
 /*

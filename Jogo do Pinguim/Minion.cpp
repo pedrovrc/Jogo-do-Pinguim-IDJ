@@ -19,7 +19,7 @@ Minion::Minion( GameObject& associated,
 
 	//calcular primeiro valor da box
 	Vec2 offset;
-	offset.Set(200,0);
+	offset.Set(MINION_ARC_SIZE,0);
 	offset.RotateThis(arc);
 	offset += alienCenter->box.GetCenter();
 	offset -= *new Vec2(associated.box.w/2, associated.box.h/2);
@@ -49,7 +49,7 @@ void Minion::Update(float dt) {
 	// orbitar em volta de alien
 	Vec2 center = alienCenter->box.GetCenter();
 	Vec2 offset;
-	offset.Set(200,0);
+	offset.Set(MINION_ARC_SIZE,0);
 	offset.RotateThis(arc);
 	offset += center;
 	offset -= *new Vec2(associated.box.w/2, associated.box.h/2);
@@ -78,7 +78,7 @@ bool Minion::Is(string type) {
  */
 void Minion::Shoot(Vec2 target) {
 	GameObject* bulletGO = new GameObject();
-	bulletGO->box.MoveThis(associated.box.GetCenter());
+	bulletGO->box.SetPosition(associated.box.GetCenter());
 	float angle = (target - associated.box.GetCenter()).GetAngle();
 	Component* bullet = new Bullet( *bulletGO,
 									angle,

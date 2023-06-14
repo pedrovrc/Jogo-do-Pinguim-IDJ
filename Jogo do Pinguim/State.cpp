@@ -74,6 +74,7 @@ void State::Start() {
 	while (objectArray.begin() + i != objectArray.end()) {
 		go = (GameObject*)objectArray[i].get();
 		go->Start();
+		go->started = true;
 		i++;
 	}
 	//music.Play();

@@ -207,3 +207,11 @@ float Vec2::GetAngle() {
 	return this->GetAngle(unitX);
 }
 
+/*
+ * void Vec2::Print()
+ *
+ * Imprime no terminal as coordenadas (x,y) do vetor instanciado.
+ */
+void Vec2::Print() {
+	cout << "(" << x << "," << y << ")" << endl;
+}

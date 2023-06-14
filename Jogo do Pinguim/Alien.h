@@ -8,6 +8,13 @@ using namespace std;
 #include "GameObject.h"
 #include "Minion.h"
 
+#define MAX_HP 30
+#define MAX_SPEED 30
+#define MINION_COUNT 6
+#define ROTATION_SPEED 0.5
+#define MIN_SIZE 1
+#define MAX_SIZE 1.5
+
 /*
  * Class Alien
  *

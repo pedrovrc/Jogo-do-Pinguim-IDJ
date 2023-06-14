@@ -9,6 +9,7 @@ using namespace std;
 #define ANG_VELOC M_PI/60
 #define BULLET_DMG 10
 #define BULLET_MAX_DISTANCE 1000
+#define MINION_ARC_SIZE 150
 
 /*
  * Class Minion

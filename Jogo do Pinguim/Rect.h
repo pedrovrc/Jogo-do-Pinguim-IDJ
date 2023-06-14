@@ -23,6 +23,8 @@ public:
 	Rect(float x, float y, float w, float h);
 	Vec2& GetCenter();
 	float GetCenterDist(Rect box);
+	Vec2& GetPos();
+	Vec2& GetDimensions();
 	void MoveThis(Vec2 vector);
 	void SetCenterPosition(Vec2 vector);
 	void SetPosition(Vec2 point);

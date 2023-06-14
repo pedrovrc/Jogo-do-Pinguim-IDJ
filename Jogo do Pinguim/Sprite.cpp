@@ -127,7 +127,7 @@ void Sprite::Render(float x, float y, float w, float h) {
 }
 
 void Sprite::Start() {
-
+	associated.started = true;
 }
 
 /*

@@ -6,8 +6,8 @@ using namespace std;
 
 #include "Component.h"
 
-#define BULLET_DMG 10
-#define BULLET_MAX_DISTANCE 1000
+#define PENGUIN_DMG 10
+#define PENGUIN_MAX_DISTANCE 1000
 
 class PenguinCannon : public Component {
 	weak_ptr<GameObject> pbody;
