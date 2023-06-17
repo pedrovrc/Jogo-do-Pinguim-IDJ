@@ -77,6 +77,25 @@ void State::Start() {
 		go->started = true;
 		i++;
 	}
+
+	i = 0;
+	Component* cpt = nullptr;
+	GameObject* penguin = nullptr;
+	while (objectArray.begin() + i != objectArray.end()) {
+		go = (GameObject*)objectArray[i].get();
+		cpt = go->GetComponent("PenguinBody");
+		if (cpt != nullptr) {
+			penguin = go;
+			break;
+		}
+		i++;
+	}
+	if (penguin != nullptr) {
+		Camera::Follow(penguin);
+	} else {
+		cout << "Erro ao encontrar GameObject do Player" << endl;
+	}
+
 	//music.Play();
 	started = true;
 }

@@ -11,7 +11,7 @@ CameraFollower::CameraFollower(GameObject& go) : Component(go) {
  * Atualiza parâmetros para seguir câmera.
  */
 void CameraFollower::Update(float dt) {
-	associated.box.MoveThis(*new Vec2(Camera::velocity.x, Camera::velocity.y));
+	associated.box.SetPosition(Camera::pos);
 }
 
 void CameraFollower::Start() {

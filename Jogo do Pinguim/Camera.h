@@ -6,6 +6,7 @@ using namespace std;
 
 #include "GameObject.h"
 #include "InputManager.h"
+#include "Game.h"
 
 /*
  * Classe Camera

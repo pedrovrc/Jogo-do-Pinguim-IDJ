@@ -9,6 +9,10 @@ using namespace std;
 #include "State.h"
 #include "InputManager.h"
 
+#define GAME_TITLE "Pedro Victor Rodrigues de Carvalho 170113043"
+#define WINDOW_WIDTH 1024
+#define WINDOW_HEIGHT 600
+
 /*
  * Classe Game
  *

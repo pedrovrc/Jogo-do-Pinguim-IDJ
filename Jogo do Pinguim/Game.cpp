@@ -82,8 +82,8 @@ Game::~Game() {
 Game& Game::GetInstance() {
 	if (instance == nullptr) {
 		instance = new Game(
-			"Pedro Victor Rodrigues de Carvalho 170113043",
-			1024, 600
+			GAME_TITLE,
+			WINDOW_WIDTH, WINDOW_HEIGHT
 			);
 	}
 		return *instance;
