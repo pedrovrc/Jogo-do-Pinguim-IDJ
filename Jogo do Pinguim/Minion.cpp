@@ -15,7 +15,7 @@ Minion::Minion( GameObject& associated,
 	// tratamento de entrada
 	if (arcOffsetDeg < 0) arcOffsetDeg = -arcOffsetDeg;
 	if (arcOffsetDeg > 360) arcOffsetDeg = (int)arcOffsetDeg % 360;
-	arc = arcOffsetDeg * M_PI/180;
+	arc = Deg2Rad(arcOffsetDeg);
 
 	//calcular primeiro valor da box
 	Vec2 offset;

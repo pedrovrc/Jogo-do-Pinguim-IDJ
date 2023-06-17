@@ -31,6 +31,7 @@ void PenguinBody::Start() {
 void PenguinBody::Update(float dt) {
 	if (hp <= 0) {
 		associated.RequestDelete();
+		pcannon.lock().get()->RequestDelete();
 		return;
 	}
 

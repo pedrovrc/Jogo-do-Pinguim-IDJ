@@ -21,16 +21,11 @@ void PenguinCannon::Update(float dt) {
 	}
 	InputManager* input = &InputManager::GetInstance();
 
-	cout << "PenguinBody box: "; pbody.lock().get()->box.GetPos().Print();
-	cout << "PenguinCannon box before: "; associated.box.GetPos().Print();
-
 	associated.box.SetCenterPosition(pbody.lock().get()->box.GetCenter());
-	Vec2 direction = input->GetMousePoint() - associated.box.GetCenter(); // incluir camera?
+	Vec2 mousePos = input->GetMousePoint() + Camera::pos;
+	Vec2 direction = mousePos - associated.box.GetCenter();
 	angle = direction.GetAngle();
-	cout << "Angle = " << angle << endl;
-	associated.angleDeg += 1;
-
-	cout << "PenguinCannon box after: "; associated.box.GetPos().Print();
+	associated.angleDeg  = Rad2Deg(angle);
 
 	if (input->MousePress(LEFT_MOUSE_BUTTON)) Shoot();
 }
@@ -50,9 +45,11 @@ void PenguinCannon::Start() {
 
 void PenguinCannon::Shoot() {
 	GameObject* bulletGO = new GameObject();
-	bulletGO->box.SetPosition(associated.box.GetCenter());
+	Vec2 offset = *new Vec2(BULLET_OFFSET, 0);
+	Vec2 bulletPos = associated.box.GetCenter() + offset.GetRotated(Deg2Rad(associated.angleDeg));
+	bulletGO->box.SetPosition(bulletPos);
 	Component* bullet = new Bullet( *bulletGO,
-									associated.angleDeg,
+									Deg2Rad(associated.angleDeg),
 									PENGUIN_DMG,
 									PENGUIN_MAX_DISTANCE,
 									"img/minionbullet2.png",
