@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "InputManager.h"
+#include "Collider.h"
 
 PenguinBody* PenguinBody::player;
 
@@ -14,6 +15,9 @@ PenguinBody::PenguinBody (GameObject& associated) : Component(associated) {
 	hp = HP_MAX;
 	Sprite* sprbody = new Sprite(associated, "img/penguin.png");
 	associated.AddComponent((Component*)sprbody);
+
+	Component* collider = new Collider(associated);
+	associated.AddComponent(collider);
 }
 
 PenguinBody::~PenguinBody () {

@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Game.h"
 #include "GeneralFunctions.h"
+#include "Collider.h"
 
 Alien::Action::Action(ActionType type, float x, float y) {
 	pos.x = x;
@@ -17,6 +18,9 @@ Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 
 	Component* img = new Sprite(associated, "img/alien.png", 1, 0);
 	associated.AddComponent(img);
+
+	Component* collider = new Collider(associated);
+	associated.AddComponent(collider);
 }
 
 Alien::~Alien() {

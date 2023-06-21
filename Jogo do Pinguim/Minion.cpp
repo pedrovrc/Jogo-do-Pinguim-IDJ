@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "Game.h"
 #include "GeneralFunctions.h"
+#include "Collider.h"
 
 Minion::Minion( GameObject& associated,
 				weak_ptr<GameObject> alienCenterArg,
@@ -28,6 +29,9 @@ Minion::Minion( GameObject& associated,
 	// aplicar tamanho
 	Sprite* spriteimg = (Sprite*)img;
 	spriteimg->SetScale(size, size);
+
+	Component* collider = new Collider(associated);
+	associated.AddComponent(collider);
 }
 
 void Minion::Start() {

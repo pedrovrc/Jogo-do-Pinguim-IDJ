@@ -6,6 +6,9 @@
 #include "CameraFollower.h"
 #include "Alien.h"
 #include "PenguinBody.h"
+#include "Collision.cpp"
+#include "GeneralFunctions.h"
+#include "Collider.h"
 
 /*
  * State::State()
@@ -115,7 +118,7 @@ void State::Update(float dt) {
 	// atualiza camera
 	Camera::Update(dt);
 
-	// update GameObjects
+	// atualiza GameObjects
 	int size = objectArray.size(), i = 0;
 	GameObject* go;
 	while (i < size) {
@@ -123,6 +126,36 @@ void State::Update(float dt) {
 		go->Update(dt);
 		i++;
 	}
+
+	// -------------------------------------
+	// PARTE POTENCIALMENTE PROBLEMATICA
+	// RETORMAR A PARTIR DE "NOTIFIQUE AMBOS OS GAMEOBJECTS"
+	int j = 0;
+	Component* cpt = nullptr;
+	Component* cpt2 = nullptr;
+	GameObject* go2;
+	Collider* coll1;
+	Collider* coll2;
+	while (i < size) {
+		go = (GameObject*)objectArray[i].get();
+		cpt = go->GetComponent("Collider");
+		if (cpt != nullptr) {
+			j = i;
+			while (j < size) {
+				go2 = (GameObject*)objectArray[j].get();
+				cpt2 = go2->GetComponent("Collider");
+				if (cpt2 != nullptr && cpt2 != cpt) {
+					coll1 = cpt;
+					coll2 = cpt2;
+					Collision::IsColliding(coll1->box, coll2->box, Deg2Rad(go->angleDeg), Deg2Rad(go2->angleDeg));
+				}
+				cpt2 = nullptr;
+			}
+		}
+		cpt = nullptr;
+		i++;
+	}
+	// -------------------------------------------
 
 	// deleta GameObjects mortos
 	i = 0;

@@ -10,6 +10,7 @@ Rect::Rect() {
 	y = 0;
 	w = 0;
 	h = 0;
+	this->angle = 0;
 }
 
 /*
@@ -17,11 +18,12 @@ Rect::Rect() {
  *
  * Inicializa objeto com os parâmetros fornecidos.
  */
-Rect::Rect(float x, float y, float w, float h) {
+Rect::Rect(float x, float y, float w, float h, float angle) {
 	this->x = x;
 	this->y = y;
 	this->w = w;
 	this->h = h;
+	this->angle = angle;
 }
 
 /*
@@ -39,7 +41,9 @@ Vec2& Rect::GetPos() {
  * Retorna objeto Vec2 com coordenadas de centro do retângulo.
  */
 Vec2& Rect::GetCenter() {
-	return *new Vec2(x + (w/2), y + (h/2));
+	Vec2* center = new Vec2(x + (w/2), y + (h/2));
+	center->RotateThis(angle);
+	return *center;
 }
 
 /*
@@ -73,12 +77,23 @@ void Rect::MoveThis(Vec2 vector) {
 }
 
 /*
+ * void Rect::RotateThis(float angle)
+ *
+ * Modifica o valor de angle.
+ */
+void Rect::RotateThis(float angle) {
+	this->angle = angle;
+}
+
+/*
  * void Rect::SetCenterPosition(Vec2 vector)
  *
  * Seta posição do retângulo para que centro esteja no ponto fornecido.
  */
 void Rect::SetCenterPosition(Vec2 vector) {
-	SetPosition(vector - *new Vec2(w/2, h/2));
+	Vec2* offset = new Vec2(w/2, h/2);
+	offset->RotateThis(angle);
+	SetPosition(vector - *offset);
 }
 
 /*
@@ -99,6 +114,18 @@ void Rect::SetPosition(Vec2 vector) {
 void Rect::SetDimensions(float w, float h) {
 	this->w = w;
 	this->h = h;
+}
+
+/*
+ * void Rect::GetScaledCopy(Vec2 scale, string alignment)
+ *
+ * Retorna novo objeto Rect com tamanho de acordo com escala fornecida.
+ * O objeto estará alinhado com o originário em seu centro por padrão.
+ */
+Rect& Rect::GetScaledCopy(Vec2 scale) {
+	Rect* newBox = new Rect(x, y, w*scale.x, h*scale.y);
+	newBox->SetCenterPosition(this->GetCenter());
+	return *newBox;
 }
 
 /*

@@ -57,7 +57,7 @@ void Vec2::Set(float x, float y) {
  * Método privado que implementa a soma de vetores.
  * Para uso em outro escopo, utilizar operador public "+".
  */
-Vec2& Vec2::Vec2Add(Vec2 vector) {
+Vec2& Vec2::Vec2Add(Vec2 vector) const {
 	Vec2* vec = new Vec2(x + vector.x, y + vector.y);
 	return *vec;
 }
@@ -68,7 +68,7 @@ Vec2& Vec2::Vec2Add(Vec2 vector) {
  * Método privado que implementa a multiplicação por escalar.
  * Para uso em outro escopo, utilizar operador public "*".
  */
-Vec2& Vec2::Vec2MultiplyScalar(float scalar) {
+Vec2& Vec2::Vec2MultiplyScalar(float scalar) const {
 	Vec2* vec = new Vec2(scalar * x, scalar * y);
 	return *vec;
 }
@@ -76,20 +76,20 @@ Vec2& Vec2::Vec2MultiplyScalar(float scalar) {
 /*
  * Operadores de operações básicas
  */
-Vec2& Vec2::operator+(Vec2 b) {
+Vec2& Vec2::operator+(Vec2 b) const {
 	return Vec2Add(b);
 }
 
-Vec2& Vec2::operator-(Vec2 b) {
+Vec2& Vec2::operator-(Vec2 b) const {
 	b = b.Vec2MultiplyScalar(-1);
 	return Vec2Add(b);
 }
 
-Vec2& Vec2::operator*(float scalar) {
+Vec2& Vec2::operator*(float scalar) const {
 	return Vec2MultiplyScalar(scalar);
 }
 
-Vec2& Vec2::operator/(float scalar) {
+Vec2& Vec2::operator/(float scalar) const {
 	if (scalar != 0) {
 		scalar = 1/scalar;
 	}

@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "GeneralFunctions.h"
 #include "Camera.h"
+#include "Collider.h"
 
 PenguinCannon::PenguinCannon(GameObject& associated, weak_ptr<GameObject> penguinBody) : Component(associated) {
 	pbody = penguinBody;
@@ -12,6 +13,9 @@ PenguinCannon::PenguinCannon(GameObject& associated, weak_ptr<GameObject> pengui
 	Sprite* sprcannon = new Sprite(associated, "img/cubngun.png");
 	associated.AddComponent((Component*)sprcannon);
 	associated.box.SetCenterPosition(pbody.lock().get()->box.GetCenter());
+
+	Component* collider = new Collider(associated);
+	associated.AddComponent(collider);
 }
 
 void PenguinCannon::Update(float dt) {

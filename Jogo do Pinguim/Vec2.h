@@ -11,8 +11,8 @@ using namespace std;
  * Implementa um ponto em R2 ou um vetor no mesmo espaço.
  */
 class Vec2 {
-	Vec2& Vec2Add(Vec2 vector);
-	Vec2& Vec2MultiplyScalar(float scalar);
+	Vec2& Vec2Add(Vec2 vector) const;
+	Vec2& Vec2MultiplyScalar(float scalar) const;
 public:
 	float x;
 	float y;
@@ -31,10 +31,10 @@ public:
 	float GetAngle();
 	void Print();
 
-	Vec2& operator+(Vec2 b);
-	Vec2& operator-(Vec2 b);
-	Vec2& operator*(float scalar);
-	Vec2& operator/(float scalar);
+	Vec2& operator+(Vec2 b) const;
+	Vec2& operator-(Vec2 b) const;
+	Vec2& operator*(float scalar) const;
+	Vec2& operator/(float scalar) const;
 	Vec2& operator+=(Vec2 b);
 	Vec2& operator-=(Vec2 b);
 	Vec2& operator*=(float scalar);

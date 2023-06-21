@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "Sprite.h"
 #include "GeneralFunctions.h"
+#include "Collider.h"
 
 #define BULLET_SPEED 50
 
@@ -13,6 +14,7 @@ Bullet::Bullet( GameObject& associated,
 				int frameTime ) : Component(associated) {
 	Component* img = new Sprite(associated, sprite, frameCount, frameTime);
 	associated.AddComponent(img);
+
 	Sprite* spritecpt = (Sprite*)img;
 	associated.box.MoveThis(*new Vec2(-spritecpt->GetWidth()/2, -spritecpt->GetHeight()/2));
 
@@ -21,6 +23,9 @@ Bullet::Bullet( GameObject& associated,
 	speed.Set(BULLET_SPEED, 0);
 	speed.RotateThis(angle);
 	associated.angleDeg = Rad2Deg(angle);
+
+	Component* collider = new Collider(associated);
+	associated.AddComponent(collider);
 }
 
 /*
