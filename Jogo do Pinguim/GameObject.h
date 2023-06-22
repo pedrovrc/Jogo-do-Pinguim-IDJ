@@ -33,6 +33,7 @@ public:
 	Component* GetComponent(string type);
 	bool IsDead();
 	void RequestDelete();
+	void NotifyCollision(GameObject& other);
 };
 
 #endif

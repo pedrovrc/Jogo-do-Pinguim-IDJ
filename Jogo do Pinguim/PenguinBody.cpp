@@ -4,6 +4,8 @@
 #include "Sprite.h"
 #include "InputManager.h"
 #include "Collider.h"
+#include "Alien.h"
+#include "Bullet.h"
 
 PenguinBody* PenguinBody::player;
 
@@ -70,5 +72,27 @@ void PenguinBody::Render() {
 bool PenguinBody::Is(string type) {
 	if (type == "PenguinBody") return true;
 	return false;
+}
+
+void PenguinBody::NotifyCollision(GameObject& other) {
+	int old_hp = hp;
+	Component* cpt;
+
+	// Colisao com Bullet
+	cpt = other.GetComponent("Bullet");
+	if (cpt != nullptr) {
+		Bullet* bull = (Bullet*) cpt;
+		if (bull->targetsPlayer) hp -= bull->GetDamage();
+	}
+
+	// Colisao com Minion
+	cpt = other.GetComponent("Minion");
+	if (cpt != nullptr) hp -= MINION_DMG;
+
+	// Colisao com Alien
+	cpt = other.GetComponent("Alien");
+	if (cpt != nullptr) hp -= ALIEN_DMG;
+
+	if (old_hp != hp) cout << "Penguin HP = " << hp << endl;
 }
 

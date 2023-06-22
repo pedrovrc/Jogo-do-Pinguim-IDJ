@@ -20,6 +20,7 @@ public:
 	bool Is(string type);
 	void SetScale(Vec2 newScale);
 	void SetOffset(Vec2 newOffset);
+	void NotifyCollision(GameObject& other);
 };
 
 #endif

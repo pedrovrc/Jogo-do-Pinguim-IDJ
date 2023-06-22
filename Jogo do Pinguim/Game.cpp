@@ -110,8 +110,7 @@ void Game::Run() {
 	state->Start();
 	while(state->QuitRequested() == false) {
 		CalculateDeltaTime();
-		InputManager* input = &(InputManager::GetInstance());
-		input->Update();
+		InputManager::GetInstance().Update();
 		state->Update(dt);
 		state->Render();
 		SDL_RenderPresent(renderer);

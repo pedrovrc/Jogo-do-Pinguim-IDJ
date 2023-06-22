@@ -152,3 +152,7 @@ bool TileMap::Is(string type) {
 	if (type == "TileMap") return true;
 	return false;
 }
+
+void TileMap::NotifyCollision(GameObject& other) {
+
+}

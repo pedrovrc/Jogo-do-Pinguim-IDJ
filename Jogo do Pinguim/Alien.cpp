@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "GeneralFunctions.h"
 #include "Collider.h"
+#include "Bullet.h"
 
 Alien::Action::Action(ActionType type, float x, float y) {
 	pos.x = x;
@@ -102,7 +103,14 @@ void Alien::Update(float dt) {
 	if (associated.angleDeg < 0) associated.angleDeg -= 360;
 
 	// checar se esta vivo
-	if (hp <= 0) associated.RequestDelete();
+	if (hp <= 0) {
+		associated.RequestDelete();
+		int i = 0;
+		while (i < (int)minionArray.size()) {
+			minionArray[i].lock().get()->RequestDelete();
+			i++;
+		}
+	}
 }
 
 void Alien::Render() {
@@ -112,6 +120,18 @@ void Alien::Render() {
 bool Alien::Is(string type) {
 	if (type == "Alien") return true;
 	return false;
+}
+
+void Alien::NotifyCollision(GameObject& other) {
+	Component* cpt;
+
+	// Colisao com Bullet
+	cpt = other.GetComponent("Bullet");
+	if (cpt != nullptr) {
+		Bullet* bull = (Bullet*) cpt;
+		hp -= bull->GetDamage();
+		cout << "Alien HP = " << hp << endl;
+	}
 }
 
 /*

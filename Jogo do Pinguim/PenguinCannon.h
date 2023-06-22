@@ -20,6 +20,7 @@ public:
 	bool Is(string type);
 	void Start();
 	void Shoot();
+	void NotifyCollision(GameObject& other);
 };
 
 #endif

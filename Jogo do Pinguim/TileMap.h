@@ -35,6 +35,7 @@ public:
 	int GetDepth();
 	void Update(float dt);
 	bool Is(string type);
+	void NotifyCollision(GameObject& other);
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "GeneralFunctions.h"
 #include "Collider.h"
+#include "Alien.h"
 
 Minion::Minion( GameObject& associated,
 				weak_ptr<GameObject> alienCenterArg,
@@ -90,7 +91,22 @@ void Minion::Shoot(Vec2 target) {
 									BULLET_MAX_DISTANCE,
 									"img/minionbullet2.png",
 									3,
-									100 );
+									100,
+									true );
 	bulletGO->AddComponent(bullet);
 	Game::GetInstance().GetState().AddObject(bulletGO);
+}
+
+void Minion::NotifyCollision(GameObject& other) {
+//	Component* cpt;
+//
+//	// Colisao com Bullet
+//	cpt = other.GetComponent("Bullet");
+//	if (cpt != nullptr) {
+//		Bullet* bull = (Bullet*) cpt;
+//		if (bull->targetsPlayer == false) {
+//			Alien* ali = (Alien*)alienCenter->GetComponent("Alien");
+//			ali->hp -= bull->GetDamage();
+//		}
+//	}
 }

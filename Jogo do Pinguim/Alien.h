@@ -14,6 +14,7 @@ using namespace std;
 #define ROTATION_SPEED 0.5
 #define MIN_SIZE 1
 #define MAX_SIZE 1.5
+#define ALIEN_DMG 10
 
 /*
  * Class Alien
@@ -49,6 +50,7 @@ public:
 	void Update(float dt);
 	void Render();
 	bool Is(string type);
+	void NotifyCollision(GameObject& other);
 	Minion* GetClosestMinion(Vec2 target);
 };
 

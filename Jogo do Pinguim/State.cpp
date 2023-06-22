@@ -127,41 +127,44 @@ void State::Update(float dt) {
 		i++;
 	}
 
-	// -------------------------------------
-	// PARTE POTENCIALMENTE PROBLEMATICA
-	// RETORMAR A PARTIR DE "NOTIFIQUE AMBOS OS GAMEOBJECTS"
-	int j = 0;
+	// deteccao de colisao
+	int j;
 	Component* cpt = nullptr;
 	Component* cpt2 = nullptr;
 	GameObject* go2;
 	Collider* coll1;
 	Collider* coll2;
+	i = 0;
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		cpt = go->GetComponent("Collider");
 		if (cpt != nullptr) {
-			j = i;
+			j = i+1;
 			while (j < size) {
 				go2 = (GameObject*)objectArray[j].get();
 				cpt2 = go2->GetComponent("Collider");
 				if (cpt2 != nullptr && cpt2 != cpt) {
-					coll1 = cpt;
-					coll2 = cpt2;
-					Collision::IsColliding(coll1->box, coll2->box, Deg2Rad(go->angleDeg), Deg2Rad(go2->angleDeg));
+					coll1 = (Collider*)cpt;
+					coll2 = (Collider*)cpt2;
+					if (Collision::IsColliding(coll1->box, coll2->box, Deg2Rad(go->angleDeg), Deg2Rad(go2->angleDeg))) {
+						go->NotifyCollision(*go2);
+						go2->NotifyCollision(*go);
+					}
 				}
 				cpt2 = nullptr;
+				j++;
 			}
 		}
 		cpt = nullptr;
 		i++;
 	}
-	// -------------------------------------------
 
 	// deleta GameObjects mortos
 	i = 0;
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		if (go->IsDead()) {
+			if (go->GetComponent("PenguinBody") != nullptr) Camera::Unfollow();
 			DeleteObject(go);
 			size--;
 		}

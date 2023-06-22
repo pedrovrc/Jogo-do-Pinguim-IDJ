@@ -6,6 +6,8 @@
 #include "GeneralFunctions.h"
 #include "Camera.h"
 #include "Collider.h"
+#include "PenguinBody.h"
+#include "Alien.h"
 
 PenguinCannon::PenguinCannon(GameObject& associated, weak_ptr<GameObject> penguinBody) : Component(associated) {
 	pbody = penguinBody;
@@ -58,8 +60,29 @@ void PenguinCannon::Shoot() {
 									PENGUIN_MAX_DISTANCE,
 									"img/minionbullet2.png",
 									3,
-									100 );
+									100,
+									false );
 	bulletGO->AddComponent(bullet);
 	Game::GetInstance().GetState().AddObject(bulletGO);
 	associated.started = true;
+}
+
+void PenguinCannon::NotifyCollision(GameObject& other) {
+//	Component* cpt;
+//
+//	// Colisao com Bullet
+//	cpt = other.GetComponent("Bullet");
+//	PenguinBody* body = (PenguinBody*)pbody.lock().get()->GetComponent("PenguinBody");
+//	if (cpt != nullptr) {
+//		Bullet* bull = (Bullet*) cpt;
+//		if (bull->targetsPlayer) body->hp -= bull->GetDamage();
+//	}
+//
+//	// Colisao com Minion
+//	cpt = other.GetComponent("Minion");
+//	if (cpt != nullptr) body->hp -= MINION_DMG;
+//
+//	// Colisao com Alien
+//	cpt = other.GetComponent("Alien");
+//	if (cpt != nullptr) body->hp -= ALIEN_DMG;
 }

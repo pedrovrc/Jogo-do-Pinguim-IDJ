@@ -105,3 +105,13 @@ bool GameObject::IsDead() {
 void GameObject::RequestDelete() {
 	isDead = true;
 }
+
+void GameObject::NotifyCollision(GameObject& other) {
+	int i = 0;
+	Component* cpt;
+	while (components.begin() + i != components.end()) {
+		cpt = (Component*) components[i].get();
+		cpt->NotifyCollision(other);
+		i++;
+	}
+}

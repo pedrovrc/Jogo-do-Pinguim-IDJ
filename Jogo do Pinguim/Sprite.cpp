@@ -202,3 +202,7 @@ bool Sprite::Is(string type) {
 	if (type == "Sprite") return true;
 	return false;
 }
+
+void Sprite::NotifyCollision(GameObject& other) {
+
+}

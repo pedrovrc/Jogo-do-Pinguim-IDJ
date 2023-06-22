@@ -3,15 +3,16 @@
 #include "GeneralFunctions.h"
 #include "Collider.h"
 
-#define BULLET_SPEED 50
-
 Bullet::Bullet( GameObject& associated,
 				float angle,
 				int damage,
 				float maxDistance,
 				string sprite,
 				int frameCount,
-				int frameTime ) : Component(associated) {
+				int frameTime,
+				bool targetsPlayer) : Component(associated) {
+	this->targetsPlayer = targetsPlayer;
+
 	Component* img = new Sprite(associated, sprite, frameCount, frameTime);
 	associated.AddComponent(img);
 
@@ -58,4 +59,21 @@ int Bullet::GetDamage() {
 }
 
 void Bullet::Start() {
+}
+
+bool Bullet::PlayerHit(GameObject& go) {
+	if (targetsPlayer && go.GetComponent("PenguinBody")) return true;
+	else return false;
+}
+
+bool Bullet::AlienHit(GameObject& go) {
+	if (!targetsPlayer && go.GetComponent("Alien")) return true;
+	else return false;
+}
+
+
+void Bullet::NotifyCollision(GameObject& other) {
+	if (PlayerHit(other) || AlienHit(other)) {
+		associated.RequestDelete();
+	}
 }
