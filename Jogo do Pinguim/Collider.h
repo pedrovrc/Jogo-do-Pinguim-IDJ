@@ -9,6 +9,7 @@ using namespace std;
 class Collider : public Component {
 	Vec2 scale;
 	Vec2 offset;
+	bool debugFlag;
 public:
 	Collider( GameObject& associated,
 			  Vec2 scale = *new Vec2(1,1),

@@ -1,15 +1,21 @@
 #include "Camera.h"
+#include "PenguinBody.h"
+#include "Game.h"
+
 GameObject* Camera::focus;
 Vec2 Camera::velocity;
 Vec2 Camera::pos;
+bool Camera::following;
 
 #define CAMERA_SPEED 10
 
 void Camera::Follow(GameObject* newFocus) {
+	following = true;
 	focus = newFocus;
 }
 
 void Camera::Unfollow() {
+	following = false;
 	focus = nullptr;
 }
 
@@ -19,6 +25,9 @@ void Camera::Unfollow() {
  * Atualiza posição da câmera com abse no input e no tempo decorrido.
  */
 void Camera::Update(float dt) {
+	// atualiza foco
+	InputManager& input = InputManager::GetInstance();
+
 	// se camera tiver foco, centralize-o na tela
 	if (focus != nullptr) {
 		Vec2 focusCenter = focus->box.GetCenter();
@@ -29,7 +38,6 @@ void Camera::Update(float dt) {
 	// se nao tiver foco, responde a input
 	// seta velocidade com base em dt e teclas pressionadas
 	// soma-se a posicao
-	InputManager& input = InputManager::GetInstance();
 	velocity.x = 0;
 	velocity.y = 0;
 	if (input.KeyPress(LEFT_ARROW_KEY) || input.IsKeyDown(LEFT_ARROW_KEY)) {

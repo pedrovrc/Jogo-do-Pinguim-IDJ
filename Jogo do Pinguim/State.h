@@ -17,7 +17,6 @@ class State {
 	vector<shared_ptr<GameObject>> objectArray;
 	bool started;
 	bool quitRequested;
-
 	void DeleteObject(GameObject* go);
 public:
 	State();
@@ -29,6 +28,7 @@ public:
 	weak_ptr<GameObject> GetObjectPtr(GameObject* go);
 	void Start();
 	bool QuitRequested();
+	static GameObject* GetPlayerGO();
 };
 
 #endif

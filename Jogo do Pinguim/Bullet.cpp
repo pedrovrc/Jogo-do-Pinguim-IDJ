@@ -67,7 +67,7 @@ bool Bullet::PlayerHit(GameObject& go) {
 }
 
 bool Bullet::AlienHit(GameObject& go) {
-	if (!targetsPlayer && go.GetComponent("Alien")) return true;
+	if ((!targetsPlayer) && go.GetComponent("Alien")) return true;
 	else return false;
 }
 

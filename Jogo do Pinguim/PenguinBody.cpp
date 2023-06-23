@@ -95,4 +95,3 @@ void PenguinBody::NotifyCollision(GameObject& other) {
 
 	if (old_hp != hp) cout << "Penguin HP = " << hp << endl;
 }
-

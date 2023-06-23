@@ -167,3 +167,22 @@ Vec2& InputManager::GetMousePoint() {
 bool InputManager::QuitRequested() {
 	return quitRequested;
 }
+
+/*
+ * bool InputManager::MultiKeyPress(int quantity, SDL_Keycode k1, SDL_Keycode k2, SDL_Keycode k3)
+ *
+ * Detecta pressionamento simultâneo de 2 ou 3 teclas.
+ * Retorna falso se quantity for diferente de 2 ou 3.
+ */
+bool InputManager::MultiKeyPress(int quantity, SDL_Keycode k1, SDL_Keycode k2, SDL_Keycode k3) {
+	if (quantity == 2) {
+		return ((KeyPress(k2) && IsKeyDown(k1)) ||
+				(KeyPress(k1) && IsKeyDown(k2)));
+	} else if (quantity == 3) {
+		return ((KeyPress(k1) && IsKeyDown(k2) && IsKeyDown(k3)) ||
+				(KeyPress(k2) && IsKeyDown(k1) && IsKeyDown(k3)) ||
+				(KeyPress(k3) && IsKeyDown(k2) && IsKeyDown(k1)));
+	} else {
+		return false;
+	}
+}

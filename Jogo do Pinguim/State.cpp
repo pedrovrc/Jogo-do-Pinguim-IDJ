@@ -115,12 +115,30 @@ void State::Update(float dt) {
 	InputManager* input = &(InputManager::GetInstance());
 	quitRequested = input->QuitRequested();
 
+	int size = objectArray.size(), i = 0;
+	GameObject* go;
+	Component* cpt = nullptr;
+	GameObject* penguin = nullptr;
+	while (objectArray.begin() + i != objectArray.end()) {
+		go = (GameObject*)objectArray[i].get();
+		cpt = go->GetComponent("PenguinBody");
+		if (cpt != nullptr) {
+			penguin = go;
+			break;
+		}
+		i++;
+	}
+
 	// atualiza camera
+	if (input->KeyPress(Y_KEY)) {
+		if (Camera::following) Camera::Unfollow();
+		else Camera::Follow(penguin);
+	}
+
 	Camera::Update(dt);
 
 	// atualiza GameObjects
-	int size = objectArray.size(), i = 0;
-	GameObject* go;
+	i = 0;
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		go->Update(dt);
@@ -129,7 +147,7 @@ void State::Update(float dt) {
 
 	// deteccao de colisao
 	int j;
-	Component* cpt = nullptr;
+	cpt = nullptr;
 	Component* cpt2 = nullptr;
 	GameObject* go2;
 	Collider* coll1;

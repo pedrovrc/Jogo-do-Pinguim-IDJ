@@ -1,23 +1,27 @@
 #include "Collider.h"
 #include "GeneralFunctions.h"
 #include "Camera.h"
+#include "InputManager.h"
 
 Collider::Collider( GameObject& associated,
 			  	  	Vec2 scale,
 					Vec2 offset ) : Component(associated) {
 	this->scale = scale;
 	this->offset = offset;
-	//box?
+	debugFlag = false;
 }
 
 void Collider::Update(float dt) {
 	box = associated.box.GetScaledCopy(scale);
 	box.MoveThis(offset);
 	//box.RotateThis(Deg2Rad(associated.angleDeg));
+
+	InputManager* input = &InputManager::GetInstance();
+	if (input->MultiKeyPress(3, P_KEY, SHIFT_KEY, CTRL_KEY)) debugFlag = !debugFlag;
 }
 
 void Collider::Render() {
-	if (1) {
+	if (debugFlag) {
 		Vec2 center( box.GetCenter() );
 		SDL_Point points[5];
 

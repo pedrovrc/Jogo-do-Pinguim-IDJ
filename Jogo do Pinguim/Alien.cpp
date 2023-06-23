@@ -129,7 +129,7 @@ void Alien::NotifyCollision(GameObject& other) {
 	cpt = other.GetComponent("Bullet");
 	if (cpt != nullptr) {
 		Bullet* bull = (Bullet*) cpt;
-		hp -= bull->GetDamage();
+		if (bull->targetsPlayer == false) hp -= bull->GetDamage();
 		cout << "Alien HP = " << hp << endl;
 	}
 }

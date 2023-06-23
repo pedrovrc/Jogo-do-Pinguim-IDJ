@@ -19,8 +19,12 @@ using namespace std;
 #define SPACE_KEY SDLK_SPACE
 #define A_KEY SDLK_a
 #define D_KEY SDLK_d
+#define P_KEY SDLK_p
 #define S_KEY SDLK_s
 #define W_KEY SDLK_w
+#define Y_KEY SDLK_y
+#define SHIFT_KEY SDLK_LSHIFT
+#define CTRL_KEY SDLK_LCTRL
 
 /*
  * Classe InputManager
@@ -53,6 +57,7 @@ public:
 	Vec2& GetMousePoint();
 	bool QuitRequested();
 	static InputManager& GetInstance();
+	bool MultiKeyPress(int quantity, SDL_Keycode k1, SDL_Keycode k2, SDL_Keycode k3 = SDLK_0);
 };
 
 #endif
