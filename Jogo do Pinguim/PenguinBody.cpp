@@ -36,6 +36,9 @@ void PenguinBody::Start() {
 
 void PenguinBody::Update(float dt) {
 	if (hp <= 0) {
+		Game::GetInstance().GetState().lossCondition = true;
+		cout << "Derrota!" << endl;
+
 		associated.RequestDelete();
 		pcannon.lock().get()->RequestDelete();
 		PlayDeathAnimation();
@@ -76,7 +79,7 @@ bool PenguinBody::Is(string type) {
 }
 
 void PenguinBody::NotifyCollision(GameObject& other) {
-	int old_hp = hp;
+	//int old_hp = hp;
 	Component* cpt;
 
 	// Colisao com Bullet
@@ -87,14 +90,14 @@ void PenguinBody::NotifyCollision(GameObject& other) {
 	}
 
 	// Colisao com Minion
-	cpt = other.GetComponent("Minion");
-	if (cpt != nullptr) hp -= MINION_DMG;
+//	cpt = other.GetComponent("Minion");
+//	if (cpt != nullptr) hp -= MINION_DMG;
 
 	// Colisao com Alien
-	cpt = other.GetComponent("Alien");
-	if (cpt != nullptr) hp -= ALIEN_DMG;
+//	cpt = other.GetComponent("Alien");
+//	if (cpt != nullptr) hp -= ALIEN_DMG;
 
-	if (old_hp != hp) cout << "Penguin HP = " << hp << endl;
+	//if (old_hp != hp) cout << "Penguin HP = " << hp << endl;
 }
 
 void PenguinBody::PlayDeathAnimation() {

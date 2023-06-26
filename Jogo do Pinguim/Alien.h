@@ -7,14 +7,16 @@ using namespace std;
 #include "Vec2.h"
 #include "GameObject.h"
 #include "Minion.h"
+#include "Timer.h"
 
 #define MAX_HP 30
-#define MAX_SPEED 30
+#define MAX_SPEED 4
 #define MINION_COUNT 6
 #define ROTATION_SPEED 0.5
 #define MIN_SIZE 1
 #define MAX_SIZE 1.5
 #define ALIEN_DMG 10
+#define REST_COOLDOWN 0.2
 
 /*
  * Class Alien
@@ -22,28 +24,18 @@ using namespace std;
  * Classe que representa a entidade central do oponente.
  */
 class Alien : public Component {
-	/*
-	 * Class Action
-	 *
-	 * Classe interna de Alien que ordena os tipos de ação que ele pode executar.
-	 */
-	class Action {
-	public:
-		enum ActionType {MOVE, SHOOT};
-
-		ActionType type;
-		Vec2 pos;
-
-		Action(ActionType type, float x, float y);
-	};
-
-	Vec2 speed;
+	enum AlienState { MOVING, RESTING };
+	AlienState state;
 	int hp;
+	Vec2 speed;
+	Vec2 destination;
+	Timer restTimer;
 
-	queue<Action> taskQueue;
 	vector<weak_ptr<GameObject>> minionArray;
 public:
-	Alien(GameObject& associated, int nMinions);
+	static int alienCount;
+
+	Alien(GameObject& associated, int nMinions, int currentCount);
 	~Alien();
 
 	void Start();
@@ -53,6 +45,7 @@ public:
 	void NotifyCollision(GameObject& other);
 	Minion* GetClosestMinion(Vec2 target);
 	void PlayDeathAnimation();
+	void SetCount(int quantity);
 };
 
 #endif

@@ -1,21 +1,20 @@
 #include "Alien.h"
 #include "Sprite.h"
-#include "InputManager.h"
 #include "Camera.h"
 #include "Game.h"
 #include "GeneralFunctions.h"
 #include "Collider.h"
 #include "Bullet.h"
 
-Alien::Action::Action(ActionType type, float x, float y) {
-	pos.x = x;
-	pos.y = y;
-	this->type = type;
-}
+int Alien::alienCount;
 
-Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
-	speed = *new Vec2(0,0);
+Alien::Alien(GameObject& associated, int nMinions, int currentCount) : Component(associated) {
+	speed.Set(0,0);
+	destination.Set(0,0);
 	hp = MAX_HP;
+	state = RESTING;
+	Alien::alienCount = currentCount + 1;
+	//Game::GetInstance().GetState().UpdateAlienCount(alienCount);
 
 	Component* img = new Sprite(associated, "img/alien.png", 1, 0);
 	associated.AddComponent(img);
@@ -52,15 +51,18 @@ void Alien::Start() {
  * void Alien::Update(float dt)
  *
  * - Checa se alien ainda está vivo;
- * - Enfileira ações novas na taskQueue;
- * - Executa ações enfileiradas:
- * 	   - Uma ação executada por frame;
- * 	   - Prioriza ações de movimento;
- * - Rotaciona sprite do alien.
+ * - Rotaciona sprite do alien;
  */
 void Alien::Update(float dt) {
 	// checar se esta vivo
 		if (hp <= 0) {
+			Alien::alienCount--;
+			if (alienCount == 0) {
+				// condicao de vitoria
+				Game::GetInstance().GetState().winCondition = true;
+				cout << "Vitória!" << endl;
+			}
+
 			associated.RequestDelete();
 			int i = 0;
 			while (i < (int)minionArray.size()) {
@@ -71,48 +73,42 @@ void Alien::Update(float dt) {
 			return;
 		}
 
-	InputManager* input = &InputManager::GetInstance();
-
-	// coloca acoes na fila
-	if(input->MousePress(LEFT_MOUSE_BUTTON) || input->MousePress(RIGHT_MOUSE_BUTTON)) {
-		int mouseX = input->GetMouseX() + Camera::pos.x;
-		int mouseY = input->GetMouseY() + Camera::pos.y;
-		if (input->MousePress(LEFT_MOUSE_BUTTON)) {
-			Action::ActionType type = Action::ActionType::SHOOT;
-			taskQueue.emplace(*new Action(type, mouseX, mouseY));
-		} else {
-			Action::ActionType type = Action::ActionType::MOVE;
-			taskQueue.emplace(*new Action(type, mouseX, mouseY));
-		}
-	}
-
-	// executar acoes pendentes
-	// uma acao por frame, prioridade por acoes de movimento
-	Action* act;
-	if (taskQueue.empty() == false) {
-		act = &taskQueue.front();
-		if (act->type == Action::ActionType::MOVE) {
-			if (act->pos.GetDistance(associated.box.GetCenter()) >= MAX_SPEED) {
-				Vec2 direction = act->pos - associated.box.GetCenter();
-				speed = direction.GetNormalizedVector() * MAX_SPEED;
-				associated.box.MoveThis(speed);
-			} else {
-				Vec2 offset;
-				offset.Set(associated.box.w/2, associated.box.h/2);
-				associated.box.SetPosition(act->pos - offset);
-				taskQueue.pop();
-				speed.Set(0,0);
-			}
-		} else if (act->type == Action::ActionType::SHOOT) {
-			Minion* minion = GetClosestMinion(act->pos);
-			minion->Shoot(act->pos);
-			taskQueue.pop();
-		}
-	}
-
 	// rotacionar sprite
 	associated.angleDeg -= ROTATION_SPEED;
 	if (associated.angleDeg < 0) associated.angleDeg -= 360;
+
+	// se player estiver morto, nao faz nada
+	if (Game::GetInstance().GetState().GetPlayerGO().lock().get()->IsDead()) return;
+
+	// comportamentos
+	if (state == RESTING) {
+		restTimer.Update(dt);
+
+		if (restTimer.Get() > REST_COOLDOWN) {
+			destination = Game::GetInstance().GetState().GetPlayerGO().lock().get()->box.GetCenter();
+
+			state = MOVING;
+		}
+	} else if (state == MOVING) {
+		if (destination.GetDistance(associated.box.GetCenter()) >= MAX_SPEED) {
+			Vec2 direction = destination - associated.box.GetCenter();
+			speed = direction.GetNormalizedVector() * MAX_SPEED;
+			associated.box.MoveThis(speed);
+		} else {
+			Vec2 offset;
+			offset.Set(associated.box.w/2, associated.box.h/2);
+			associated.box.SetPosition(destination - offset);
+			speed.Set(0,0);
+
+			Vec2 playerPos = Game::GetInstance().GetState().GetPlayerGO().lock().get()->box.GetCenter();
+			Minion* minion = GetClosestMinion(playerPos);
+			minion->Shoot(playerPos);
+
+			state = RESTING;
+		}
+	} else {
+		cout << "Erro em Alien::state" << endl;
+	}
 }
 
 void Alien::Render() {
@@ -132,7 +128,7 @@ void Alien::NotifyCollision(GameObject& other) {
 	if (cpt != nullptr) {
 		Bullet* bull = (Bullet*) cpt;
 		if (bull->targetsPlayer == false) hp -= bull->GetDamage();
-		cout << "Alien HP = " << hp << endl;
+		//cout << "Alien HP = " << hp << endl;
 	}
 }
 

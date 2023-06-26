@@ -35,7 +35,6 @@ void PenguinCannon::Update(float dt) {
 	associated.angleDeg  = Rad2Deg(angle);
 
 	if (input->MousePress(LEFT_MOUSE_BUTTON) && cooldown.Get() > SHOT_COOLDOWN) {
-		cout << cooldown.Get() << endl;
 		cooldown.Restart();
 		Shoot();
 	}

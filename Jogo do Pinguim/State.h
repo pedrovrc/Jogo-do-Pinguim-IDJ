@@ -19,6 +19,9 @@ class State {
 	bool quitRequested;
 	void DeleteObject(GameObject* go);
 public:
+	bool winCondition;
+	bool lossCondition;
+
 	State();
 	~State();
 	void LoadAssets();
@@ -28,7 +31,7 @@ public:
 	weak_ptr<GameObject> GetObjectPtr(GameObject* go);
 	void Start();
 	bool QuitRequested();
-	static GameObject* GetPlayerGO();
+	weak_ptr<GameObject> GetPlayerGO();
 };
 
 #endif

@@ -112,6 +112,15 @@ void Game::Run() {
 		CalculateDeltaTime();
 		InputManager::GetInstance().Update();
 		state->Update(dt);
+
+//		if (state->winCondition) {
+//			cout << "Vitória!" << endl;
+//			//return;
+//		} else if (state->lossCondition) {
+//			cout << "Derrota!" << endl;
+//			//return;
+//		}
+
 		state->Render();
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);

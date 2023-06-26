@@ -18,6 +18,8 @@
 State::State() {
 	quitRequested = false;
 	started = false;
+	winCondition = false;
+	lossCondition = false;
 }
 
 State::~State() {
@@ -57,7 +59,7 @@ void State::LoadAssets() {
 
 	// Adiciona Alien
 	GameObject* AlienGO = new GameObject;
-	Component* AlienCpt = new Alien(*AlienGO, 0);
+	Component* AlienCpt = new Alien(*AlienGO, 0, 0);
 	AlienGO->AddComponent(AlienCpt);
 	AlienGO->box.MoveThis(*new Vec2(512,300));
 	AddObject(AlienGO);
@@ -141,6 +143,10 @@ void State::Update(float dt) {
 	i = 0;
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
+//		if (go->GetComponent("PenguinBody") != nullptr || go->GetComponent("Alien") != nullptr) {
+//			go->Update(dt);
+//			if (winCondition || lossCondition) return;
+//		}
 		go->Update(dt);
 		i++;
 	}
@@ -259,4 +265,13 @@ weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
 
 bool State::QuitRequested() {
 	return quitRequested;
+}
+
+weak_ptr<GameObject> State::GetPlayerGO() {
+	int i = 0;
+	while (objectArray.begin() + i != objectArray.end()) {
+		if (objectArray[i].get()->GetComponent("PenguinBody") != nullptr) return weak_ptr<GameObject>(objectArray[i]);
+		i++;
+	}
+	return weak_ptr<GameObject>();
 }

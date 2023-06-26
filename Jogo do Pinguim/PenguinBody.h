@@ -6,10 +6,10 @@ using namespace std;
 
 #include "Component.h"
 
-#define HP_MAX 100
+#define HP_MAX 30
 #define ACCELERATION 0.8
-#define VEL_MAX 15
-#define VEL_MIN -10
+#define VEL_MAX 10
+#define VEL_MIN -6
 #define ANGLE_CHANGE 5
 #define FRICTION 0.2
 
