@@ -38,6 +38,7 @@ void PenguinBody::Update(float dt) {
 	if (hp <= 0) {
 		associated.RequestDelete();
 		pcannon.lock().get()->RequestDelete();
+		PlayDeathAnimation();
 		return;
 	}
 
@@ -94,4 +95,20 @@ void PenguinBody::NotifyCollision(GameObject& other) {
 	if (cpt != nullptr) hp -= ALIEN_DMG;
 
 	if (old_hp != hp) cout << "Penguin HP = " << hp << endl;
+}
+
+void PenguinBody::PlayDeathAnimation() {
+	State* state = &Game::GetInstance().GetState();
+	GameObject* explosionGO = new GameObject();
+
+	Sprite* explosion = new Sprite(*explosionGO, "img/penguindeath.png", 5, 200, 1);
+	explosionGO->AddComponent((Component*)explosion);
+
+	explosionGO->box.SetCenterPosition(associated.box.GetCenter());
+
+	Sound* boom = new Sound(*explosionGO, "audio/boom.wav");
+	boom->Play(1);
+	explosionGO->AddComponent((Component*)boom);
+
+	state->AddObject(explosionGO);
 }

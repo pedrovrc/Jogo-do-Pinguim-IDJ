@@ -29,6 +29,7 @@ public:
 	void Render();
 	bool Is(string type);
 	void NotifyCollision(GameObject& other);
+	void PlayDeathAnimation();
 };
 
 #endif

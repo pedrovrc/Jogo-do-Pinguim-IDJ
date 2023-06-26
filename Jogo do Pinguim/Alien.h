@@ -52,6 +52,7 @@ public:
 	bool Is(string type);
 	void NotifyCollision(GameObject& other);
 	Minion* GetClosestMinion(Vec2 target);
+	void PlayDeathAnimation();
 };
 
 #endif

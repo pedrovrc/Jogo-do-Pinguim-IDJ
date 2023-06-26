@@ -10,6 +10,7 @@ using namespace std;
 
 #include "Rect.h"
 #include "Component.h"
+#include "Timer.h"
 
 /*
  * Classe Sprite
@@ -25,6 +26,8 @@ class Sprite : public Component{
 	int currentFrame;
 	float timeElapsed;
 	float frameTime;
+	float secondsToSelfDestruct;
+	Timer selfDestructCount;
 	SDL_Rect clipRect;
 	Vec2 scale;
 public:
@@ -32,7 +35,8 @@ public:
 	Sprite(	GameObject& associated,
 			string file,
 			int frameCount = 1,
-			int frameTime = 0 );
+			int frameTime = 0,
+			float secondsToSelfDestruct = 0 );
 	~Sprite();
 	void Open(string file);
 	void SetClip(int x, int y, int w, int h);

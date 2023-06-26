@@ -13,6 +13,7 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
 	height = 0;
 	width = 0;
 	frameWidth = 0;
+	secondsToSelfDestruct = 0;
 	SetFrameCount(1);
 	SetFrame(0);
 	timeElapsed = 0;
@@ -29,8 +30,10 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
 Sprite::Sprite( GameObject& associated,
 				string file,
 				int frameCount,
-				int frameTime ) : Component(associated) {
+				int frameTime,
+				float secondsToSelfDestruct ) : Component(associated) {
 	texture = nullptr;
+	this->secondsToSelfDestruct = secondsToSelfDestruct;
 	Open(file);
 	scale.Set(1,1);
 	SetFrameCount(frameCount);
@@ -140,10 +143,15 @@ void Sprite::Start() {
 void Sprite::Update(float dt) {
 	if (frameCount == 1) return;
 
-	timeElapsed += Game::GetInstance().GetDeltaTime() * 1000;
+	timeElapsed += dt * 1000;
 	if (timeElapsed >= frameTime) {
 		timeElapsed = 0;
 		SetFrame(currentFrame + 1);
+	}
+
+	if (secondsToSelfDestruct > 0) {
+		selfDestructCount.Update(dt);
+		if (selfDestructCount.Get() > secondsToSelfDestruct) associated.RequestDelete();
 	}
 }
 

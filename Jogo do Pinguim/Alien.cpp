@@ -51,14 +51,26 @@ void Alien::Start() {
 /*
  * void Alien::Update(float dt)
  *
+ * - Checa se alien ainda está vivo;
  * - Enfileira ações novas na taskQueue;
  * - Executa ações enfileiradas:
  * 	   - Uma ação executada por frame;
  * 	   - Prioriza ações de movimento;
  * - Rotaciona sprite do alien.
- * - Checa se alien ainda está vivo;
  */
 void Alien::Update(float dt) {
+	// checar se esta vivo
+		if (hp <= 0) {
+			associated.RequestDelete();
+			int i = 0;
+			while (i < (int)minionArray.size()) {
+				minionArray[i].lock().get()->RequestDelete();
+				i++;
+			}
+			PlayDeathAnimation();
+			return;
+		}
+
 	InputManager* input = &InputManager::GetInstance();
 
 	// coloca acoes na fila
@@ -101,16 +113,6 @@ void Alien::Update(float dt) {
 	// rotacionar sprite
 	associated.angleDeg -= ROTATION_SPEED;
 	if (associated.angleDeg < 0) associated.angleDeg -= 360;
-
-	// checar se esta vivo
-	if (hp <= 0) {
-		associated.RequestDelete();
-		int i = 0;
-		while (i < (int)minionArray.size()) {
-			minionArray[i].lock().get()->RequestDelete();
-			i++;
-		}
-	}
 }
 
 void Alien::Render() {
@@ -152,4 +154,20 @@ Minion* Alien::GetClosestMinion(Vec2 target) {
 	}
 	minionGO = minionArray[closest].lock().get();
 	return (Minion*)minionGO->GetComponent("Minion");
+}
+
+void Alien::PlayDeathAnimation() {
+	State* state = &Game::GetInstance().GetState();
+	GameObject* explosionGO = new GameObject();
+
+	Sprite* explosion = new Sprite(*explosionGO, "img/aliendeath.png", 4, 250, 1);
+	explosionGO->AddComponent((Component*)explosion);
+
+	explosionGO->box.SetCenterPosition(associated.box.GetCenter());
+
+	Sound* boom = new Sound(*explosionGO, "audio/boom.wav");
+	boom->Play(1);
+	explosionGO->AddComponent((Component*)boom);
+
+	state->AddObject(explosionGO);
 }
