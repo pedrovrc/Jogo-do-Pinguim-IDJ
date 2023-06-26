@@ -25,6 +25,7 @@ void PenguinCannon::Update(float dt) {
 		associated.RequestDelete();
 		return;
 	}
+	cooldown.Update(Game::GetInstance().GetDeltaTime());
 	InputManager* input = &InputManager::GetInstance();
 
 	associated.box.SetCenterPosition(pbody.lock().get()->box.GetCenter());
@@ -33,7 +34,11 @@ void PenguinCannon::Update(float dt) {
 	angle = direction.GetAngle();
 	associated.angleDeg  = Rad2Deg(angle);
 
-	if (input->MousePress(LEFT_MOUSE_BUTTON)) Shoot();
+	if (input->MousePress(LEFT_MOUSE_BUTTON) && cooldown.Get() > SHOT_COOLDOWN) {
+		cout << cooldown.Get() << endl;
+		cooldown.Restart();
+		Shoot();
+	}
 }
 
 void PenguinCannon::Render() {
@@ -68,21 +73,5 @@ void PenguinCannon::Shoot() {
 }
 
 void PenguinCannon::NotifyCollision(GameObject& other) {
-//	Component* cpt;
-//
-//	// Colisao com Bullet
-//	cpt = other.GetComponent("Bullet");
-//	PenguinBody* body = (PenguinBody*)pbody.lock().get()->GetComponent("PenguinBody");
-//	if (cpt != nullptr) {
-//		Bullet* bull = (Bullet*) cpt;
-//		if (bull->targetsPlayer) body->hp -= bull->GetDamage();
-//	}
-//
-//	// Colisao com Minion
-//	cpt = other.GetComponent("Minion");
-//	if (cpt != nullptr) body->hp -= MINION_DMG;
-//
-//	// Colisao com Alien
-//	cpt = other.GetComponent("Alien");
-//	if (cpt != nullptr) body->hp -= ALIEN_DMG;
+
 }

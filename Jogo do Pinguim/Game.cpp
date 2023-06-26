@@ -1,8 +1,8 @@
 #include "Game.h"
 #include "Resources.h"
-Game* Game::instance;
-
 #include "Camera.h"
+
+Game* Game::instance;
 
 /*
  * Game::Game(string title, int width, int height)

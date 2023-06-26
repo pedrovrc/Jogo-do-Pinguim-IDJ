@@ -98,15 +98,5 @@ void Minion::Shoot(Vec2 target) {
 }
 
 void Minion::NotifyCollision(GameObject& other) {
-//	Component* cpt;
-//
-//	// Colisao com Bullet
-//	cpt = other.GetComponent("Bullet");
-//	if (cpt != nullptr) {
-//		Bullet* bull = (Bullet*) cpt;
-//		if (bull->targetsPlayer == false) {
-//			Alien* ali = (Alien*)alienCenter->GetComponent("Alien");
-//			ali->hp -= bull->GetDamage();
-//		}
-//	}
+
 }
