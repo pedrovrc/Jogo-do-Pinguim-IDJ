@@ -14,7 +14,6 @@ Alien::Alien(GameObject& associated, int nMinions, int currentCount) : Component
 	hp = MAX_HP;
 	state = RESTING;
 	Alien::alienCount = currentCount + 1;
-	//Game::GetInstance().GetState().UpdateAlienCount(alienCount);
 
 	Component* img = new Sprite(associated, "img/alien.png", 1, 0);
 	associated.AddComponent(img);
@@ -78,7 +77,11 @@ void Alien::Update(float dt) {
 	if (associated.angleDeg < 0) associated.angleDeg -= 360;
 
 	// se player estiver morto, nao faz nada
-	if (Game::GetInstance().GetState().GetPlayerGO().lock().get()->IsDead()) return;
+	if (Game::GetInstance().GetState().GetPlayerGO().expired() == false) {
+		if (Game::GetInstance().GetState().GetPlayerGO().lock().get()->IsDead()) return;
+	} else {
+		return;
+	}
 
 	// comportamentos
 	if (state == RESTING) {
