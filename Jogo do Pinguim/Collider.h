@@ -6,6 +6,12 @@ using namespace std;
 
 #include "Component.h"
 
+/*
+ * 	Class Collider
+ *
+ * 	Componente utilizado para implementar detecção de colisões
+ * 	entre GameObjects.
+ */
 class Collider : public Component {
 	Vec2 scale;
 	Vec2 offset;

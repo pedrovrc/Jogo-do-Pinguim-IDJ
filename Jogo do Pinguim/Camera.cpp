@@ -30,6 +30,9 @@ void Camera::Update(float dt) {
 
 	// se camera tiver foco, centralize-o na tela
 	if (focus != nullptr) {
+		// prevencao de acesso indevido a membro following
+		if (following == false) following = true;
+
 		Vec2 focusCenter = focus->box.GetCenter();
 		pos.Set(focusCenter.x - (WINDOW_WIDTH/2), focusCenter.y - (WINDOW_HEIGHT/2));
 		return;
@@ -53,4 +56,7 @@ void Camera::Update(float dt) {
 		velocity.y += CAMERA_SPEED;
 	}
 	pos += velocity;
+
+	// prevencao de acesso indevido a membro following
+	if (following == true) following = false;
 }

@@ -11,15 +11,25 @@ Collider::Collider( GameObject& associated,
 	debugFlag = false;
 }
 
+/*
+ * 	void Collider::Update(float dt)
+ *
+ * 	- Atualiza posição da box;
+ * 	- Checa pelo comando Ctrl + Shift + P para mostrar visão de debug das hitboxes.
+ */
 void Collider::Update(float dt) {
 	box = associated.box.GetScaledCopy(scale);
 	box.MoveThis(offset);
-	//box.RotateThis(Deg2Rad(associated.angleDeg));
 
 	InputManager* input = &InputManager::GetInstance();
 	if (input->MultiKeyPress(3, P_KEY, SHIFT_KEY, CTRL_KEY)) debugFlag = !debugFlag;
 }
 
+/*
+ *  void Collider::Render()
+ *
+ *  Se modo debug de hitbox estiver ativado, renderiza as bordas da hitbox.
+ */
 void Collider::Render() {
 	if (debugFlag) {
 		Vec2 center( box.GetCenter() );

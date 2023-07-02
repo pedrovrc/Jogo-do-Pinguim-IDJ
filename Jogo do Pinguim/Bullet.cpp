@@ -61,17 +61,31 @@ int Bullet::GetDamage() {
 void Bullet::Start() {
 }
 
+/*
+ * 	bool Bullet::PlayerHit(GameObject& go)
+ *
+ * 	Retorna true se a bala for destinada ao player e o GameObject fornecido for de um player.
+ */
 bool Bullet::PlayerHit(GameObject& go) {
 	if (targetsPlayer && go.GetComponent("PenguinBody")) return true;
 	else return false;
 }
 
+/*
+ * 	bool Bullet::AlienHit(GameObject& go)
+ *
+ * 	Retorna true se a bala for destinada a um alien e o GameObject fornecido for de um alien.
+ */
 bool Bullet::AlienHit(GameObject& go) {
 	if ((!targetsPlayer) && go.GetComponent("Alien")) return true;
 	else return false;
 }
 
-
+/*
+ * 	void Bullet::NotifyCollision(GameObject& other)
+ *
+ * 	Implementa comportamento no caso de colisão adequada (deleta GameObject da Bullet).
+ */
 void Bullet::NotifyCollision(GameObject& other) {
 	if (PlayerHit(other) || AlienHit(other)) {
 		associated.RequestDelete();

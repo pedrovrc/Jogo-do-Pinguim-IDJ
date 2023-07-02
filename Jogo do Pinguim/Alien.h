@@ -45,7 +45,6 @@ public:
 	void NotifyCollision(GameObject& other);
 	Minion* GetClosestMinion(Vec2 target);
 	void PlayDeathAnimation();
-	void SetCount(int quantity);
 };
 
 #endif

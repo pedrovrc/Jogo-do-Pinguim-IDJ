@@ -51,6 +51,8 @@ void Alien::Start() {
  *
  * - Checa se alien ainda está vivo;
  * - Rotaciona sprite do alien;
+ * - Impede ações caso player esteja morto;
+ * - Implementa ações do alien como inimigo do player.
  */
 void Alien::Update(float dt) {
 	// checar se esta vivo
@@ -123,6 +125,12 @@ bool Alien::Is(string type) {
 	return false;
 }
 
+/*
+ * 	void Alien::NotifyCollision(GameObject& other)
+ *
+ * 	Recebe notificações de colisão com objetos;
+ * 	Implementa comportamento (perda de HP) na colisão com objeto Bullet.
+ */
 void Alien::NotifyCollision(GameObject& other) {
 	Component* cpt;
 
