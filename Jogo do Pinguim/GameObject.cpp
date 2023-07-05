@@ -87,6 +87,11 @@ Component* GameObject::GetComponent(string type) {
 	return nullptr;
 }
 
+/*
+ * 	void GameObject::Start()
+ *
+ * 	Chama o método start de todos os componentes desse GO.
+ */
 void GameObject::Start() {
 	int i = 0;
 	Component* cpt;
@@ -106,6 +111,11 @@ void GameObject::RequestDelete() {
 	isDead = true;
 }
 
+/*
+ * 	void GameObject::NotifyCollision(GameObject& other)
+ *
+ * 	Notifica os componentes desse GO que houve colisão com outro GO.
+ */
 void GameObject::NotifyCollision(GameObject& other) {
 	int i = 0;
 	Component* cpt;

@@ -42,7 +42,9 @@ class InputManager {
 	int mouseY;
 	InputManager();
 	~InputManager();
-	void UpdateKeyOrButtonMaps(int index, SDL_Event event, string type);
+	void UpdateKeyOrButtonMaps( int index,
+								SDL_Event event,
+								string type);
 	bool IsDirectional(int key);
 public:
 	void Update();
@@ -57,7 +59,10 @@ public:
 	Vec2& GetMousePoint();
 	bool QuitRequested();
 	static InputManager& GetInstance();
-	bool MultiKeyPress(int quantity, SDL_Keycode k1, SDL_Keycode k2, SDL_Keycode k3 = SDLK_0);
+	bool MultiKeyPress( int quantity,
+						SDL_Keycode k1,
+						SDL_Keycode k2,
+						SDL_Keycode k3 = SDLK_0);
 };
 
 #endif

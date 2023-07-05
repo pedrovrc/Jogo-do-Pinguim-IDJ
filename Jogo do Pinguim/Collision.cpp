@@ -4,6 +4,13 @@
 #include <algorithm>
 #include <cmath>
 
+/*
+ * 	Class Collision
+ *
+ * 	Código fornecido nos arquivos da disciplina para implementar
+ * 	detecção de colisão.
+ */
+
 class Collision {
 
 	public:

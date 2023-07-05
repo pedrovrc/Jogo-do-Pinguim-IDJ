@@ -10,11 +10,6 @@
 #include "GeneralFunctions.h"
 #include "Collider.h"
 
-/*
- * State::State()
- *
- * Construtor que instancia assets da tela inicial e lista de GameObjects.
- */
 State::State() {
 	quitRequested = false;
 	started = false;
@@ -35,8 +30,6 @@ State::~State() {
  * Responsável por carregar os assets iniciais de State.
  */
 void State::LoadAssets() {
-	// carregar imagens e musicas aqui quando possivel
-
 	// cria GO ambient, atribui ele a Sprite do BG e ao CameraFollower
 	GameObject* ambient = new GameObject;
 	Component* bg = new Sprite(*ambient, "img/ocean.jpg", 1, 0);
@@ -72,8 +65,16 @@ void State::LoadAssets() {
 	penguinGO->box.MoveThis(*new Vec2(704,640));
 }
 
+/*
+ * 	void State::Start()
+ *
+ *
+ */
 void State::Start() {
+	// carrega assets
 	LoadAssets();
+
+	// Chama start de todos os GOs existentes
 	int i = 0;
 	GameObject* go;
 	while (objectArray.begin() + i != objectArray.end()) {
@@ -83,6 +84,7 @@ void State::Start() {
 		i++;
 	}
 
+	// procura GO do player
 	i = 0;
 	Component* cpt = nullptr;
 	GameObject* penguin = nullptr;
@@ -95,12 +97,15 @@ void State::Start() {
 		}
 		i++;
 	}
+
+	// faz camera seguir player caso encontre-o
 	if (penguin != nullptr) {
 		Camera::Follow(penguin);
 	} else {
 		cout << "Erro ao encontrar GameObject do Player" << endl;
 	}
 
+	// toca musica do estagio (descomentar quando quiser)
 	//music.Play();
 	started = true;
 }
@@ -143,6 +148,8 @@ void State::Update(float dt) {
 	i = 0;
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
+
+		// possivel codigo para implementar condicao de vitoria
 //		if (go->GetComponent("PenguinBody") != nullptr || go->GetComponent("Alien") != nullptr) {
 //			go->Update(dt);
 //			if (winCondition || lossCondition) return;
@@ -159,14 +166,20 @@ void State::Update(float dt) {
 	Collider* coll1;
 	Collider* coll2;
 	i = 0;
+
+	// para cada GO com componente collider
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		cpt = go->GetComponent("Collider");
 		if (cpt != nullptr) {
 			j = i+1;
+
+			// procura todos os outros GOs seguintes na lista com collider
 			while (j < size) {
 				go2 = (GameObject*)objectArray[j].get();
 				cpt2 = go2->GetComponent("Collider");
+
+				// checa se ambos estão colidindo, se estiverem, notifica-os
 				if (cpt2 != nullptr && cpt2 != cpt) {
 					coll1 = (Collider*)cpt;
 					coll2 = (Collider*)cpt2;
@@ -267,6 +280,11 @@ bool State::QuitRequested() {
 	return quitRequested;
 }
 
+/*
+ * 	weak_ptr<GameObject> State::GetPlayerGO()
+ *
+ * 	Retorna weak_ptr apontando para o GO do player.
+ */
 weak_ptr<GameObject> State::GetPlayerGO() {
 	int i = 0;
 	while (objectArray.begin() + i != objectArray.end()) {

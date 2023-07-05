@@ -26,6 +26,11 @@ PenguinBody::~PenguinBody () {
 	player = nullptr;
 }
 
+/*
+ * 	void PenguinBody::Start()
+ *
+ * 	Cria objeto PenguinCannon.
+ */
 void PenguinBody::Start() {
 	State* state = &Game::GetInstance().GetState();
 	GameObject* cannonGO = new GameObject();
@@ -34,6 +39,14 @@ void PenguinBody::Start() {
 	pcannon = state->AddObject(cannonGO);
 }
 
+/*
+ * 	void PenguinBody::Update(float dt)
+ *
+ * 	- Checa se player está morto;
+ * 	- Recebe input de W e S para acelerar ou desacelerar;
+ * 	- Recebe input de A e D para mudar direção de movimento;
+ * 	- Aplica mudanças em movimento a todo frame.
+ */
 void PenguinBody::Update(float dt) {
 	if (hp <= 0) {
 		Game::GetInstance().GetState().lossCondition = true;
@@ -51,7 +64,7 @@ void PenguinBody::Update(float dt) {
 	if ((input->KeyPress(W_KEY) || input->IsKeyDown(W_KEY)) && linearSpeed <= VEL_MAX)
 		linearSpeed += ACCELERATION;
 	if ((input->KeyPress(S_KEY) || input->IsKeyDown(S_KEY)) && linearSpeed >= VEL_MIN)
-			linearSpeed -= ACCELERATION;
+		linearSpeed -= ACCELERATION;
 
 	// teclas A ou D -> muda angulo
 	if (input->KeyPress(A_KEY) || input->IsKeyDown(A_KEY))
@@ -78,6 +91,11 @@ bool PenguinBody::Is(string type) {
 	return false;
 }
 
+/*
+ * 	void PenguinBody::NotifyCollision(GameObject& other)
+ *
+ * 	Implementa comportamento em caso de colisão com bala (perde HP);
+ */
 void PenguinBody::NotifyCollision(GameObject& other) {
 	//int old_hp = hp;
 	Component* cpt;
@@ -100,6 +118,11 @@ void PenguinBody::NotifyCollision(GameObject& other) {
 	//if (old_hp != hp) cout << "Penguin HP = " << hp << endl;
 }
 
+/*
+ * 	void PenguinBody::PlayDeathAnimation()
+ *
+ * 	Mostra animação de morte do player.
+ */
 void PenguinBody::PlayDeathAnimation() {
 	State* state = &Game::GetInstance().GetState();
 	GameObject* explosionGO = new GameObject();
