@@ -87,28 +87,37 @@ void Alien::Update(float dt) {
 
 	// comportamentos
 	if (state == RESTING) {
+		// atualiza timer de descanso
 		restTimer.Update(dt);
 
+		// se timer excedeu o cooldown
 		if (restTimer.Get() > REST_COOLDOWN) {
+			// obtem proximo destino
 			destination = Game::GetInstance().GetState().GetPlayerGO().lock().get()->box.GetCenter();
-
+			// muda estado para movendo
 			state = MOVING;
 		}
 	} else if (state == MOVING) {
+			// se destino estiver longe, move-se na direcao dele
 		if (destination.GetDistance(associated.box.GetCenter()) >= MAX_SPEED) {
 			Vec2 direction = destination - associated.box.GetCenter();
 			speed = direction.GetNormalizedVector() * MAX_SPEED;
 			associated.box.MoveThis(speed);
 		} else {
+			// se destino estiver dentro do alcance do movimento de um unico frame, assume a posicao
 			Vec2 offset;
 			offset.Set(associated.box.w/2, associated.box.h/2);
 			associated.box.SetPosition(destination - offset);
 			speed.Set(0,0);
 
+			// obtem posicao atual do player
 			Vec2 playerPos = Game::GetInstance().GetState().GetPlayerGO().lock().get()->box.GetCenter();
+
+			// atira em direcao ao player
 			Minion* minion = GetClosestMinion(playerPos);
 			minion->Shoot(playerPos);
 
+			// modifica estado para descanso
 			state = RESTING;
 		}
 	} else {
@@ -163,6 +172,11 @@ Minion* Alien::GetClosestMinion(Vec2 target) {
 	return (Minion*)minionGO->GetComponent("Minion");
 }
 
+/*
+ * 	void Alien::PlayDeathAnimation()
+ *
+ * 	Executa animação de morte do alien.
+ */
 void Alien::PlayDeathAnimation() {
 	State* state = &Game::GetInstance().GetState();
 	GameObject* explosionGO = new GameObject();
