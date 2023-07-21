@@ -60,8 +60,6 @@ void Alien::Update(float dt) {
 			Alien::alienCount--;
 			if (alienCount == 0) {
 				// condicao de vitoria
-				Game::GetInstance().GetState().winCondition = true;
-				cout << "Vitória!" << endl;
 			}
 
 			associated.RequestDelete();

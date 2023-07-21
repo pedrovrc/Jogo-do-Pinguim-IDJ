@@ -1,37 +1,34 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include "Sprite.h"
-#include "Sound.h"
-#include "Music.h"
+#include <bits/stdc++.h>
+using namespace std;
+
 #include "GameObject.h"
-#include "InputManager.h"
 
-/*
- * Classe State
- *
- * Responsável por gerenciar as telas de jogo e os GameObjects.
- */
 class State {
-	Music music;
-	vector<shared_ptr<GameObject>> objectArray;
-	bool started;
-	bool quitRequested;
-	void DeleteObject(GameObject* go);
 public:
-	bool winCondition;
-	bool lossCondition;
-
 	State();
-	~State();
-	void LoadAssets();
-	void Update(float dt);
-	void Render();
-	weak_ptr<GameObject> AddObject(GameObject* go);
-	weak_ptr<GameObject> GetObjectPtr(GameObject* go);
-	void Start();
+	virtual ~State();
+
+	virtual void LoadAssets() = 0;
+	virtual void Update(float dt) = 0;
+	virtual void Render() = 0;
+
+	virtual weak_ptr<GameObject> AddObject(GameObject* go);
+	virtual weak_ptr<GameObject> GetObjectPtr(GameObject* go);
+
+	bool PopRequested();
 	bool QuitRequested();
-	weak_ptr<GameObject> GetPlayerGO();
+protected:
+	bool popRequested;
+	bool quitRequested;
+	bool started;
+	vector<shared_ptr<GameObject>> objectArray;
+
+	void StartArray();
+	virtual void UpdateArray(float dt);
+	virtual void RenderArray();
 };
 
 #endif

@@ -59,13 +59,13 @@ Game::Game(string title, int width, int height) {
 		return;
 	}
 
-	state = new State;
+	storedState = nullptr;
 	frameStart = 0;
 	dt = 0;
 }
 
 Game::~Game() {
-	free(state);
+	if(storedState != nullptr) free(storedState);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	Mix_CloseAudio();
@@ -112,15 +112,6 @@ void Game::Run() {
 		CalculateDeltaTime();
 		InputManager::GetInstance().Update();
 		state->Update(dt);
-
-//		if (state->winCondition) {
-//			cout << "Vitória!" << endl;
-//			//return;
-//		} else if (state->lossCondition) {
-//			cout << "Derrota!" << endl;
-//			//return;
-//		}
-
 		state->Render();
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
@@ -130,8 +121,8 @@ void Game::Run() {
 	Resources::ClearSounds();
 }
 
-State& Game::GetState() {
-	return *state;
+State& Game::GetCurrentState() {
+	return stateStack.top().get();
 }
 
 SDL_Renderer* Game::GetRenderer() {

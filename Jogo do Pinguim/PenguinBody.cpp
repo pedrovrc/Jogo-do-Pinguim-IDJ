@@ -49,8 +49,7 @@ void PenguinBody::Start() {
  */
 void PenguinBody::Update(float dt) {
 	if (hp <= 0) {
-		Game::GetInstance().GetState().lossCondition = true;
-		cout << "Derrota!" << endl;
+		// condicao de derrota
 
 		associated.RequestDelete();
 		pcannon.lock().get()->RequestDelete();
