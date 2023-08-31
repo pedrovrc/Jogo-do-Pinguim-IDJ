@@ -66,3 +66,36 @@ bool State::PopRequested() {
 bool State::QuitRequested() {
 	return quitRequested;
 }
+
+void State::StartArray() {
+	// inicia GameObjects
+	int i = objectArray.size();
+	GameObject* go;
+	while (i > 0) {
+		go = (GameObject*)objectArray[i].get();
+		go->Start();
+		i--;
+	}
+}
+
+void State::UpdateArray(float dt) {
+	// atualiza GameObjects
+	int i = objectArray.size();
+	GameObject* go;
+	while (i > 0) {
+		go = (GameObject*)objectArray[i].get();
+		go->Update(dt);
+		i--;
+	}
+}
+
+void State::RenderArray() {
+	// renderiza GameObjects
+	int i = objectArray.size();
+	GameObject* go;
+	while (i > 0) {
+		go = (GameObject*)objectArray[i].get();
+		go->Render();
+		i--;
+	}
+}
