@@ -47,6 +47,17 @@ weak_ptr<GameObject> State::AddObject(GameObject* go) {
 	return weak_ptr<GameObject>(pointer);
 }
 
+void State::DeleteObject(GameObject* go) {
+	int size = objectArray.size(), i = 0;
+	while (i < size) {
+		if (go == (GameObject*)objectArray[i].get()) {
+			objectArray.erase(objectArray.begin() + i);
+			return;
+		}
+		i++;
+	}
+}
+
 
 weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
 	int i = 0;

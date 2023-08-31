@@ -11,6 +11,7 @@
 #include "Collider.h"
 
 StageState::StageState() {
+	tileSet = nullptr;
 	quitRequested = false;
 	started = false;
 }
@@ -38,7 +39,7 @@ void StageState::LoadAssets() {
 	AddObject(ambient);
 
 	// abre musica
-	music.Open("audio/stageStageState.ogg");
+	backgroundMusic.Open("audio/stageStageState.ogg");
 
 	// criação do mapa
 	GameObject* tileMapGO = new GameObject;
@@ -232,50 +233,12 @@ void StageState::Render() {
 	}
 }
 
-/*
- * weak_ptr<GameObject> StageState::AddObject(GameObject* go)
- *
- * Adiciona novo GameObject à lista de GameObjects.
- */
-weak_ptr<GameObject> StageState::AddObject(GameObject* go) {
-	shared_ptr<GameObject> pointer(go);
-	objectArray.push_back(pointer);
-	if(started) pointer->Start();
-	return weak_ptr<GameObject>(pointer);
+void StageState::Pause() {
+
 }
 
-/*
- * void StageState::DeleteObject(GameObject* go)
- *
- * Deleta um GameObject da lista.
- */
-void StageState::DeleteObject(GameObject* go) {
-	int size = objectArray.size(), i = 0;
-	while (i < size) {
-		if (go == (GameObject*)objectArray[i].get()) {
-			objectArray.erase(objectArray.begin() + i);
-			return;
-		}
-		i++;
-	}
-}
+void StageState::Resume() {
 
-/*
- * weak_ptr<GameObject> StageState::GetObjectPtr(GameObject* go)
- *
- * Retorna um weak_ptr referenciando o go requisitado.
- */
-weak_ptr<GameObject> StageState::GetObjectPtr(GameObject* go) {
-	int i = 0;
-	while (objectArray.begin() + i != objectArray.end()) {
-		if (objectArray[i].get() == go) return weak_ptr<GameObject>(objectArray[i]);
-		i++;
-	}
-	return weak_ptr<GameObject>();
-}
-
-bool StageState::QuitRequested() {
-	return quitRequested;
 }
 
 /*

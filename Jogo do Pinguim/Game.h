@@ -26,9 +26,9 @@ class Game {
 	stack<unique_ptr<State>> stateStack;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	Game(string title, int width, int height);
 	void CalculateDeltaTime();
 public:
+	Game(string title, int width, int height);
 	~Game();
 	void Run();
 	SDL_Renderer* GetRenderer();

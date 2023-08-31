@@ -20,6 +20,7 @@ public:
 	virtual void Resume() = 0;
 
 	virtual weak_ptr<GameObject> AddObject(GameObject* go);
+	virtual void DeleteObject(GameObject* go)
 	virtual weak_ptr<GameObject> GetObjectPtr(GameObject* go);
 
 	bool PopRequested();
