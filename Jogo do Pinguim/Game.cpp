@@ -117,11 +117,13 @@ void Game::CalculateDeltaTime() {
  */
 void Game::Run() {
 	if (storedState == nullptr) {
+		cout << "Erro ao carregar estado inicial do jogo" << endl;
 		return;
 	} else {
-		unique_ptr<State> uniqueState;
-		uniqueState = *storedState;
-		stateStack.push(uniqueState);
+		unique_ptr<State> uniqueState (storedState);
+		stateStack.push(move(uniqueState));
+		stateStack.top().get()->Start();
+		storedState = nullptr;
 	}
 
 	State* currentState;
@@ -135,10 +137,10 @@ void Game::Run() {
 
 		if (storedState != nullptr) {
 			stateStack.top().get()->Pause();
-			unique_ptr<State> uniqueState;
-			uniqueState = *storedState;
-			stateStack.push(uniqueState);
+			unique_ptr<State> uniqueState (storedState);
+			stateStack.push(move(uniqueState));
 			stateStack.top().get()->Start();
+			storedState = nullptr;
 		}
 
 		currentState = stateStack.top().get();
@@ -161,7 +163,7 @@ void Game::Push(State* state) {
 }
 
 State& Game::GetCurrentState() {
-	return stateStack.top().get();
+	return *stateStack.top().get();
 }
 
 SDL_Renderer* Game::GetRenderer() {

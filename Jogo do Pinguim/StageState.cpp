@@ -9,6 +9,7 @@
 #include "Collision.cpp"
 #include "GeneralFunctions.h"
 #include "Collider.h"
+#include "Sprite.h"
 
 StageState::StageState() {
 	tileSet = nullptr;
@@ -74,17 +75,11 @@ void StageState::Start() {
 	LoadAssets();
 
 	// Chama start de todos os GOs existentes
-	int i = 0;
-	GameObject* go;
-	while (objectArray.begin() + i != objectArray.end()) {
-		go = (GameObject*)objectArray[i].get();
-		go->Start();
-		go->started = true;
-		i++;
-	}
+	StartArray();
 
 	// procura GO do player
-	i = 0;
+	int i = 0;
+	GameObject* go;
 	Component* cpt = nullptr;
 	GameObject* penguin = nullptr;
 	while (objectArray.begin() + i != objectArray.end()) {
@@ -144,18 +139,7 @@ void StageState::Update(float dt) {
 	Camera::Update(dt);
 
 	// atualiza GameObjects
-	i = 0;
-	while (i < size) {
-		go = (GameObject*)objectArray[i].get();
-
-		// possivel codigo para implementar condicao de vitoria
-//		if (go->GetComponent("PenguinBody") != nullptr || go->GetComponent("Alien") != nullptr) {
-//			go->Update(dt);
-//			if (winCondition || lossCondition) return;
-//		}
-		go->Update(dt);
-		i++;
-	}
+	UpdateArray(dt);
 
 	// deteccao de colisao
 	int j;
@@ -214,16 +198,11 @@ void StageState::Update(float dt) {
  * Responsável por renderizar todos os GameObjects gerenciados.
  */
 void StageState::Render() {
-	int i = 0;
-	GameObject* go;
-	while (objectArray.begin() + i != objectArray.end()) {
- 		go = (GameObject*)objectArray[i].get();
-		go->Render();
-		i++;
-	}
+	RenderArray();
 
 	// chamada extra de TileMap->Render para renderizar camadas acima
-	i = 0;
+	int i = 0;
+	GameObject* go;
 	while (objectArray.begin() + i != objectArray.end()) {
 		go = (GameObject*)objectArray[i].get();
 		if (go->GetComponent("TileMap") != nullptr) {

@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "Alien.h"
 #include "Bullet.h"
+#include "Sound.h"
 
 PenguinBody* PenguinBody::player;
 
@@ -32,7 +33,7 @@ PenguinBody::~PenguinBody () {
  * 	Cria objeto PenguinCannon.
  */
 void PenguinBody::Start() {
-	State* state = &Game::GetInstance().GetState();
+	State* state = &Game::GetInstance().GetCurrentState();
 	GameObject* cannonGO = new GameObject();
 	PenguinCannon* cannon = new PenguinCannon(*cannonGO, state->GetObjectPtr(&associated));
 	cannonGO->AddComponent((Component*)cannon);
@@ -123,7 +124,7 @@ void PenguinBody::NotifyCollision(GameObject& other) {
  * 	Mostra animação de morte do player.
  */
 void PenguinBody::PlayDeathAnimation() {
-	State* state = &Game::GetInstance().GetState();
+	State* state = &Game::GetInstance().GetCurrentState();
 	GameObject* explosionGO = new GameObject();
 
 	Sprite* explosion = new Sprite(*explosionGO, "img/penguindeath.png", 5, 200, 1);

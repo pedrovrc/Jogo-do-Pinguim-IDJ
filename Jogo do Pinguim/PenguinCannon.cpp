@@ -67,7 +67,7 @@ void PenguinCannon::Shoot() {
 									100,
 									false );
 	bulletGO->AddComponent(bullet);
-	Game::GetInstance().GetState().AddObject(bulletGO);
+	Game::GetInstance().GetCurrentState().AddObject(bulletGO);
 	associated.started = true;
 }
 

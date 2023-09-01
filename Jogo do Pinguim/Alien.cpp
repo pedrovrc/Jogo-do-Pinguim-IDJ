@@ -5,6 +5,7 @@
 #include "GeneralFunctions.h"
 #include "Collider.h"
 #include "Bullet.h"
+#include "Sound.h"
 
 int Alien::alienCount;
 
@@ -32,7 +33,7 @@ Alien::~Alien() {
  * Popula o vetor de minions.
  */
 void Alien::Start() {
-	State& state = Game::GetInstance().GetState();
+	State& state = Game::GetInstance().GetCurrentState();
 
 	// cria minions
 	for(int i = 0; i < MINION_COUNT; i++) {
@@ -77,8 +78,8 @@ void Alien::Update(float dt) {
 	if (associated.angleDeg < 0) associated.angleDeg -= 360;
 
 	// se player estiver morto, nao faz nada
-	if (Game::GetInstance().GetState().GetPlayerGO().expired() == false) {
-		if (Game::GetInstance().GetState().GetPlayerGO().lock().get()->IsDead()) return;
+	if (Game::GetInstance().GetCurrentState().GetPlayerGO().expired() == false) {
+		if (Game::GetInstance().GetCurrentState().GetPlayerGO().lock().get()->IsDead()) return;
 	} else {
 		return;
 	}
@@ -91,7 +92,7 @@ void Alien::Update(float dt) {
 		// se timer excedeu o cooldown
 		if (restTimer.Get() > REST_COOLDOWN) {
 			// obtem proximo destino
-			destination = Game::GetInstance().GetState().GetPlayerGO().lock().get()->box.GetCenter();
+			destination = Game::GetInstance().GetCurrentState().GetPlayerGO().lock().get()->box.GetCenter();
 			// muda estado para movendo
 			state = MOVING;
 		}
@@ -109,7 +110,7 @@ void Alien::Update(float dt) {
 			speed.Set(0,0);
 
 			// obtem posicao atual do player
-			Vec2 playerPos = Game::GetInstance().GetState().GetPlayerGO().lock().get()->box.GetCenter();
+			Vec2 playerPos = Game::GetInstance().GetCurrentState().GetPlayerGO().lock().get()->box.GetCenter();
 
 			// atira em direcao ao player
 			Minion* minion = GetClosestMinion(playerPos);
@@ -176,7 +177,7 @@ Minion* Alien::GetClosestMinion(Vec2 target) {
  * 	Executa animação de morte do alien.
  */
 void Alien::PlayDeathAnimation() {
-	State* state = &Game::GetInstance().GetState();
+	State* state = &Game::GetInstance().GetCurrentState();
 	GameObject* explosionGO = new GameObject();
 
 	Sprite* explosion = new Sprite(*explosionGO, "img/aliendeath.png", 4, 250, 1);

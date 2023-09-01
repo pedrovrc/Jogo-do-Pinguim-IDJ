@@ -94,7 +94,7 @@ void Minion::Shoot(Vec2 target) {
 									100,
 									true );
 	bulletGO->AddComponent(bullet);
-	Game::GetInstance().GetState().AddObject(bulletGO);
+	Game::GetInstance().GetCurrentState().AddObject(bulletGO);
 }
 
 void Minion::NotifyCollision(GameObject& other) {
