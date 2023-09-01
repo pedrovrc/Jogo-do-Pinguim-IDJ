@@ -55,33 +55,33 @@ bool State::QuitRequested() {
 
 void State::StartArray() {
 	// inicia GameObjects
-	int i = objectArray.size();
+	int i = 0, size = objectArray.size();
 	GameObject* go;
-	while (i > 0) {
+	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		go->Start();
-		i--;
+		i++;
 	}
 }
 
 void State::UpdateArray(float dt) {
 	// atualiza GameObjects
-	int i = objectArray.size();
+	int i = 0, size = objectArray.size();
 	GameObject* go;
-	while (i > 0) {
+	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		go->Update(dt);
-		i--;
+		i++;
 	}
 }
 
 void State::RenderArray() {
 	// renderiza GameObjects
-	int i = objectArray.size();
+	int i = 0, size = objectArray.size();
 	GameObject* go;
-	while (i > 0) {
+	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		go->Render();
-		i--;
+		i++;
 	}
 }
