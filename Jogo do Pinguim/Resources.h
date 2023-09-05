@@ -15,11 +15,11 @@ using namespace std;
  * Responsável por gerenciar os assets do jogo.
  */
 class Resources {
-	static unordered_map<string, SDL_Texture*> imageTable;
+	static unordered_map<string, shared_ptr<SDL_Texture>> imageTable;
 	static unordered_map<string, Mix_Music*> musicTable;
 	static unordered_map<string, Mix_Chunk*> soundTable;
 public:
-	static SDL_Texture* GetImage(string file);
+	static shared_ptr<SDL_Texture> GetImage(string file);
 	static Mix_Music* GetMusic(string file);
 	static Mix_Chunk* GetSound(string file);
 	static void ClearImages();

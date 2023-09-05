@@ -55,8 +55,9 @@ Sprite::~Sprite() {
  */
 void Sprite::Open(string file) {
 	texture = Resources::GetImage(file);
+	SDL_Texture* texture_ptr = texture.get();
 
-	if (SDL_QueryTexture(texture, nullptr, nullptr, &width, &height) != 0) {
+	if (SDL_QueryTexture(texture_ptr, nullptr, nullptr, &width, &height) != 0) {
 		cout << "Erro 2 ao abrir imagem" << endl;
 		cout << SDL_GetError() << endl;
 		return;
@@ -114,10 +115,11 @@ void Sprite::Render(float x, float y, float w, float h) {
 	dstRect.y = y;
 	dstRect.w = w;
 	dstRect.h = h;
+	SDL_Texture* texture_ptr = texture.get();
 
 	Game& game = game.GetInstance();
 	if (SDL_RenderCopyEx( game.GetRenderer(),
-			 	 	 	  texture,
+			 	 	 	  texture_ptr,
 						  &clipRect,
 						  &dstRect,
 						  associated.angleDeg,

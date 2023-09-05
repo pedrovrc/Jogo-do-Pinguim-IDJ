@@ -18,7 +18,7 @@ using namespace std;
  * Responsável por conter uma SDL_Texture e permitir renderização de imagens.
  */
 class Sprite : public Component{
-	SDL_Texture* texture;
+	shared_ptr<SDL_Texture> texture;
 	int width;
 	int height;
 	int frameWidth;

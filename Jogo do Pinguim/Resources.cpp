@@ -1,7 +1,7 @@
 #include "Resources.h"
 #include "Game.h"
 
-unordered_map<string, SDL_Texture*> Resources::imageTable;
+unordered_map<string, shared_ptr<SDL_Texture>> Resources::imageTable;
 unordered_map<string, Mix_Music*> Resources::musicTable;
 unordered_map<string, Mix_Chunk*> Resources::soundTable;
 
@@ -10,7 +10,7 @@ unordered_map<string, Mix_Chunk*> Resources::soundTable;
  *
  * Retorna uma referência para a SDL_Texture com a imagem requisitada.
  */
-SDL_Texture* Resources::GetImage(string file) {
+shared_ptr<SDL_Texture> Resources::GetImage(string file) {
 	auto it = imageTable.find(file);
 
 	// se encontrar imagem na tabela
@@ -25,8 +25,9 @@ SDL_Texture* Resources::GetImage(string file) {
 			return nullptr;
 		}
 
-		imageTable.emplace(file, reference);
-		return reference;
+		shared_ptr<SDL_Texture> shared_reference (reference, [](SDL_Texture* tex){SDL_DestroyTexture(tex);});
+		imageTable.emplace(file, shared_reference);
+		return shared_reference;
 	}
 }
 
@@ -80,8 +81,10 @@ Mix_Chunk* Resources::GetSound(string file) {
 void Resources::ClearImages() {
 	SDL_Texture* pointer;
 	for (auto& it : imageTable) {
-		pointer = it.second;
-		SDL_DestroyTexture(pointer);
+		if (it.second.unique()) {
+			pointer = it.second.get();
+			SDL_DestroyTexture(pointer);
+		}
 	}
 	imageTable.clear();
 }
