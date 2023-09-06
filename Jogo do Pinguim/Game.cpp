@@ -38,6 +38,13 @@ Game::Game(string title, int width, int height) {
 		return;
 	}
 
+	error = TTF_Init();
+	if (error == -1) {
+		cout << "Erro na inicializacao do SDL_TTF" << endl;
+		cout << SDL_GetError() << endl;
+		return;
+	}
+
 	error = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 	if (error != 0) {
 		cout << "Erro na inicializacao do SDL_Mixer (OpenAudio)" << endl;
@@ -78,6 +85,7 @@ Game::~Game() {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	Mix_CloseAudio();
+	TTF_Quit();
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();

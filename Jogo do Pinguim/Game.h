@@ -5,6 +5,7 @@
 using namespace std;
 
 #define INCLUDE_SDL
+#define INCLUDE_SDL_TTF
 #include "SDL_include.h"
 #include "State.h"
 #include "InputManager.h"
