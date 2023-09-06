@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "StageState.h"
 #include "Camera.h"
+#include "Text.h"
 
 TitleState::TitleState() {
 
@@ -30,6 +31,18 @@ void TitleState::LoadAssets() {
 	go->AddComponent(bg);
 	go->box.MoveThis(*new Vec2(0,0));
 	AddObject(go);
+
+	GameObject* go_text = new GameObject();
+	SDL_Color white;
+	white.r = 255;
+	white.g = 255;
+	white.b = 255;
+	white.a = 255;
+	Component* text = new Text(*go_text, "arial", 16, Text::SOLID, "Press SPACEBAR to start game", white);
+	go_text->AddComponent(text);
+	go_text->box.MoveThis(*new Vec2(341,150));
+	go_text->box.w = 342;
+	go_text->box.h = 80;
 }
 
 void TitleState::Render() {

@@ -23,11 +23,16 @@ public:
 	void Render();
 	bool Is(string type);
 
+	void Start();
+	void Pause();
+	void Resume();
+	void NotifyCollision(GameObject& other);
+
 	void SetText(string text);
 	void SetColor(SDL_Color color);
 	void SetStyle(TextStyle style);
 	void SetFontFile(string fontFile);
-	void SetFontSizer(int fontSize);
+	void SetFontSize(int fontSize);
 
 private:
 	TTF_Font* font;

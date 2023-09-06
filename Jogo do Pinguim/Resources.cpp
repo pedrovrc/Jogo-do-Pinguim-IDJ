@@ -73,6 +73,23 @@ Mix_Chunk* Resources::GetSound(string file) {
 	}
 }
 
+TTF_Font* Resources::GetFont(string file, int size) {
+	string file_num = file + to_string(size);
+	auto it = fontTable.find(file_num);
+	if (it != fontTable.end()) {
+		return it->second;
+	} else {
+		TTF_Font* reference = TTF_OpenFont(file.c_str(), size);
+		if (reference == nullptr) {
+			cout << "Erro ao carregar fonte" << endl;
+			cout << SDL_GetError() << endl;
+			return nullptr;
+		}
+		fontTable.emplace(file_num, reference);
+		return reference;
+	}
+}
+
 /*
  * void Resources::ClearImages()
  *
@@ -115,4 +132,13 @@ void Resources::ClearSounds() {
 		Mix_FreeChunk(pointer);
 	}
 	soundTable.clear();
+}
+
+void Resources::ClearFonts() {
+	TTF_Font* pointer;
+	for (auto& it : fontTable) {
+		pointer = it.second;
+		TTF_CloseFont(pointer);
+	}
+	fontTable.clear();
 }
