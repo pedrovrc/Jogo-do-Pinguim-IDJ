@@ -15,7 +15,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-
 	weak_ptr<GameObject> GetPlayerGO();
 };
 

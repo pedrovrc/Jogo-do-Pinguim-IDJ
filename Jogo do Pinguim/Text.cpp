@@ -73,7 +73,8 @@ void Text::Resume() {
 }
 
 bool Text::Is(string type) {
-
+	if (type == "Text") return true;
+	return false;
 }
 
 void Text::NotifyCollision(GameObject& other) {

@@ -1,5 +1,5 @@
-#ifndef TITLESTATE_H
-#define TITLESTATE_H
+#ifndef TEXT_H
+#define TEXT_H
 
 #include "Component.h"
 

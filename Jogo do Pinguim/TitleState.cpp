@@ -62,5 +62,5 @@ void TitleState::Resume() {
 }
 
 weak_ptr<GameObject> TitleState::GetPlayerGO() {
-
+	return weak_ptr<GameObject>();
 }
