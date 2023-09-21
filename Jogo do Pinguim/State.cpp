@@ -17,7 +17,7 @@ State::~State() {
 
 weak_ptr<GameObject> State::AddObject(GameObject* go) {
 	shared_ptr<GameObject> pointer(go);
-	objectArray.push_back(pointer);
+	objectArray.emplace_back(pointer);
 	if(started) pointer->Start();
 	return weak_ptr<GameObject>(pointer);
 }
