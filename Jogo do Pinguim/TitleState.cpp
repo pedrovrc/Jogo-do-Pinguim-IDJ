@@ -38,9 +38,9 @@ void TitleState::LoadAssets() {
 	white.g = 255;
 	white.b = 255;
 	white.a = 255;
-	Component* text = new Text(*go_text, "arial", 16, Text::SOLID, "Press SPACEBAR to start game", white);
-	go_text->AddComponent(text);
-	go_text->box.MoveThis(*new Vec2(341,150));
+	Text* text = new Text(*go_text, "font/Call me maybe.ttf", 16, Text::SOLID, "Press SPACEBAR to start game", white);
+	go_text->AddComponent((Component*) text);
+	go_text->box.MoveThis(*new Vec2(300,80));
 	go_text->box.w = 342;
 	go_text->box.h = 80;
 }

@@ -40,7 +40,7 @@ void StageState::LoadAssets() {
 	AddObject(ambient);
 
 	// abre musica
-	backgroundMusic.Open("audio/stageStageState.ogg");
+	backgroundMusic.Open("audio/stageState.ogg");
 
 	// criação do mapa
 	GameObject* tileMapGO = new GameObject;
@@ -100,7 +100,7 @@ void StageState::Start() {
 	}
 
 	// toca musica do estagio (descomentar quando quiser)
-	//music.Play();
+	backgroundMusic.Play();
 	started = true;
 }
 

@@ -51,7 +51,7 @@ void GameObject::Render() {
 void GameObject::AddComponent(Component* cpt) {
 	if (started) cpt->Start();
 	unique_ptr<Component> cpt_ptr(cpt);
-	components.push_back(cpt_ptr);
+	components.push_back(move(cpt_ptr));
 }
 
 /*

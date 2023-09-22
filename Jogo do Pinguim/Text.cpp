@@ -11,7 +11,6 @@ Text::Text( GameObject& associated,
 		    SDL_Color color ) : Component(associated) {
 
 	texture = nullptr;
-	this->associated = associated;
 	this->text = text;
 	this->style = style;
 	this->fontFile = fontFile;
@@ -32,6 +31,7 @@ void Text::Update(float dt) {
 }
 
 void Text::Render() {
+	cout << "Render" << endl;
 	if (texture != nullptr) {
 		SDL_Rect dstRect;
 		dstRect.x = associated.box.x - Camera::pos.x;
@@ -39,11 +39,23 @@ void Text::Render() {
 		dstRect.w = associated.box.w;
 		dstRect.h = associated.box.h;
 
+		cout << "dstRect:" << endl;
+		cout << "x: " << dstRect.x << endl;
+		cout << "y: " << dstRect.y << endl;
+		cout << "w: " << dstRect.w << endl;
+		cout << "h: " << dstRect.h << endl << endl;
+
 		SDL_Rect clipRect;
 		clipRect.x = 0;
 		clipRect.y = 0;
 		clipRect.w = associated.box.w;
 		clipRect.h = associated.box.h;
+
+		cout << "clipRect:" << endl;
+		cout << "x: " <<  clipRect.x << endl;
+		cout << "y: " << clipRect.y << endl;
+		cout << "w: " << clipRect.w << endl;
+		cout << "h: " << clipRect.h << endl << endl;
 
 		Game& game = game.GetInstance();
 		if (SDL_RenderCopyEx( game.GetRenderer(),
