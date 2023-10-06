@@ -8,7 +8,8 @@ Text::Text( GameObject& associated,
 		    int fontSize,
 		    TextStyle style,
 		    string text,
-		    SDL_Color color ) : Component(associated) {
+		    SDL_Color color,
+			float blinkTime ) : Component(associated) {
 
 	texture = nullptr;
 	this->text = text;
@@ -17,6 +18,12 @@ Text::Text( GameObject& associated,
 	this->fontSize = fontSize;
 	this->color = color;
 	this->font = Resources::GetFont(fontFile, fontSize);
+
+	blinkTimer = Timer();
+	this->blinkTime = blinkTime;
+
+	showText = true;
+
 	RemakeTexture();
 }
 
@@ -27,11 +34,16 @@ Text::~Text() {
 }
 
 void Text::Update(float dt) {
-
+	if (blinkTime > 0) {
+		blinkTimer.Update(dt);
+		if (blinkTimer.Get() > blinkTime) {
+			showText = !showText;
+			blinkTimer.Restart();
+		}
+	}
 }
 
 void Text::Render() {
-	cout << "Render" << endl;
 	if (texture != nullptr) {
 		SDL_Rect dstRect;
 		dstRect.x = associated.box.x - Camera::pos.x;
@@ -39,35 +51,26 @@ void Text::Render() {
 		dstRect.w = associated.box.w;
 		dstRect.h = associated.box.h;
 
-		cout << "dstRect:" << endl;
-		cout << "x: " << dstRect.x << endl;
-		cout << "y: " << dstRect.y << endl;
-		cout << "w: " << dstRect.w << endl;
-		cout << "h: " << dstRect.h << endl << endl;
-
 		SDL_Rect clipRect;
 		clipRect.x = 0;
 		clipRect.y = 0;
 		clipRect.w = associated.box.w;
 		clipRect.h = associated.box.h;
 
-		cout << "clipRect:" << endl;
-		cout << "x: " <<  clipRect.x << endl;
-		cout << "y: " << clipRect.y << endl;
-		cout << "w: " << clipRect.w << endl;
-		cout << "h: " << clipRect.h << endl << endl;
-
 		Game& game = game.GetInstance();
-		if (SDL_RenderCopyEx( game.GetRenderer(),
-							  texture,
-							  &clipRect,
-							  &dstRect,
-							  associated.angleDeg,
-							  nullptr,
-							  SDL_FLIP_NONE ) != 0 ) {
-			cout << "Erro ao renderizar texto" << endl;
-			cout << SDL_GetError() << endl;
-			return;
+
+		if (showText) {
+			if (SDL_RenderCopyEx( game.GetRenderer(),
+								  texture,
+								  &clipRect,
+								  &dstRect,
+								  associated.angleDeg,
+								  nullptr,
+								  SDL_FLIP_NONE ) != 0 ) {
+				cout << "Erro ao renderizar texto" << endl;
+				cout << SDL_GetError() << endl;
+				return;
+			}
 		}
 	}
 }
@@ -137,8 +140,8 @@ void Text::RemakeTexture() {
 	texture = SDL_CreateTextureFromSurface(game.GetRenderer(), surface);
 	SDL_FreeSurface(surface);
 
-	int* w, * h;
-	SDL_QueryTexture(texture, nullptr, nullptr, w, h);
-	associated.box.w = *w;
-	associated.box.h = *h;
+	int w, h;
+	SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
+	associated.box.w = w;
+	associated.box.h = h;
 }

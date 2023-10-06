@@ -7,7 +7,6 @@
 #include "Text.h"
 
 TitleState::TitleState() {
-
 }
 
 TitleState::~TitleState() {
@@ -15,6 +14,8 @@ TitleState::~TitleState() {
 }
 
 void TitleState::Update(float dt) {
+	UpdateArray(dt);
+
 	InputManager* input = &(InputManager::GetInstance());
 	quitRequested = input->QuitRequested();
 
@@ -33,20 +34,25 @@ void TitleState::LoadAssets() {
 	AddObject(go);
 
 	GameObject* go_text = new GameObject();
-	SDL_Color white;
-	white.r = 255;
-	white.g = 255;
-	white.b = 255;
-	white.a = 255;
-	Text* text = new Text(*go_text, "font/Call me maybe.ttf", 16, Text::SOLID, "Press SPACEBAR to start game", white);
+	SDL_Color black;
+	black.r = 0;
+	black.g = 0;
+	black.b = 0;
+	black.a = 255;
+	Text* text = new Text(*go_text,
+						  "font/Call me maybe.ttf", 16,
+						  Text::TextStyle::SOLID,
+						  "Press SPACEBAR to start game",
+						  black, 0.5);
 	go_text->AddComponent((Component*) text);
-	go_text->box.MoveThis(*new Vec2(300,80));
-	go_text->box.w = 342;
-	go_text->box.h = 80;
+	go_text->box.SetCenterPosition(*new Vec2(400,500));
+	go_text->box.w = 500;
+	go_text->box.h = 100;
+	AddObject(go_text);
 }
 
 void TitleState::Render() {
-	RenderArray();
+	this->RenderArray();
 }
 
 void TitleState::Start() {

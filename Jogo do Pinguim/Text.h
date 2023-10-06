@@ -2,6 +2,7 @@
 #define TEXT_H
 
 #include "Component.h"
+#include "Timer.h"
 
 #define INCLUDE_SDL_TTF
 #define INCLUDE_SDL_IMAGE
@@ -16,7 +17,8 @@ public:
 		  int fontSize,
 		  TextStyle style,
 		  string text,
-		  SDL_Color color );
+		  SDL_Color color,
+		  float blinkTime);
 	~Text();
 
 	void Update(float dt);
@@ -43,6 +45,11 @@ private:
 	string fontFile;
 	int fontSize;
 	SDL_Color color;
+
+	Timer blinkTimer;
+	float blinkTime;
+
+	bool showText;
 
 	void RemakeTexture();
 };
