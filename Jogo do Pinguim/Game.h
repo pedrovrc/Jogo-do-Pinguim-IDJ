@@ -9,6 +9,7 @@ using namespace std;
 #include "SDL_include.h"
 #include "State.h"
 #include "InputManager.h"
+#include "GameData.h"
 
 #define GAME_TITLE "Pedro Victor Rodrigues de Carvalho 170113043"
 #define WINDOW_WIDTH 1024
@@ -37,5 +38,6 @@ public:
 	void Push(State* state);
 	static Game& GetInstance();
 	float GetDeltaTime();
+	GameData gameData;
 };
 #endif

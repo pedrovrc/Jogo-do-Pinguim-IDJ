@@ -138,12 +138,14 @@ void Game::Run() {
 
 	while(stateStack.empty() == false) {
 		if (stateStack.top().get()->QuitRequested()) {
+			cout << "POP" << endl;
 			stateStack.pop();
 			if (stateStack.empty() == false) stateStack.top().get()->Resume();
 			else break;
 		}
 
 		if (storedState != nullptr) {
+			cout << "STOREDSTATE" << endl;
 			stateStack.top().get()->Pause();
 			unique_ptr<State> uniqueState (storedState);
 			stateStack.push(move(uniqueState));

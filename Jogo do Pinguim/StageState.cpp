@@ -10,6 +10,7 @@
 #include "GeneralFunctions.h"
 #include "Collider.h"
 #include "Sprite.h"
+#include "EndState.h"
 
 StageState::StageState() {
 	tileSet = nullptr;
@@ -120,6 +121,8 @@ void StageState::Update(float dt) {
 	GameObject* go;
 	Component* cpt = nullptr;
 	GameObject* penguin = nullptr;
+	// MUDAR
+	// USAR GETPLAYERGO
 	while (objectArray.begin() + i != objectArray.end()) {
 		go = (GameObject*)objectArray[i].get();
 		cpt = go->GetComponent("PenguinBody");
@@ -189,6 +192,34 @@ void StageState::Update(float dt) {
 			size--;
 		}
 		i++;
+	}
+
+	// condicao de vitoria/derrota
+	bool enemiesDead = true;
+	i = 0;
+	while (objectArray.begin() + i != objectArray.end()) {
+		go = (GameObject*)objectArray[i].get();
+		cpt = go->GetComponent("Alien");
+		if (cpt != nullptr) {
+			enemiesDead = false;
+			break;
+		}
+		i++;
+	}
+
+	if (penguin->IsDead()) {
+		// derrota
+		Game::GetInstance().gameData.playerVictory = false;
+		quitRequested = true;
+		State* newState = (State*) new EndState();
+		Game::GetInstance().Push(newState);
+	}
+	if (enemiesDead) {
+		// vitoria
+		Game::GetInstance().gameData.playerVictory = true;
+		quitRequested = true;
+		State* newState = (State*) new EndState();
+		Game::GetInstance().Push(newState);
 	}
 }
 
