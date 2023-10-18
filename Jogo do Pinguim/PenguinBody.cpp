@@ -80,6 +80,11 @@ void PenguinBody::Update(float dt) {
 	associated.box.MoveThis(speed);
 	associated.angleDeg = angle;
 
+	if (associated.box.x + associated.box.w >= 1480) associated.box.x = 1480 - associated.box.w;
+	else if (associated.box.x < 0) associated.box.x = 0;
+
+	if (associated.box.y + associated.box.h >= 1280) associated.box.y = 1280 - associated.box.h;
+	else if (associated.box.y < 0) associated.box.y = 0;
 }
 
 void PenguinBody::Render() {
