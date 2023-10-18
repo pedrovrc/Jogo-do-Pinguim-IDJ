@@ -13,6 +13,8 @@
 class StageState : public State {
 	TileSet* tileSet;
 	Music backgroundMusic;
+	void AddAlien(Vec2 pos);
+	void AddPlayer(Vec2 pos);
 public:
 	StageState();
 	~StageState();

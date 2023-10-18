@@ -9,12 +9,13 @@
 
 int Alien::alienCount;
 
-Alien::Alien(GameObject& associated, int nMinions, int currentCount) : Component(associated) {
+Alien::Alien(GameObject& associated, int nMinions, int currentCount, float timeOffset) : Component(associated) {
 	speed.Set(0,0);
 	destination.Set(0,0);
 	hp = MAX_HP;
 	state = RESTING;
 	Alien::alienCount = currentCount + 1;
+	this->timeOffset = timeOffset;
 
 	Component* img = new Sprite(associated, "img/alien.png", 1, 0);
 	associated.AddComponent(img);
@@ -57,21 +58,21 @@ void Alien::Start() {
  */
 void Alien::Update(float dt) {
 	// checar se esta vivo
-		if (hp <= 0) {
-			Alien::alienCount--;
-			if (alienCount == 0) {
-				// condicao de vitoria
-			}
-
-			associated.RequestDelete();
-			int i = 0;
-			while (i < (int)minionArray.size()) {
-				minionArray[i].lock().get()->RequestDelete();
-				i++;
-			}
-			PlayDeathAnimation();
-			return;
+	if (hp <= 0) {
+		Alien::alienCount--;
+		if (alienCount == 0) {
+			// condicao de vitoria
 		}
+
+		associated.RequestDelete();
+		int i = 0;
+		while (i < (int)minionArray.size()) {
+			minionArray[i].lock().get()->RequestDelete();
+			i++;
+		}
+		PlayDeathAnimation();
+		return;
+	}
 
 	// rotacionar sprite
 	associated.angleDeg -= ROTATION_SPEED;
@@ -90,7 +91,7 @@ void Alien::Update(float dt) {
 		restTimer.Update(dt);
 
 		// se timer excedeu o cooldown
-		if (restTimer.Get() > REST_COOLDOWN) {
+		if (restTimer.Get() > REST_COOLDOWN + timeOffset) {
 			// obtem proximo destino
 			destination = Game::GetInstance().GetCurrentState().GetPlayerGO().lock().get()->box.GetCenter();
 			// muda estado para movendo

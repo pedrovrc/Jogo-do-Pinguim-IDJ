@@ -12,6 +12,8 @@ using namespace std;
 #define VEL_MIN -6
 #define ANGLE_CHANGE 5
 #define FRICTION 0.2
+#define HORIZONTAL_LIMIT 1408
+#define VERTICAL_LIMIT 1280
 
 class PenguinBody : public Component {
 	weak_ptr<GameObject> pcannon;

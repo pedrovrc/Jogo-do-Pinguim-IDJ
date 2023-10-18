@@ -10,11 +10,11 @@ using namespace std;
 #include "Timer.h"
 
 #define MAX_HP 30
-#define MAX_SPEED 4
-#define MINION_COUNT 6
-#define ROTATION_SPEED 0.5
-#define MIN_SIZE 1
-#define MAX_SIZE 1.5
+#define MAX_SPEED 5.5
+#define MINION_COUNT 4
+#define ROTATION_SPEED 1
+#define MIN_SIZE 0.8
+#define MAX_SIZE 1.3
 #define ALIEN_DMG 10
 #define REST_COOLDOWN 0.2
 
@@ -27,6 +27,7 @@ class Alien : public Component {
 	enum AlienState { MOVING, RESTING };
 	AlienState state;
 	int hp;
+	float timeOffset;
 	Vec2 speed;
 	Vec2 destination;
 	Timer restTimer;
@@ -35,7 +36,7 @@ class Alien : public Component {
 public:
 	static int alienCount;
 
-	Alien(GameObject& associated, int nMinions, int currentCount);
+	Alien(GameObject& associated, int nMinions, int currentCount, float timeOffset);
 	~Alien();
 
 	void Start();

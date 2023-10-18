@@ -137,15 +137,16 @@ void Game::Run() {
 	State* currentState;
 
 	while(stateStack.empty() == false) {
-		if (stateStack.top().get()->QuitRequested()) {
-			cout << "POP" << endl;
+		// checa por quit requisitado por playeraw
+		if (stateStack.top().get()->QuitRequested()) break;
+
+		if (stateStack.top().get()->PopRequested()) {
 			stateStack.pop();
 			if (stateStack.empty() == false) stateStack.top().get()->Resume();
 			else break;
 		}
 
 		if (storedState != nullptr) {
-			cout << "STOREDSTATE" << endl;
 			stateStack.top().get()->Pause();
 			unique_ptr<State> uniqueState (storedState);
 			stateStack.push(move(uniqueState));

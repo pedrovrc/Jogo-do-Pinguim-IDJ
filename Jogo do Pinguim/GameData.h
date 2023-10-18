@@ -3,7 +3,7 @@
 
 class GameData {
 public:
-	bool playerVictory;
+	static bool playerVictory;
 
 	GameData();
 };
