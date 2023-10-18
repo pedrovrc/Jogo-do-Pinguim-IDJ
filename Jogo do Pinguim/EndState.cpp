@@ -43,7 +43,7 @@ EndState::EndState() {
 	Text* textQuit = new Text(*go_textQuit,
 						  "font/Call me maybe.ttf", 16,
 						  Text::TextStyle::SOLID,
-						  "Press ESC to exit to main menu",
+						  "Press ESC to quit",
 						  black, 0.5);
 	go_textQuit->AddComponent((Component*) textQuit);
 	go_textQuit->box.SetPosition(*new Vec2(250,500));
